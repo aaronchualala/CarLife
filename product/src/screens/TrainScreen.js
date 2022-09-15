@@ -1,4 +1,5 @@
 import {Text, View} from 'react-native';
+import * as styles from '../css/TrainScreen.module.css';
 
 const TrainScreen = () => {
   return (
