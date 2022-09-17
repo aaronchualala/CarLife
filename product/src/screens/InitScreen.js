@@ -1,6 +1,6 @@
 import {app, auth, db} from '../firebase/config';
 import {createUserWithEmailAndPassword} from 'firebase/auth';
-import {collection, doc, addDoc} from 'firebase/firestore';
+import {collection, doc, setDoc} from 'firebase/firestore';
 
 import React, {useState} from 'react';
 import {View, Text, Button, TextInput} from 'react-native';
@@ -10,7 +10,6 @@ import * as globalStyles from '../css/globals.css';
 
 const InitStack = createNativeStackNavigator();
 var InitData = {};
-const dbInstance = collection(db, 'userInfo');
 
 function GetStarted({navigation}) {
   return (
@@ -112,7 +111,8 @@ function LocationRecommender({navigation}) {
             InitData.password,
           )
             .then(() => {
-              addDoc(dbInstance, {
+              setDoc(doc(db, 'userInfo', auth.currentUser.uid), {
+                uid: auth.currentUser.uid,
                 ...InitData,
               }).catch(error => {
                 const errorCode = error.code;
