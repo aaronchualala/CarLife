@@ -7,12 +7,12 @@ import {CustomStatusBar} from './src/components/CustomStatusBar';
 const Stack = createNativeStackNavigator();
 
 const App = () => {
-  var loggedIn = false;
+  var openScreen = 'BottomTab';
   return (
     <NavigationContainer>
       <CustomStatusBar />
       <Stack.Navigator
-        initialRouteName={loggedIn ? 'BottomTab' : 'Init'}
+        initialRouteName={openScreen}
         screenOptions={{
           headerShown: false,
         }}>
