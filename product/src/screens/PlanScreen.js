@@ -5,7 +5,9 @@ import * as styles from '../css/PlanScreen.module.css';
 import {app, auth, db} from '../firebase/config';
 
 const PlanScreen = () => {
-  const uid = auth.currentUser.uid;
+  const uid = auth.currentUser
+    ? auth.currentUser.uid
+    : '1XP3xsuWTYRwPdQtReFGfE5SwDm2';
   const [email, setEmail] = useState('');
 
   useEffect(() => {
