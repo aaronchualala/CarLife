@@ -1,0 +1,39 @@
+.accountContainer {
+    background-color: white;
+    height: 145px;
+    width: 100%;
+    margin-top: 15px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.profilePic {
+    margin-right: 50px;
+}
+
+.accountDetailsContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.titleText {
+    font-family: helvetica;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 26px;
+    line-height: 32px;
+    color: orange;
+}
+
+.detailText {
+    font-family: helvetica;
+    font-style: normal;
+    font-weight: 100;
+    font-size: 18px;
+    line-height: 22px;
+    color: #003049;
+}
