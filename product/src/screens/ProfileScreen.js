@@ -33,6 +33,22 @@ const ProfileScreen = () => {
         </View>          
         <OrangeButton title="Change Date" onPress={() => Alert.alert('Simple Button pressed')} />
       </View>
+      <View style={styles.activityGraphContainer}>
+        <Text style={styles.sectionHeadText}>Progress</Text>
+        {/* Graph */}
+        <Text style={styles.sectionText}>You are on track! Keep it up!</Text>
+      </View>
+      <View style={styles.resultHistoryContainer}>
+        <Text style={styles.sectionHeadText}>Past IPPT Results</Text>
+        <View style={styles.resultEntry}>
+          <Text style={styles.sectionText}>18 Apr 2021</Text>
+          <Text style={styles.sectionText}>Silver</Text>
+        </View>
+        <View style={styles.resultEntry}>
+          <Text style={styles.sectionText}>06 Sep 2020</Text>
+          <Text style={styles.sectionText}>Pass</Text>
+        </View>
+      </View>
     </ScrollView>
     </>
   );
