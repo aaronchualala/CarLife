@@ -14,18 +14,6 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		7699B88040F8A987B510C191 /* libPods-product-productTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-product-productTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		933DCD9C28D9C95E0086DFF7 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 933DCD9A28D9C95E0086DFF7 /* MaterialIcons.ttf */; };
-		933DCD9D28D9C95E0086DFF7 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 933DCD9B28D9C95E0086DFF7 /* MaterialCommunityIcons.ttf */; };
-		938D78E928D9DDD5002D8E73 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 938D78E828D9DDD5002D8E73 /* Ionicons.ttf */; };
-		E838A36D28DCBBD500E954A1 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E838A36A28DCBBD300E954A1 /* MaterialCommunityIcons.ttf */; };
-		E838A36E28DCBBD500E954A1 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E838A36B28DCBBD400E954A1 /* Ionicons.ttf */; };
-		E838A36F28DCBBD500E954A1 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E838A36C28DCBBD400E954A1 /* MaterialIcons.ttf */; };
-		BF27BFBDC2D64E1BAF449716 /* montserrat_bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 189F69144D6241C4BF91E7BA /* montserrat_bold.ttf */; };
-		181A8CB372EC48E1800330AA /* montserrat_bold_italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CFA53F4B922540C489A8E5A7 /* montserrat_bold_italic.ttf */; };
-		3145E8BCF5C94CD8993D4AC6 /* montserrat_italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 039DC6D0B24F448EBE93C495 /* montserrat_italic.ttf */; };
-		7B92CD2C0B044A62AE1B926F /* montserrat_medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B6B5975636134759A17C7C4E /* montserrat_medium.ttf */; };
-		5DA5D56A7C1746409B2982DF /* montserrat_medium_italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DC281E7C2BC547B7AC363B5B /* montserrat_medium_italic.ttf */; };
-		7DAA6B117A6E4C90A763D03C /* montserrat_regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7ABDB606417A42118765B79E /* montserrat_regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,32 +30,29 @@
 		00E356EE1AD99517003FC87E /* productTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = productTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* productTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = productTests.m; sourceTree = "<group>"; };
+		039DC6D0B24F448EBE93C495 /* montserrat_italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = montserrat_italic.ttf; path = ../src/assets/fonts/montserrat_italic.ttf; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* product.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = product.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = product/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = product/AppDelegate.mm; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = product/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = product/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = product/main.m; sourceTree = "<group>"; };
+		189F69144D6241C4BF91E7BA /* montserrat_bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = montserrat_bold.ttf; path = ../src/assets/fonts/montserrat_bold.ttf; sourceTree = "<group>"; };
 		19F6CBCC0A4E27FBF8BF4A61 /* libPods-product-productTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-product-productTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B4392A12AC88292D35C810B /* Pods-product.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-product.debug.xcconfig"; path = "Target Support Files/Pods-product/Pods-product.debug.xcconfig"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-product.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-product.release.xcconfig"; path = "Target Support Files/Pods-product/Pods-product.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-product-productTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-product-productTests.debug.xcconfig"; path = "Target Support Files/Pods-product-productTests/Pods-product-productTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5DCACB8F33CDC322A6C60F78 /* libPods-product.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-product.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7ABDB606417A42118765B79E /* montserrat_regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = montserrat_regular.ttf; path = ../src/assets/fonts/montserrat_regular.ttf; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = product/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-product-productTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-product-productTests.release.xcconfig"; path = "Target Support Files/Pods-product-productTests/Pods-product-productTests.release.xcconfig"; sourceTree = "<group>"; };
-		933DCD9A28D9C95E0086DFF7 /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialIcons.ttf; sourceTree = "<group>"; };
-		933DCD9B28D9C95E0086DFF7 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialCommunityIcons.ttf; sourceTree = "<group>"; };
-		938D78E828D9DDD5002D8E73 /* Ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Ionicons.ttf; sourceTree = "<group>"; };
-		E838A36A28DCBBD300E954A1 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialCommunityIcons.ttf; sourceTree = "<group>"; };
-		E838A36B28DCBBD400E954A1 /* Ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Ionicons.ttf; sourceTree = "<group>"; };
-		E838A36C28DCBBD400E954A1 /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialIcons.ttf; sourceTree = "<group>"; };
+		B6B5975636134759A17C7C4E /* montserrat_medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = montserrat_medium.ttf; path = ../src/assets/fonts/montserrat_medium.ttf; sourceTree = "<group>"; };
+		CFA53F4B922540C489A8E5A7 /* montserrat_bold_italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = montserrat_bold_italic.ttf; path = ../src/assets/fonts/montserrat_bold_italic.ttf; sourceTree = "<group>"; };
+		DC281E7C2BC547B7AC363B5B /* montserrat_medium_italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = montserrat_medium_italic.ttf; path = ../src/assets/fonts/montserrat_medium_italic.ttf; sourceTree = "<group>"; };
+		E71FB61928DD631D00749686 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialCommunityIcons.ttf; sourceTree = "<group>"; };
+		E71FB61A28DD631D00749686 /* Ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Ionicons.ttf; sourceTree = "<group>"; };
+		E71FB61B28DD631D00749686 /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialIcons.ttf; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		189F69144D6241C4BF91E7BA /* montserrat_bold.ttf */ = {isa = PBXFileReference; name = "montserrat_bold.ttf"; path = "../src/assets/fonts/montserrat_bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		CFA53F4B922540C489A8E5A7 /* montserrat_bold_italic.ttf */ = {isa = PBXFileReference; name = "montserrat_bold_italic.ttf"; path = "../src/assets/fonts/montserrat_bold_italic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		039DC6D0B24F448EBE93C495 /* montserrat_italic.ttf */ = {isa = PBXFileReference; name = "montserrat_italic.ttf"; path = "../src/assets/fonts/montserrat_italic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		B6B5975636134759A17C7C4E /* montserrat_medium.ttf */ = {isa = PBXFileReference; name = "montserrat_medium.ttf"; path = "../src/assets/fonts/montserrat_medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		DC281E7C2BC547B7AC363B5B /* montserrat_medium_italic.ttf */ = {isa = PBXFileReference; name = "montserrat_medium_italic.ttf"; path = "../src/assets/fonts/montserrat_medium_italic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		7ABDB606417A42118765B79E /* montserrat_regular.ttf */ = {isa = PBXFileReference; name = "montserrat_regular.ttf"; path = "../src/assets/fonts/montserrat_regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,10 +95,7 @@
 		13B07FAE1A68108700A75B9A /* product */ = {
 			isa = PBXGroup;
 			children = (
-				E838A36B28DCBBD400E954A1 /* Ionicons.ttf */,
-				E838A36A28DCBBD300E954A1 /* MaterialCommunityIcons.ttf */,
-				E838A36C28DCBBD400E954A1 /* MaterialIcons.ttf */,
-				933DCD9928D9C9400086DFF7 /* Fonts */,
+				E71FB61828DD631D00749686 /* Fonts */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -166,16 +148,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		933DCD9928D9C9400086DFF7 /* Fonts */ = {
-			isa = PBXGroup;
-			children = (
-				938D78E828D9DDD5002D8E73 /* Ionicons.ttf */,
-				933DCD9B28D9C95E0086DFF7 /* MaterialCommunityIcons.ttf */,
-				933DCD9A28D9C95E0086DFF7 /* MaterialIcons.ttf */,
-			);
-			name = Fonts;
-			sourceTree = "<group>";
-		};
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -188,7 +160,7 @@
 			sourceTree = "<group>";
 		};
 		BE996688FEF5489A9010E9BE /* Resources */ = {
-			isa = "PBXGroup";
+			isa = PBXGroup;
 			children = (
 				189F69144D6241C4BF91E7BA /* montserrat_bold.ttf */,
 				CFA53F4B922540C489A8E5A7 /* montserrat_bold_italic.ttf */,
@@ -199,7 +171,16 @@
 			);
 			name = Resources;
 			sourceTree = "<group>";
-			path = "";
+		};
+		E71FB61828DD631D00749686 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				E71FB61928DD631D00749686 /* MaterialCommunityIcons.ttf */,
+				E71FB61A28DD631D00749686 /* Ionicons.ttf */,
+				E71FB61B28DD631D00749686 /* MaterialIcons.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
@@ -295,20 +276,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E838A36F28DCBBD500E954A1 /* MaterialIcons.ttf in Resources */,
-				938D78E928D9DDD5002D8E73 /* Ionicons.ttf in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				E838A36E28DCBBD500E954A1 /* Ionicons.ttf in Resources */,
-				933DCD9D28D9C95E0086DFF7 /* MaterialCommunityIcons.ttf in Resources */,
-				E838A36D28DCBBD500E954A1 /* MaterialCommunityIcons.ttf in Resources */,
-				933DCD9C28D9C95E0086DFF7 /* MaterialIcons.ttf in Resources */,
-				BF27BFBDC2D64E1BAF449716 /* montserrat_bold.ttf in Resources */,
-				181A8CB372EC48E1800330AA /* montserrat_bold_italic.ttf in Resources */,
-				3145E8BCF5C94CD8993D4AC6 /* montserrat_italic.ttf in Resources */,
-				7B92CD2C0B044A62AE1B926F /* montserrat_medium.ttf in Resources */,
-				5DA5D56A7C1746409B2982DF /* montserrat_medium_italic.ttf in Resources */,
-				7DAA6B117A6E4C90A763D03C /* montserrat_regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
