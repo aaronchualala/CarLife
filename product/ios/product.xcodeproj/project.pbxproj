@@ -10,10 +10,11 @@
 		00E356F31AD99517003FC87E /* productTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* productTests.m */; };
 		0C80B921A6F3F58F76C31292 /* libPods-product.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-product.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
-		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		7699B88040F8A987B510C191 /* libPods-product-productTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-product-productTests.a */; };
-		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		E8CF3C7B28DD68C7004F0444 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E8CF3C6B28DD68C7004F0444 /* MaterialCommunityIcons.ttf */; };
+		E8CF3C7E28DD68C7004F0444 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E8CF3C6E28DD68C7004F0444 /* Ionicons.ttf */; };
+		E8CF3C8528DD68C7004F0444 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E8CF3C7528DD68C7004F0444 /* MaterialIcons.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,12 +47,9 @@
 		7ABDB606417A42118765B79E /* montserrat_regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = montserrat_regular.ttf; path = ../src/assets/fonts/montserrat_regular.ttf; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = product/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-product-productTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-product-productTests.release.xcconfig"; path = "Target Support Files/Pods-product-productTests/Pods-product-productTests.release.xcconfig"; sourceTree = "<group>"; };
-		B6B5975636134759A17C7C4E /* montserrat_medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = montserrat_medium.ttf; path = ../src/assets/fonts/montserrat_medium.ttf; sourceTree = "<group>"; };
-		CFA53F4B922540C489A8E5A7 /* montserrat_bold_italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = montserrat_bold_italic.ttf; path = ../src/assets/fonts/montserrat_bold_italic.ttf; sourceTree = "<group>"; };
-		DC281E7C2BC547B7AC363B5B /* montserrat_medium_italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = montserrat_medium_italic.ttf; path = ../src/assets/fonts/montserrat_medium_italic.ttf; sourceTree = "<group>"; };
-		E71FB61928DD631D00749686 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialCommunityIcons.ttf; sourceTree = "<group>"; };
-		E71FB61A28DD631D00749686 /* Ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Ionicons.ttf; sourceTree = "<group>"; };
-		E71FB61B28DD631D00749686 /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialIcons.ttf; sourceTree = "<group>"; };
+		E8CF3C6B28DD68C7004F0444 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialCommunityIcons.ttf; sourceTree = "<group>"; };
+		E8CF3C6E28DD68C7004F0444 /* Ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Ionicons.ttf; sourceTree = "<group>"; };
+		E8CF3C7528DD68C7004F0444 /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialIcons.ttf; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -95,7 +93,7 @@
 		13B07FAE1A68108700A75B9A /* product */ = {
 			isa = PBXGroup;
 			children = (
-				E71FB61828DD631D00749686 /* Fonts */,
+				E8CF3C6528DD68C7004F0444 /* Fonts */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -162,24 +160,19 @@
 		BE996688FEF5489A9010E9BE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				189F69144D6241C4BF91E7BA /* montserrat_bold.ttf */,
-				CFA53F4B922540C489A8E5A7 /* montserrat_bold_italic.ttf */,
-				039DC6D0B24F448EBE93C495 /* montserrat_italic.ttf */,
-				B6B5975636134759A17C7C4E /* montserrat_medium.ttf */,
-				DC281E7C2BC547B7AC363B5B /* montserrat_medium_italic.ttf */,
-				7ABDB606417A42118765B79E /* montserrat_regular.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
 		};
-		E71FB61828DD631D00749686 /* Fonts */ = {
+		E8CF3C6528DD68C7004F0444 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				E71FB61928DD631D00749686 /* MaterialCommunityIcons.ttf */,
-				E71FB61A28DD631D00749686 /* Ionicons.ttf */,
-				E71FB61B28DD631D00749686 /* MaterialIcons.ttf */,
+				E8CF3C6B28DD68C7004F0444 /* MaterialCommunityIcons.ttf */,
+				E8CF3C6E28DD68C7004F0444 /* Ionicons.ttf */,
+				E8CF3C7528DD68C7004F0444 /* MaterialIcons.ttf */,
 			);
-			path = Fonts;
+			name = Fonts;
+			path = "../node_modules/react-native-vector-icons/Fonts";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -276,8 +269,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
-				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				E8CF3C7E28DD68C7004F0444 /* Ionicons.ttf in Resources */,
+				E8CF3C8528DD68C7004F0444 /* MaterialIcons.ttf in Resources */,
+				E8CF3C7B28DD68C7004F0444 /* MaterialCommunityIcons.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

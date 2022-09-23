@@ -1,8 +1,14 @@
+.contentContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .accountContainer {
     background-color: white;
     height: 145px;
     width: 100%;
-    margin-top: 15px;
+    margin-top: 13px;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -36,4 +42,40 @@
     font-size: 18px;
     line-height: 22px;
     color: #003049;
+}
+
+.nextIpptContainer {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    height: 207px;
+    width: 100%;
+    margin-top: 13px;
+    align-items: center;
+    justify-content: center;
+}
+
+.ipptDateContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 27px;
+}
+
+.ipptDate {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 29px;
+    color: #003049;
+    margin-right: 19px;
+}
+
+.ipptDateData {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 29px;
+    color: #F77F00;
 }
