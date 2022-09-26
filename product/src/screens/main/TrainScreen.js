@@ -1,6 +1,6 @@
 import React from 'react';
 import {Text, View, Button} from 'react-native';
-import * as styles from '../css/TrainScreen.module.css';
+import * as styles from '../../css/TrainScreen.module.css';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 const TrainStack = createNativeStackNavigator();

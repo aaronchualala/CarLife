@@ -1,11 +1,14 @@
-import {useState, useEffect} from 'react';
+import React from 'react';
+import {useState, useEffect, useContext} from 'react';
 import {getDoc, doc} from 'firebase/firestore';
 import {Text, View} from 'react-native';
-import * as styles from '../css/PlanScreen.module.css';
-import {app, auth, db} from '../firebase/config';
-import {genCoreEx} from '../firebase/config';
+import * as styles from '../../css/PlanScreen.module.css';
+import {app, auth, db} from '../../firebase/config';
+import {genCoreEx} from '../../firebase/config';
+import {UserContext} from '../../../AppContext';
 
 const PlanScreen = () => {
+  const {userData, setUserData} = useContext(UserContext);
   const uid = auth.currentUser
     ? auth.currentUser.uid
     : '1XP3xsuWTYRwPdQtReFGfE5SwDm2';
@@ -33,6 +36,7 @@ const PlanScreen = () => {
       <Text>Plan!</Text>
       <Text>{email}</Text>
       <Text>{hello}</Text>
+      <Text>{userData.test}</Text>
     </View>
   );
 };

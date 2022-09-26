@@ -4,21 +4,19 @@ import PlanScreen from './PlanScreen';
 import SocialScreen from './SocialScreen';
 import TrainScreen from './TrainScreen';
 import ProfileScreen from './ProfileScreen';
-import {MaterialIcon} from '../assets/MaterialIcons';
-import {Ionicon} from '../assets/Ionicons';
+import {MaterialIcon} from '../../assets/MaterialIcons';
+import {Ionicon} from '../../assets/Ionicons';
 
 const Tab = createBottomTabNavigator();
 
-export default function App() {
+export default function MainNavigator() {
   return (
     <Tab.Navigator
       initialRouteName="Plan"
-      // sceneContainerStyle={{backgroundColor: 'white'}}
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: 'orange',
         tabBarInactiveTintColor: 'grey',
-        // tabBarShowLabel: false,
       }}>
       <Tab.Screen
         name="Plan"

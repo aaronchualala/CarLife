@@ -1,5 +1,6 @@
+import React from 'react';
 import {Text, View} from 'react-native';
-import * as styles from '../css/SocialScreen.module.css';
+import * as styles from '../../css/SocialScreen.module.css';
 
 const SocialScreen = () => {
   return (
