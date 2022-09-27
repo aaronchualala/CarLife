@@ -134,3 +134,24 @@
     justify-content: space-between;
 }
 
+.editPageContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: white;
+    height: 100%;
+}
+
+.backButton{
+    
+}
+
+.editPageHeaderText {
+    font-family: helvetica;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 26px;
+    line-height: 32px;
+    color: orange;
+    align-self: center;
+}

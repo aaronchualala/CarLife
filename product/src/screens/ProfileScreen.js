@@ -10,13 +10,8 @@ import { OrangeButton } from '../components/Buttons';
 
 const ProfileStack = createNativeStackNavigator();
 
-var details = {name:"Mingyang Koh", age:"22", lastResult:'Gold', nextIPPT:"01 Sept 2023"};
-
-function ProfilePage({navigation}) {
-  const [name,setName] = useState(details.name);
-  useEffect(()=>{
-    setName(details.name);
-  })
+function ProfilePage({route, navigation}) {
+  const { name, age, lastResult, nextIPPT } = route.params;
   return (
     <>
     <View style={globalStyles.banner}>
@@ -33,11 +28,18 @@ function ProfilePage({navigation}) {
         </View>
         <View style={styles.accountDetailsContainer}>
           <Text style={styles.titleText}>{name}</Text>
-          <Text style={styles.detailText}>{details.age} years old</Text>
-          <Text style={styles.detailText}>Last Result: {details.lastResult}</Text>
+          <Text style={styles.detailText}>{age} years old</Text>
+          <Text style={styles.detailText}>Last Result: {lastResult}</Text>
         </View>
         <View style={styles.editProfile}>
-          <TouchableOpacity onPress={() => navigation.navigate('EditPage')} activeOpacity={0.8}>
+          <TouchableOpacity activeOpacity={0.8} onPress={() => {
+              navigation.navigate('EditPage',{
+                name: name, 
+                age: age,
+                lastResult: lastResult,
+                nextIPPT: nextIPPT,
+              });
+            }} >
             <Ionicon
               size="extraLarge"
               color="black"
@@ -49,7 +51,7 @@ function ProfilePage({navigation}) {
       <View style={styles.nextIpptContainer}>
         <View style={styles.ipptDateContainer}>
           <Text style={styles.ipptDate}>Next IPPT: </Text>
-          <Text style={styles.ipptDateData}>{details.nextIPPT}</Text>
+          <Text style={styles.ipptDateData}>{nextIPPT}</Text>
         </View>          
         <OrangeButton title="Change Date" onPress={() => Alert.alert('Simple Button pressed')} />
       </View>
@@ -74,36 +76,62 @@ function ProfilePage({navigation}) {
   );
 };
 
-function EditPage({navigation}) {
-  const [name,setName] = useState('');
-  const [age,setAge] = useState('');
-  const [lastResult,setLastResult] = useState('');
-  const [nextIPPT, setNextIPPT] = useState('');
+function EditPage({ route, navigation }) {
+  const { name, age, lastResult, nextIPPT } = route.params;
+  const [newName,setNewName] = useState(name);
+  const [newAge,setNewAge] = useState(age);
+  const [newLastResult,setNewLastResult] = useState(lastResult);
+  const [newNextIPPT, setNewNextIPPT] = useState(nextIPPT);
 
   return (
-    <View style={styles.editContainer}>
-      <Text>Name</Text>
+    <View style={styles.editPageContainer}>
+      <View style={globalStyles.banner}>
+        <Button
+          title="< Back"
+          style={styles.backButton}
+          onPress={() => navigation.goBack()}
+        />
+        <Text style={globalStyles.bannerText}>Profile</Text>
+      </View>
+      
+      <View style={{flexDirection: 'row', alignSelf:'center'}}>
+      <Text style={styles.editPageHeaderText}>Name</Text>
       <TextInput
         style={globalStyles.textInputClass}
-        onChangeText={text => setName(text)}
-        value={name}
+        onChangeText={text => setNewName(text)}
+        value={newName}
+        defaultValue={name}
       />
+      </View>
       <Text>Age</Text>
       <TextInput
         style={globalStyles.textInputClass}
-        onChangeText={text => setAge(text)}
-        value={age}
+        onChangeText={text => setNewAge(text)}
+        value={newAge}
+        defaultValue={age}
+      />
+      <Text>Last Result</Text>
+      <TextInput
+        style={globalStyles.textInputClass}
+        onChangeText={text => setNewLastResult(text)}
+        value={newLastResult}
+        defaultValue={lastResult}
+      />
+      <Text>Next IPPT</Text>
+      <TextInput
+        style={globalStyles.textInputClass}
+        onChangeText={text => setNewNextIPPT(text)}
+        value={newNextIPPT}
+        defaultValue={nextIPPT}
       />
       <Button
         title="Save"
-        onPress={() => {
-          details = {name: name, age: age};
-        }}
-      />
-      <Text style={styles.titleText}>{details.name}</Text>
-      <Button
-        title="Back"
-        onPress={() => navigation.navigate('ProfilePage')}
+        onPress={() => navigation.navigate('ProfilePage',{
+          name: name, 
+          age: age,
+          lastResult: lastResult,
+          nextIPPT: nextIPPT,
+        })}
       />
     </View>
   );
@@ -114,12 +142,12 @@ function EditPage({navigation}) {
 export default function ProfileScreen() {
   return(
     <ProfileStack.Navigator
-      initialRouteName="ProfilePage"
+      initialRouteName="EditPage"
       screenOptions={{
         headerShown: false,
     }}>
-      <ProfileStack.Screen name="ProfilePage" component={ProfilePage} />
-      <ProfileStack.Screen name="EditPage" component={EditPage} />
+      <ProfileStack.Screen name="ProfilePage" component={ProfilePage} initialParams={{name:'Mingyang Koh', age:"22", lastResult:'Gold', nextIPPT:"01 Sept 2023"}}/>
+      <ProfileStack.Screen name="EditPage" component={EditPage} initialParams={{name:'Mingyang Koh', age:"22", lastResult:'Gold', nextIPPT:"01 Sept 2023"}}/>
     </ProfileStack.Navigator>
   )
 }
