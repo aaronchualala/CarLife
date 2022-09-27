@@ -1,5 +1,6 @@
 import React from 'react';
-import {Text, View, Button} from 'react-native';
+import {Text, View, Button, Pressable, Image} from 'react-native';
+import * as globalStyles from '../css/globals.css';
 import * as styles from '../css/TrainScreen.module.css';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
@@ -7,27 +8,29 @@ const TrainStack = createNativeStackNavigator();
 
 function Selections({navigation}) {
   return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text>Selections</Text>
-      <Button
-        title="Pushups"
-        onPress={() => {
-          navigation.navigate('PushUps');
-        }}
-      />
-      <Button
-        title="Situps"
-        onPress={() => {
-          navigation.navigate('SitUps');
-        }}
-      />
-      <Button
-        title="Run"
-        onPress={() => {
-          navigation.navigate('Run');
-        }}
-      />
+    <><View style={globalStyles.banner}>
+        <Text style={globalStyles.bannerText}>Training</Text>
     </View>
+    <View style={styles.headerContainer}>
+        <Text style={styles.header}>Select Training Programme</Text>
+    </View>
+    <View style={styles.contentContainer}>
+        <Pressable style={styles.button} onPress={() => {
+            navigation.navigate('PushUps')
+        }}>
+            <Text style={{...styles.buttonText, order: 0}}>Push ups</Text>
+        </Pressable>
+        <Pressable style={styles.button} onPress={() => {
+            navigation.navigate('SitUps')
+        }}>
+            <Text style={{...styles.buttonText, order: 1}}>Sit-ups</Text>
+        </Pressable>
+        <Pressable style={styles.button} onPress={() => {
+            navigation.navigate('Run')
+        }}>
+            <Text style={{...styles.buttonText, order: 2}}>2.4km run</Text>
+        </Pressable>
+      </View></>
   );
 }
 
