@@ -53,7 +53,7 @@ function ProfilePage({route, navigation}) {
           <Text style={styles.ipptDate}>Next IPPT: </Text>
           <Text style={styles.ipptDateData}>{nextIPPT}</Text>
         </View>          
-        <OrangeButton title="Change Date" onPress={() => Alert.alert('Simple Button pressed')} />
+        {/* <OrangeButton title="Change Date" onPress={() => Alert.alert('Simple Button pressed')} /> */}
       </View>
       <View style={styles.activityGraphContainer}>
         <Text style={styles.sectionHeadText}>Progress</Text>
@@ -86,53 +86,59 @@ function EditPage({ route, navigation }) {
   return (
     <View style={styles.editPageContainer}>
       <View style={globalStyles.banner}>
-        <Button
-          title="< Back"
-          style={styles.backButton}
-          onPress={() => navigation.goBack()}
-        />
-        <Text style={globalStyles.bannerText}>Profile</Text>
+        <View style={styles.backButton}>
+          <Button
+            title="< Back"
+            style={styles.backButton}
+            onPress={() => navigation.goBack()}
+          />
+        </View>
+        <Text style={globalStyles.bannerText}>Edit Profile</Text>
       </View>
       
-      <View style={{flexDirection: 'row', alignSelf:'center'}}>
-      <Text style={styles.editPageHeaderText}>Name</Text>
-      <TextInput
-        style={globalStyles.textInputClass}
-        onChangeText={text => setNewName(text)}
-        value={newName}
-        defaultValue={name}
-      />
+      <View style={{flexDirection: 'column', alignSelf:'center'}}>
+        <Text style={styles.editPageHeaderText}>Name</Text>
+        <TextInput
+          style={globalStyles.textInputClass}
+          onChangeText={text => setNewName(text)}
+          value={newName}
+          clearTextOnFocus={true}
+          defaultValue={name}
+        />
+        <Text style={styles.editPageHeaderText}>Age</Text>
+        <TextInput
+          style={globalStyles.textInputClass}
+          onChangeText={text => setNewAge(text)}
+          value={newAge}
+          clearTextOnFocus={true}
+          defaultValue={age}
+          />
+        <Text style={styles.editPageHeaderText}>Last Result</Text>
+        <TextInput
+          style={globalStyles.textInputClass}
+          onChangeText={text => setNewLastResult(text)}
+          value={newLastResult}
+          clearTextOnFocus={true}
+          defaultValue={lastResult}
+          />
+        <Text style={styles.editPageHeaderText}style={styles.editPageHeaderText}>Next IPPT</Text>
+        <TextInput
+          style={globalStyles.textInputClass}
+          onChangeText={text => setNewNextIPPT(text)}
+          value={newNextIPPT}
+          clearTextOnFocus={true}
+          defaultValue={nextIPPT}
+          />
+        <Button
+          title="Save"
+          onPress={() => navigation.navigate('ProfilePage',{
+            name: name, 
+            age: age,
+            lastResult: lastResult,
+            nextIPPT: nextIPPT,
+          })}
+        />
       </View>
-      <Text>Age</Text>
-      <TextInput
-        style={globalStyles.textInputClass}
-        onChangeText={text => setNewAge(text)}
-        value={newAge}
-        defaultValue={age}
-      />
-      <Text>Last Result</Text>
-      <TextInput
-        style={globalStyles.textInputClass}
-        onChangeText={text => setNewLastResult(text)}
-        value={newLastResult}
-        defaultValue={lastResult}
-      />
-      <Text>Next IPPT</Text>
-      <TextInput
-        style={globalStyles.textInputClass}
-        onChangeText={text => setNewNextIPPT(text)}
-        value={newNextIPPT}
-        defaultValue={nextIPPT}
-      />
-      <Button
-        title="Save"
-        onPress={() => navigation.navigate('ProfilePage',{
-          name: name, 
-          age: age,
-          lastResult: lastResult,
-          nextIPPT: nextIPPT,
-        })}
-      />
     </View>
   );
 };
@@ -142,7 +148,7 @@ function EditPage({ route, navigation }) {
 export default function ProfileScreen() {
   return(
     <ProfileStack.Navigator
-      initialRouteName="EditPage"
+      initialRouteName="ProfilePage"
       screenOptions={{
         headerShown: false,
     }}>
