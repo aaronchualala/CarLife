@@ -143,7 +143,7 @@
 }
 
 .backButton{
-    
+    justify-self: flex-start;
 }
 
 .editPageHeaderText {
