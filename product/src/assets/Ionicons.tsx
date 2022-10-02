@@ -18,6 +18,7 @@ export const IconSizes = {
     medium: 18,
     large: 23,
     extraLarge: 27,
+    superLarge: 40,
 };
 
 export const Ionicon = ({ size, name, color }: IconProps) => (
