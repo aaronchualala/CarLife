@@ -14,13 +14,19 @@
 .daysToGoText {
     font-weight: 600;
     font-size: 28px;
-    line-height: 34px;
+    line-height: 40px;
     color: #003049;
     padding-top: 39px;
     margin-bottom: 38px;
-    width: 230px;
+    width: 240px;
     text-align: center;
 }
+.daysToGoTextDays{
+    font-size: 40px;
+    font-family: helvetica-bold;
+    color: #F77F00;
+}
+
 
 .exercisePlanContainer {
     background-color: white;

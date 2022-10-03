@@ -29,7 +29,7 @@ const PlanScreen = () => {
       </View>
       <ScrollView contentContainerStyle={styles.contentContainer}>
         <View style={styles.daysToGoContainer}>
-          <Text style={styles.daysToGoText}>128 Days to IPPT Gold</Text>
+          <Text style={styles.daysToGoText}><Text style={styles.daysToGoTextDays}>128</Text> Days to IPPT Gold</Text>
           <OrangeButton title="Test Location: Maju" />
         </View>
         <View style={styles.exercisePlanContainer}>
