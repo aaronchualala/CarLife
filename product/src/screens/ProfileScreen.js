@@ -121,7 +121,7 @@ function EditPage({ route, navigation }) {
           clearTextOnFocus={true}
           defaultValue={lastResult}
           />
-        <Text style={styles.editPageHeaderText}style={styles.editPageHeaderText}>Next IPPT</Text>
+        <Text style={styles.editPageHeaderText}>Next IPPT</Text>
         <TextInput
           style={globalStyles.textInputClass}
           onChangeText={text => setNewNextIPPT(text)}
