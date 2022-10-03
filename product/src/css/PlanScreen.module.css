@@ -93,5 +93,19 @@
 }
 
 .bonusExercisesContainer {
-    
+    background-color: white;
+    margin-top: 13px;
+    height: 540px;
+    width: 100%;
+    flex-direction: column;
+}
+
+.bonusExercisesHeaderText {
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 34px;
+    padding-top: 20px;
+    text-align: center;
+    font-family: helvetica-bold;
+    color: #F77F00;
 }
