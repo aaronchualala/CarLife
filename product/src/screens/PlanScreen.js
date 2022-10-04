@@ -13,6 +13,11 @@ const PlanScreen = () => {
     ? auth.currentUser.uid
     : '1XP3xsuWTYRwPdQtReFGfE5SwDm2';
   const [email, setEmail] = useState('');
+  const [showPopUp, setShowPopUp] = useState(false);
+  const togglePopUp = () => { setShowPopUp(previousState => !previousState) }
+
+  const exerciseStateIcon = ["checkmark-circle-outline", "chevron-forward-circle-outline", "remove-circle-outline"]
+  let exercieStateIdx;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -30,9 +35,14 @@ const PlanScreen = () => {
       <ScrollView contentContainerStyle={styles.contentContainer}>
         <View style={styles.daysToGoContainer}>
           <Text style={styles.daysToGoText}><Text style={styles.daysToGoTextDays}>128</Text> Days to IPPT Gold</Text>
-          <OrangeButton title="Test Location: Maju" />
+          <OrangeButton title="Test Location: Maju" onPress={togglePopUp} />
         </View>
         <View style={styles.exercisePlanContainer}>
+          {showPopUp == true ? <View style={styles.bonusPopUpContainer}>
+            <Text style={styles.PopUpText}>Congratulations on completing your daily workout!</Text>
+            <Text style={styles.PopUpText}>Would you like to try some bonus exercises?</Text>
+            <OrangeButton title="Let's Go!" onPress={togglePopUp} />
+          </View> : null}
           <View style={styles.exerciseDateContainer}>
             <Text style={styles.exerciseDateText}>4 Sep 2022</Text>
             <MaterialIcon size="extraLarge" color={"#F77F00"} name="calendar-today" />
@@ -48,7 +58,7 @@ const PlanScreen = () => {
                 </View>
                 <View style={styles.exerciseState}>
                   <Ionicon
-                    name="ios-checkmark-circle-outline"
+                    name={exerciseStateIcon[0]}
                     size="superLarge"
                     color="#FCBF49"
                   />
@@ -65,7 +75,7 @@ const PlanScreen = () => {
                 </View>
                 <View style={styles.exerciseState}>
                   <Ionicon
-                    name="ios-chevron-forward-circle-outline"
+                    name={exerciseStateIcon[1]}
                     size="superLarge"
                     color="#F77F00"
                   />
@@ -82,7 +92,7 @@ const PlanScreen = () => {
                 </View>
                 <View style={styles.exerciseState}>
                   <Ionicon
-                    name="ios-remove-circle-outline"
+                    name={exerciseStateIcon[2]}
                     size="superLarge"
                     color="#8D99AE"
                   />
@@ -106,7 +116,7 @@ const PlanScreen = () => {
                 </View>
                 <View style={styles.exerciseState}>
                   <Ionicon
-                    name="ios-checkmark-circle-outline"
+                    name={exerciseStateIcon[0]}
                     size="superLarge"
                     color="#FCBF49"
                   />
@@ -124,7 +134,7 @@ const PlanScreen = () => {
                 </View>
                 <View style={styles.exerciseState}>
                   <Ionicon
-                    name="ios-chevron-forward-circle-outline"
+                    name={exerciseStateIcon[1]}
                     size="superLarge"
                     color="#8D99AE"
                   />
@@ -142,7 +152,7 @@ const PlanScreen = () => {
                 </View>
                 <View style={styles.exerciseState}>
                   <Ionicon
-                    name="ios-remove-circle-outline"
+                    name={exerciseStateIcon[2]}
                     size="superLarge"
                     color="#8D99AE"
                   />

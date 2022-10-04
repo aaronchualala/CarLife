@@ -21,7 +21,8 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         padding: 4,
         height: 40,
-        width: 278
+        width: 278,
+        opacity: 1.0
     },
     appButtonText: {
         fontSize: 24,

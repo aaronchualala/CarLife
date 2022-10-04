@@ -3,6 +3,7 @@
     flex-direction: column;
     align-items: center;
 }
+
 .daysToGoContainer {
     background-color: white;
     width: 100%;
@@ -21,7 +22,8 @@
     width: 240px;
     text-align: center;
 }
-.daysToGoTextDays{
+
+.daysToGoTextDays {
     font-size: 40px;
     font-family: helvetica-bold;
     color: #F77F00;
@@ -34,13 +36,40 @@
     height: 480px;
     width: 100%;
     flex-direction: column;
+    justify-content: center;
+}
+
+.bonusPopUpContainer {
+    width: 320px;
+    height: 420px;
+    padding: 40px 33px;
+    position: absolute;
+    align-self: center;
+    justify-content: space-between;
+    z-index: 1;
+    background: rgba(237, 242, 244, 0.8);
+    border-radius: 15px;
+    flex-direction: column;
+    align-items: center;
+}
+
+.PopUpText {
+    font-style: italic;
+    font-weight: 700;
+    font-size: 25px;
+    line-height: 40px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    /* letter-spacing: 0.04em; */
+    color: #003049;
 }
 
 .exerciseDateContainer {
     flex-direction: row;
-    justify-content:space-between;
+    justify-content: space-between;
     align-items: center;
-    padding: 25px 45px 0 30px;
+    padding: 0 45px 0 30px;
     width: 100%;
 }
 
@@ -75,7 +104,7 @@
     justify-content: space-between;
 }
 
-.exercisesContainer{
+.exercisesContainer {
     justify-content: flex-start;
 }
 
