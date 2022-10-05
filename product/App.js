@@ -12,7 +12,7 @@ const App = () => {
     <NavigationContainer>
       <CustomStatusBar />
       <Stack.Navigator
-        initialRouteName={openScreen}
+        initialRouteName={InitScreen}
         screenOptions={{
           headerShown: false,
         }}>
