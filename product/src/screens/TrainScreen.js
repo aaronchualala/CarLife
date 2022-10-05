@@ -14,10 +14,6 @@ function Selections({navigation}) {
     <View style={styles.headerContainer}>
         <Text style={styles.header}>Select Training Programme</Text>
     </View>
-    <View>
-      <Text style={{fontFamily: 'montserrat_bold'}}> This text is in Montserrat font</Text>
-      <Text> default</Text>
-    </View>
     <View style={styles.contentContainer}>
         <Pressable style={styles.button} onPress={() => {
             navigation.navigate('PushUps')
