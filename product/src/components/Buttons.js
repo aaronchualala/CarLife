@@ -6,16 +6,16 @@ export function OrangeButton(props) {
     return (
         <TouchableOpacity 
             onPress={props.onPress} 
-            style={styles.appButtonContainer} 
+            style={styles.orangeButtonContainer} 
             activeOpacity={0.8}
         >
-            <Text style={styles.appButtonText}>{props.title}</Text>
+            <Text style={styles.orangeButtonText}>{props.title}</Text>
         </TouchableOpacity>
     )
 }
 
 const styles = StyleSheet.create({
-    appButtonContainer: {
+    orangeButtonContainer: {
         elevation: 8,
         backgroundColor: "#FCBF49",
         borderRadius: 15,
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
         width: 278,
         opacity: 1.0
     },
-    appButtonText: {
+    orangeButtonText: {
         fontSize: 24,
         color: "#EDF2F4",
         fontWeight: "normal",
