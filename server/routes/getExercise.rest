@@ -1,0 +1,4 @@
+GET http://localhost:3000/getExercise/normal/3
+###
+GET http://localhost:3000/getExercise/related/3
+###

@@ -1,0 +1,37 @@
+FIND NEAREST
+GET http://52.77.246.182:3000/findNearest/fcc?address=66+Nanyang+Crescent
+GET http://52.77.246.182:3000/findNearest/gym-and-park?address=66+Nanyang+Crescent
+GET http://52.77.246.182:3000/findNearest/users?address=66+Nanyang+Crescent
+
+GET EXERCISE
+GET http://52.77.246.182:3000/getExercise/normal/3
+GET http://52.77.246.182:3000/getExercise/related/3
+
+OTHERS
+GET http://52.77.246.182:3000/others/score/?age=22&pushups=40&situps=40&run=660
+GET http://52.77.246.182:3000/others/strava/{ACCESS_TOKEN}
+
+USERS
+GET http://52.77.246.182:3000/users
+DELETE http://52.77.246.182:3000/users
+PATCH http://52.77.246.182:3000/users
+PUT http://52.77.246.182:3000/users
+
+USER SCHEMA
+{
+    "username": "aaronchualala",
+    "password": "asd",
+    "name": "Aaron",
+    "birthdate": 946656000000,
+    "residentialAddress": "11 Tampines Street 84",
+    "currentAbilities": {
+        "pushUpCount": 20,
+        "sitUpCount": 20,
+        "runTimeInSeconds": 720
+    },
+    "targetAbilities": {
+        "pushUpCount": 60,
+        "sitUpCount": 60,
+        "runTimeInSeconds": 600
+    }
+}

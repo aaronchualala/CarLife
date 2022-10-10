@@ -1,0 +1,7 @@
+GET http://localhost:3000/others/score/?age=22&pushups=40&situps=40&run=660
+###
+GET http://localhost:3000/others/strava/5ef2757f62d15892c1e53d12253080c2d3d99a26
+###
+GET http://localhost:3000/others/strava-access
+# for development only
+###

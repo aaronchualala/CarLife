@@ -1,0 +1,47 @@
+GET http://localhost:3000/users
+Content-Type: application/json
+
+{
+    "username": "test",
+    "password": "asd"
+}
+###
+DELETE http://localhost:3000/users
+Content-Type: application/json
+
+{
+    "username": "test",
+    "password": "asd"
+}
+###
+PATCH http://localhost:3000/users
+Content-Type: application/json
+
+{
+    "username": "test",
+    "password": "asd",
+    "name": "Nameee"
+}
+
+###
+PUT http://localhost:3000/users
+Content-Type: application/json
+
+{
+    "username": "test",
+    "password": "asd",
+    "name": "lala",
+    "birthdate": 946656000000,
+    "residentialAddress": "11 Tampines Street 84",
+    "currentAbilities": {
+        "pushUpCount": 20,
+        "sitUpCount": 20,
+        "runTimeInSeconds": 720
+    },
+    "targetAbilities": {
+        "pushUpCount": 60,
+        "sitUpCount": 60,
+        "runTimeInSeconds": 600
+    }
+}
+###
