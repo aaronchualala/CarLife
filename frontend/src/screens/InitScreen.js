@@ -14,8 +14,8 @@ import { Image } from 'react-native';
 import { FullWindowOverlay } from 'react-native-screens';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-const bgImage = require('/Users/summit27/Desktop/Fitbuds/frontEnd/assets/BackgroundImages/GreyscaleRunningMan.png');
-const logo = require('/Users/summit27/Desktop/Fitbuds/frontEnd/assets/BackgroundImages/FitBudsLogo.png');
+const bgImage = require('../assets/BackgroundImages/GreyscaleRunningMan.png');
+const logo = require('../assets/BackgroundImages/FitBudsLogo.png');
 const InitStack = createNativeStackNavigator();
 // SplashScreen.preventAutoHideAsync();r
 var InitData = {};
@@ -189,7 +189,7 @@ function LocationRecommender({navigation}) {
 
 export default function InitScreen(props) {
   let [fontsLoaded] = useFonts({
-    'Montserrat': require('../assets/Fonts/static/Montserrat-Black.ttf'),
+    'Montserrat': require('../assets/fonts/static/Montserrat-Black.ttf'),
   }); // Change as needed
 
   const onLayoutRootView = useCallback(async () => {
