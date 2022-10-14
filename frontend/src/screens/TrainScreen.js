@@ -15,19 +15,30 @@ function Selections({navigation}) {
         <Text style={styles.header}>Select Training Programme</Text>
     </View>
     <View style={styles.contentContainer}>
-        <Pressable style={styles.button} onPress={() => {
-            navigation.navigate('PushUps')
+      {/* Pushup button */}
+        <Pressable style={({pressed}) => [pressed ? {...styles.button, opacity: 0.5} : styles.button]} 
+          hitSlop={20} onPress={() => {
+          navigation.navigate('PushUps')
         }}>
-            <Text style={{...styles.buttonText, order: 0}}>Push ups</Text>
+          <Image style={styles.buttonImage} source={require('../assets/Images/pushup_img.png')}/>
+          <Text style={{...styles.buttonText, order: 0}}>Push ups</Text>
         </Pressable>
-        <Pressable style={styles.button} onPress={() => {
+
+      {/* Sit-up button */}
+        <Pressable style={({pressed}) => [pressed ? {...styles.button, opacity: 0.5} : styles.button]} 
+        hitSlop={20} onPress={() => {
             navigation.navigate('SitUps')
         }}>
+            <Image style={styles.buttonImage} source={require('../assets/Images/sit-ups.png')}/>
             <Text style={{...styles.buttonText, order: 1}}>Sit-ups</Text>
         </Pressable>
-        <Pressable style={styles.button} onPress={() => {
+
+      {/* Run button */}
+        <Pressable style={({pressed}) => [pressed ? {...styles.button, opacity: 0.5} : styles.button]} 
+        hitSlop={20} onPress={() => {
             navigation.navigate('Run')
-        }}>
+        }}>          
+            <Image style={styles.buttonImage} source={require('../assets/Images/run.png')}/>
             <Text style={{...styles.buttonText, order: 2}}>2.4km run</Text>
         </Pressable>
       </View></>

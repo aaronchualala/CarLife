@@ -28,7 +28,7 @@
 }
 
 .profileContainer {
-    height: 80px;
+    height: 90px;
     width: 90%;
     flex-direction: row;
     margin: 10px;
@@ -37,26 +37,28 @@
 .profileDetailsContainer {
     flex-direction: column;
     flex: 2;
+    justify-content: center;
 }
 
 .profileImageContainer {
     flex: 1;
     align-items: center;
-    background-color: aqua;
     justify-content: center;
 }
 
 .profileName {
-    /* font-family: 'Montserrat'; */
+    font-family: 'Montserrat';
     font-style: normal;
     font-weight: 400;
     font-size: 26px;
     line-height: 32px;
     color: #F77F00;
+    overflow: hidden;
+    max-height: 32;
 }
 
 .profileDetails {
-    /* font-family: 'Montserrat'; */
+    font-family: 'Montserrat-Light';
     font-style: normal;
     font-weight: 300;
     font-size: 20px;

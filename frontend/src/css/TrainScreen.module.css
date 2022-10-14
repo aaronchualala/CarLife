@@ -47,11 +47,8 @@
 }
 
 .button {
-    /* Remove background-colro when image is added */
-    background-color: red;
     width: 327px;
     height: 71px;
-    border-radius: 30px;
     /* Inside auto layout */
     align-items: center;
     justify-content: center;
@@ -70,4 +67,13 @@
     /* Palette 1/Subtle */
 
     color: #EDF2F4;
+}
+
+.buttonImage {
+    position: absolute;
+    width: 327px;
+    height: 71px;
+    left: 0px;
+    top: 0px;
+    border-radius: 30px;
 }
