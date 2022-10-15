@@ -19,7 +19,7 @@ function ProfilePage({ route, navigation }) {
   const getUsers = async () => {
     try {
       const response = await fetch('http://52.77.246.182:3000/users', {
-        method: 'GET',
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
