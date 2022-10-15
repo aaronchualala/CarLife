@@ -9,6 +9,8 @@ import { Ionicon } from '../assets/Ionicons';
 import { OrangeButton } from '../components/Buttons';
 
 const PlanScreen = () => {
+  let nowTime = new Date();
+  let today = `${nowTime.getDate().toString()}/${nowTime.getMonth().toString()}/${nowTime.getFullYear().toString()}`;
   // const uid = auth.currentUser
   //   ? auth.currentUser.uid
   //   : '1XP3xsuWTYRwPdQtReFGfE5SwDm2';
@@ -44,7 +46,7 @@ const PlanScreen = () => {
             <OrangeButton title="Let's Go!" onPress={togglePopUp} />
           </View> : null}
           <View style={styles.exerciseDateContainer}>
-            <Text style={styles.exerciseDateText}>4 Sep 2022</Text>
+            <Text style={styles.exerciseDateText}>{today}</Text>
             <MaterialIcon size="extraLarge" color={"#F77F00"} name="calendar-today" />
           </View>
 
