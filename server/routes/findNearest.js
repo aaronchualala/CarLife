@@ -5,6 +5,7 @@ const Gym = require('../models/gyms')
 const Park = require('../models/parks')
 const User = require('../models/users')
 const {Client} = require("@googlemaps/google-maps-services-js");
+const sharedFunctions = require('./sharedFunctions')
 
 const router = express.Router()
 const client = new Client({});
@@ -78,8 +79,9 @@ router.get('/users', async (req, res) => {
         for (let i = 0; i<users.length; i++){
             const otherUserCoordinates = await getCoordinates(users[i].residentialAddress)
             var distance = calcDist([otherUserCoordinates.lat, otherUserCoordinates.lng], [coordinates.lat, coordinates.lng])
-            if(nearestUsers.length < 2){
-                nearestUsers.push([users[i].name, distance])
+            if(nearestUsers.length < 10){
+                const score = await sharedFunctions.calcScore(Math.floor(users[i].birthdate/(365*24*60*60*1000)), users[i].currentAbilities.pushUpCount,users[i].currentAbilities.sitUpCount,users[i].currentAbilities.runTimeInSeconds)
+                nearestUsers.push([users[i].name, score.total, distance])
             } else {
                 for(let j=nearestUsers.length-1; j >= 0; j--){
                     if(distance < nearestUsers[j][1]){
@@ -132,8 +134,15 @@ async function getAddress(lat,lng){
     }
 }
 
-function calcDist([lat1,lng1],[lat2,lng2]){
-    return Math.sqrt(Math.pow(lat1 - lat2,2) + Math.pow(lng1 - lng2,2))
-}
+function calcDist([lat1,lng1],[lat2,lng2]) {
+    var R = 6371.0710; // Radius of the Earth in miles
+    var rlat1 = lat1 * (Math.PI/180); // Convert degrees to radians
+    var rlat2 = lat2 * (Math.PI/180); // Convert degrees to radians
+    var difflat = rlat2-rlat1; // Radian difference (latitudes)
+    var difflon = (lng2 -lng1) * (Math.PI/180); // Radian difference (longitudes)
+
+    var d = 2 * R * Math.asin(Math.sqrt(Math.sin(difflat/2)*Math.sin(difflat/2)+Math.cos(rlat1)*Math.cos(rlat2)*Math.sin(difflon/2)*Math.sin(difflon/2)));
+    return d*1000;
+  }
 
 module.exports = router
