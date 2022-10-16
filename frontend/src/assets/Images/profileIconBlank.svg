@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="320px" height="320px" viewBox="0 0 320 320" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 61 (89581) - https://sketch.com -->
+    <title>ic_login_head</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <circle id="path-1" cx="160" cy="160" r="160"></circle>
+    </defs>
+    <g id="ic_login_head" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="编组">
+            <mask id="mask-2" fill="white">
+                <use xlink:href="#path-1"></use>
+            </mask>
+            <use id="背景" fill="#CCCCCC" xlink:href="#path-1"></use>
+            <path d="M160,210 C204.435672,210 242.603493,236.835861 259.180695,275.184816 C232.559019,298.129395 197.899336,312 160,312 C122.101141,312 87.4418538,298.129744 60.8214694,275.188564 C77.3965071,236.835861 115.564328,210 160,210 Z M160.001636,74 C190.928987,74 216,99.0717457 216,130 C216,160.928254 190.928987,186 160.001636,186 C129.071013,186 104,160.928254 104,130 C104,99.0717457 129.071013,74 160.001636,74 Z" id="人" fill="#FFFFFF"></path>
+        </g>
+    </g>
+</svg>
