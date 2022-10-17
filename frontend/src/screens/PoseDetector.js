@@ -6,7 +6,7 @@ import * as posenet from '@tensorflow-models/posenet';
 import { View, Text, StyleSheet, useWindowDimensions, ActivityIndicator, SafeAreaView } from "react-native"
 import { cameraWithTensors } from '@tensorflow/tfjs-react-native';
 import { Camera } from 'expo-camera';
-import { drawSkeletonPushUps, drawSkeletonSitUps } from "../utilities/draw";
+import { drawSkeletonPushUps, drawSkeletonSitUps, drawKeypoints } from "../utilities/draw";
 
 export default function PoseDector() {
     const isLoaded = useTensorFlowLoaded(); // see 1A
@@ -20,19 +20,23 @@ export default function PoseDector() {
       return <LoadingView>Loading TensorFlow</LoadingView>;
     }
     return <ModelView />;
-}
-
+  }
+  
 function ModelView(){
     const model = useTensorFlowModel(posenet); // see 1B
     const [predictions, setPredictions] = React.useState({});
+    const size = useWindowDimensions();
     const canvasRef = useRef(null);
     useEffect(() => {
       setTimeout(() => {
         if (canvasRef.current && JSON.stringify(predictions)!="{}"){
+          canvasRef.current.width = size.width
+          canvasRef.current.height = size.height
           const ctx = canvasRef.current.getContext('2d');
-          drawSkeletonPushUps(predictions["keypoints"], 0.1, ctx)
+          drawKeypoints(predictions["keypoints"], 0.1, ctx, 1,1) //5.5, 4)
+          drawSkeletonPushUps(predictions["keypoints"], 0.1, ctx, 1,1) //5.5, 4)
         }
-      }, 1000)
+      }, 0)
     }, [canvasRef, predictions]);
 
     if (!model) {
@@ -41,8 +45,8 @@ function ModelView(){
 
     return (
       <SafeAreaView style={{ flex: 1, justifyContent: "center"  }}>
-            <Canvas ref={canvasRef} style={{ position:'absolute', width: '100%', height: '100%', zIndex: '1000', textAlign: "center", backgroundColor: 'none' }}/>
-          <ModelCamera model={model} setPredictions={setPredictions} style ={{position:'absolute', zIndex: '1' }}/>
+            <Canvas ref={canvasRef} style={{ position:'absolute', left: 0, top: 0, width: '100%', height: '100%', zIndex: 1000, backgroundColor: 'none'}}/>
+          <ModelCamera model={model} setPredictions={setPredictions} style ={{position:'absolute', zIndex: 1 }}/>
           {/* see 3 */}
           <PredictionList predictions={predictions} />
           {/* see 2 */}
@@ -156,12 +160,12 @@ function ModelCamera({ model, setPredictions }) {
 
 // 3.1
 function CustomTensorCamera({ style, width, ...props }) {
+    const size = useWindowDimensions()
     const TEXTURE_SIZE = { width: 1080, height: 1920 };
-    const TENSOR_WIDTH = 152;
     const CAMERA_RATIO = TEXTURE_SIZE.height / TEXTURE_SIZE.width;
     const TENSOR_SIZE = {
-        width: TENSOR_WIDTH,
-        height: TENSOR_WIDTH * CAMERA_RATIO,
+        width: size.width,
+        height: size.height,
     };
     const TensorCamera = cameraWithTensors(Camera); // cameraWithTensors and Camera is imported
     const sizeStyle = React.useMemo(() => {

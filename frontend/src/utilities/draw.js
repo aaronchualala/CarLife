@@ -1,6 +1,7 @@
 // from https://github.com/tensorflow/tfjs-models/blob/b5d49c0f5ba2057cc29b40317126c5f182495f96/posenet/demo/demo_util.js
 import * as posenet from '@tensorflow-models/posenet';
 import * as tf from '@tensorflow/tfjs-core';
+import { createExportAssignment } from 'typescript';
 
 // import * as poseDetection from '@tensorflow-models/pose-detection';
 const color = "aqua";
@@ -19,37 +20,33 @@ function drawPoint(ctx, y, x, r, color) {
 }
 
 // Draws a line on a canvas, i.e. a joint
-function drawSegment([ay, ax], [by, bx], color, scale, ctx) {
-  // ctx.beginPath();
-  // ctx.arc(100, 100, 40, 0, 2 * Math.PI);
-  // ctx.closePath();
-  // ctx.fillStyle = 'blue';
-  // ctx.fill();
-
-  console.log([[ay, ax], [by, bx], color, scale])
+function drawSegment([ay, ax], [by, bx], color, scaleX, scaleY, ctx) {
   ctx.beginPath();
-  ctx.moveTo(ax * scale, ay * scale);
-  ctx.lineTo(bx * scale, by * scale);
-  ctx.lineWidth = 20;
-  ctx.strokeStyle = 'red';
+  ctx.moveTo(ax * scaleX, ay * scaleY);
+  ctx.lineTo(bx * scaleX, by * scaleY);
+  ctx.lineWidth = 2;
+  ctx.strokeStyle = 'blue';
   ctx.stroke();
 }
 
 //  Draws a pose skeleton by looking up all adjacent keypoints/joints
-function drawSkeleton(keypoints, minConfidence, ctx, scale = 1) {
+function drawSkeleton(keypoints, minConfidence, ctx, scaleX, scaleY) {
   const adjacentKeyPoints =
       posenet.getAdjacentKeyPoints(keypoints, minConfidence);
 
   adjacentKeyPoints.forEach((keypoints) => {
     drawSegment(
         toTuple(keypoints[0].position), toTuple(keypoints[1].position), color,
-        scale, ctx);
+        scaleX, scaleY, ctx);
   });
 }
 
 // Draw pose keypoints onto a canvas
-function drawKeypoints(keypoints, minConfidence, ctx, scale = 1) {
+export function drawKeypoints(keypoints, minConfidence, ctx, scaleX, scaleY) {
   for (let i = 0; i < keypoints.length; i++) {
+    if(i<3){
+      continue;
+    }
     const keypoint = keypoints[i];
 
     if (keypoint.score < minConfidence) {
@@ -57,7 +54,7 @@ function drawKeypoints(keypoints, minConfidence, ctx, scale = 1) {
     }
 
     const {y, x} = keypoint.position;
-    drawPoint(ctx, y * scale, x * scale, 3, color);
+    drawPoint(ctx, y * scaleY, x * scaleX, 3, color);
   }
 }
 
@@ -119,23 +116,23 @@ let elbowAngle=0;
 let ear= null;
 let ankle= null
 
-export function drawSkeletonPushUps(keypoints, minConfidence, ctx, scale = 1) {
+export function drawSkeletonPushUps(keypoints, minConfidence, ctx, scaleX, scaleY) {
   let shoulder= keypoints[5].score>minConfidence?keypoints[5]:null;
   let elbow= keypoints[7].score>minConfidence?keypoints[7]:null;
   let wrist= keypoints[9].score>minConfidence?keypoints[9]:null;
   let hip= keypoints[11].score>minConfidence?keypoints[11]:null;
   let knee= keypoints[13].score>minConfidence?keypoints[13]:null;
   if (wrist && elbow && shoulder){
-    drawSegment([wrist.position.y, wrist.position.x],[elbow.position.y, elbow.position.x],color,scale,ctx);
-    drawSegment([elbow.position.y, elbow.position.x],[shoulder.position.y, shoulder.position.x],color,scale,ctx);
+    drawSegment([wrist.position.y, wrist.position.x],[elbow.position.y, elbow.position.x],color,scaleX, scaleY,ctx);
+    drawSegment([elbow.position.y, elbow.position.x],[shoulder.position.y, shoulder.position.x],color,scaleX, scaleY,ctx);
     elbowAngle= findAngle(wrist,elbow,shoulder);
   }
   if (shoulder && hip && elbow ){
     shoulderAngle= findAngle(elbow,shoulder,hip);
   }
   if (shoulder && hip && knee){
-    drawSegment([hip.position.y, hip.position.x],[knee.position.y, knee.position.x],color,scale,ctx);
-    drawSegment([hip.position.y, hip.position.x],[shoulder.position.y, shoulder.position.x],color,scale,ctx);
+    drawSegment([hip.position.y, hip.position.x],[knee.position.y, knee.position.x],color,scaleX, scaleY,ctx);
+    drawSegment([hip.position.y, hip.position.x],[shoulder.position.y, shoulder.position.x],color,scaleX, scaleY,ctx);
     hipAngle= findAngle(shoulder,hip,knee);
   }
   //Check to ensure right form before starting the program
@@ -208,7 +205,7 @@ let shoulderBladeAngle=null;
 let buttAngle=null;
 let kneeAngle=null;
 
-export function drawSkeletonSitUps(keypoints, minConfidence, ctx, scale = 1) {
+export function drawSkeletonSitUps(keypoints, minConfidence, ctx, scaleX, scaleY) {
   shoulder= keypoints[5].score>minConfidence?keypoints[5]:null;
   elbow= keypoints[7].score>minConfidence?keypoints[7]:null;
   wrist= keypoints[9].score>minConfidence?keypoints[9]:null;
@@ -224,17 +221,17 @@ export function drawSkeletonSitUps(keypoints, minConfidence, ctx, scale = 1) {
     touchKneeDistance= findDistance(ear,wrist);
   }
   if (ear && shoulder && ankle){
-    drawSegment([ear.y, ear.x],[shoulder.y, shoulder.x],color,scale,ctx);
-    drawSegment([ankle.y, ankle.x],[shoulder.y, shoulder.x],color,scale,ctx);
+    drawSegment([ear.y, ear.x],[shoulder.y, shoulder.x],color,scaleX, scaleY,ctx);
+    drawSegment([ankle.y, ankle.x],[shoulder.y, shoulder.x],color,scaleX, scaleY,ctx);
     shoulderBladeAngle= findAngle(ear,shoulder,ankle);
   }
   if (hip && shoulder && ankle){
-    drawSegment([hip.y, hip.x],[shoulder.y, shoulder.x],color,scale,ctx);
+    drawSegment([hip.y, hip.x],[shoulder.y, shoulder.x],color,scaleX, scaleY,ctx);
     buttAngle= findAngle(shoulder,hip,ankle);
   }
   if (hip && knee && ankle){
-    drawSegment([hip.y, hip.x],[knee.y, knee.x],color,scale,ctx);
-    drawSegment([knee.y, knee.x],[ankle.y, ankle.x],color,scale,ctx);
+    drawSegment([hip.y, hip.x],[knee.y, knee.x],color,scaleX, scaleY,ctx);
+    drawSegment([knee.y, knee.x],[ankle.y, ankle.x],color,scaleX, scaleY,ctx);
     kneeAngle= findAngle(hip,knee,ankle);
   }
   //Check to ensure right form before starting the program
