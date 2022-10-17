@@ -3,6 +3,7 @@ import {Text, View, Button, Pressable, Image} from 'react-native';
 import * as globalStyles from '../css/globals.css';
 import * as styles from '../css/TrainScreen.module.css';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import PoseDetector from './PoseDetector'
 
 const TrainStack = createNativeStackNavigator();
 
@@ -95,7 +96,7 @@ export default function TrainScreen(props) {
         headerShown: false,
       }}>
       <TrainStack.Screen name="Selections" component={Selections} />
-      <TrainStack.Screen name="PushUps" component={PushUps} />
+      <TrainStack.Screen name="PushUps" component={PoseDetector} />
       <TrainStack.Screen name="SitUps" component={SitUps} />
       <TrainStack.Screen name="Run" component={Run} />
     </TrainStack.Navigator>
