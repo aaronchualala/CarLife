@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 // import { getDoc, doc } from 'firebase/firestore';
-import { ScrollView, Text, View } from 'react-native';
+import { Pressable, ScrollView, Text, View } from 'react-native';
 import * as styles from '../css/PlanScreen.module.css';
 import * as globalStyles from '../css/globals.css';
 import { MaterialIcon } from '../assets/MaterialIcons';
@@ -8,26 +8,162 @@ import { Ionicon } from '../assets/Ionicons';
 // import { app, auth, db } from '../firebase/config';
 import { OrangeButton } from '../components/Buttons';
 
+const NormalExSet = (props) => {
+  const exerciseStateIcon = ["checkmark-circle-outline", "chevron-forward-circle-outline", "remove-circle-outline"];
+  const color = ["#FCBF49", "#F77F00", "#8D99AE"];
+  const stateText = ["Completed", "Train Now", "Not Available"];
+  const [stateIdx, setStateIdx] = useState(props.state)
+
+  const updateState = () => {
+    if (stateIdx == 1) {
+      setStateIdx(0);
+      props.update(props.set);
+    }
+  }
+  let timeSec = props.data.runTimeInSeconds % 60;
+  let timeMin = Math.floor(props.data.runTimeInSeconds / 60);
+
+  return (
+    <View style={styles.set /*one set*/}>
+      <Text style={{ ...styles.setText, color: `${color[stateIdx]}` }}>Set {props.set}</Text>
+      <View style={styles.setExercisesContainer}>
+        <View style={styles.exercisesContainer} >
+          <Text style={{ ...styles.exerciseNameText, color: `${color[stateIdx]}` }}>{props.data.pushups} PUSH-UPS</Text>
+          <Text style={{ ...styles.exerciseNameText, color: `${color[stateIdx]}` }}>{props.data.situps} SIT-UPS</Text>
+          {props.set % 3 == 0 ? <Text style={{ ...styles.exerciseNameText, color: `${color[stateIdx]}` }}>{timeMin}:{timeSec} 2.4km Run</Text> : null}
+        </View>
+        <Pressable
+          onPress={updateState}
+          style={styles.exerciseState}
+        >
+          <Ionicon
+            name={exerciseStateIcon[stateIdx]}
+            size="superLarge"
+            color={color[stateIdx]}
+          />
+          <Text style={{ ...styles.exerciseStateText, color: `${color[stateIdx]}` }}>{stateText[stateIdx]}</Text>
+        </Pressable>
+      </View>
+    </View>
+  )
+}
+
+const RelatedExSet = (props) => {
+  const exerciseStateIcon = ["checkmark-circle-outline", "chevron-forward-circle-outline", "remove-circle-outline"];
+  const color = ["#FCBF49", "#F77F00", "#8D99AE"];
+  const stateText = ["Completed", "Train Now", "Not Available"];
+  const [stateIdx, setStateIdx] = useState(props.state)
+
+  const updateState = () => {
+    if (stateIdx == 1) {
+      setStateIdx(0);
+      props.update(props.set);
+    }
+  }
+
+  return (
+    <View style={styles.set /*one set*/}>
+      <Text style={{ ...styles.setText, color: `${color[stateIdx]}` }}>Set {props.set}</Text>
+      <View style={styles.setExercisesContainer}>
+        <View style={styles.exercisesContainer} >
+          <Text style={{ ...styles.exerciseNameText, color: `${color[stateIdx]}` }}>10 DUMBELL ROWS</Text>
+          <Text style={{ ...styles.exerciseNameText, color: `${color[stateIdx]}` }}>8 SHOULDER PRESS</Text>
+          <Text style={{ ...styles.exerciseNameText, color: `${color[stateIdx]}` }}>8 BICEP CURLS</Text>
+        </View>
+        <Pressable
+          onPress={updateState}
+          style={styles.exerciseState}
+        >
+          <Ionicon
+            name={exerciseStateIcon[stateIdx]}
+            size="superLarge"
+            color={color[stateIdx]}
+          />
+          <Text style={{ ...styles.exerciseStateText, color: `${color[stateIdx]}` }}>{stateText[stateIdx]}</Text>
+        </Pressable>
+      </View>
+    </View>
+  )
+}
+
 const PlanScreen = () => {
   let nowTime = new Date();
   let today = `${nowTime.getDate().toString()}/${nowTime.getMonth().toString()}/${nowTime.getFullYear().toString()}`;
-  // const uid = auth.currentUser
-  //   ? auth.currentUser.uid
-  //   : '1XP3xsuWTYRwPdQtReFGfE5SwDm2';
-  const [email, setEmail] = useState('');
+
+  const [exStateId, setExStateID] = useState({ 0: 1, 1: 2, 2: 1, 3: 2, 4: 2, 5: 2 })
+  const updateStateID = (set) => {
+    setExStateID(previousState => { return ({ ...previousState, [set]: 1 }) });
+  }
+  useEffect(() => {
+    renderSets()
+    renderRel() 
+    if (exStateId[3] === 1){
+      setShowPopUp(previousState => !previousState)
+      setShowRelated(true)
+    }
+  }, [exStateId])
+
+  const renderSets = () => {
+    
+    return (
+      <>
+        <NormalExSet data={dataNormal} set={1} state={exStateId[0]} update={updateStateID} />
+        <NormalExSet data={dataNormal} set={2} state={exStateId[1]} update={updateStateID} />
+        <NormalExSet data={dataNormal} set={3} state={exStateId[2]} update={updateStateID} />
+      </>
+    )
+  }
+  const renderRel = () => {
+    return (
+      <>
+        <RelatedExSet data={dataRelated} set={1} state={exStateId[3]} update={updateStateID} />
+        <RelatedExSet data={dataRelated} set={2} state={exStateId[4]} update={updateStateID} />
+        <RelatedExSet data={dataRelated} set={3} state={exStateId[5]} />
+      </>
+    )
+  }
+
   const [showPopUp, setShowPopUp] = useState(false);
-  const togglePopUp = () => { setShowPopUp(previousState => !previousState) }
+  const [showRelated, setShowRelated] = useState(false);
+  const togglePopUp = () => {
+    if (exStateId[3] == 1)
+      setShowPopUp(previousState => !previousState)
+    setShowRelated(true)
+  }
 
-  const exerciseStateIcon = ["checkmark-circle-outline", "chevron-forward-circle-outline", "remove-circle-outline"]
-  let exercieStateIdx;
+  const [dataNormal, setDataNormal] = useState();
+  const [dataRelated, setDataRelated] = useState();
+  const [isNormalLoading, setNormalLoading] = useState(true);
+  const [isRelatedLoading, setRelatedLoading] = useState(true);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const currentUserInfo = await getDoc(doc(db, 'userInfo', uid));
-  //     setEmail(currentUserInfo.data().email);
-  //   };
-  //   fetchData().catch(console.error);
-  // }, [uid, email]);
+  const getNormalEx = async () => {
+    try {
+      const response = await fetch('http://52.77.246.182:3000/getExercise/normal/3');
+      const json = await response.json();
+      setDataNormal(json);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setNormalLoading(false);
+    }
+  };
+
+  const getRelatedEx = async () => {
+    try {
+      const response = await fetch('http://52.77.246.182:3000/getExercise/related/3');
+      const json = await response.json();
+      setDataRelated(json);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setRelatedLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getNormalEx();
+    getRelatedEx();
+  }, []);
 
   return (
     <>
@@ -51,119 +187,17 @@ const PlanScreen = () => {
           </View>
 
           <View style={styles.setsContainer}>
-            <View style={styles.set /*one set*/}>
-              <Text style={{ ...styles.setText, color: "#FCBF49" }}>Set 1</Text>
-              <View style={styles.setExercisesContainer}>
-                <View style={styles.exercisesContainer} >
-                  <Text style={{ ...styles.exerciseNameText, color: "#FCBF49" }}>20 PUSH-UPS</Text>
-                  <Text style={{ ...styles.exerciseNameText, color: "#FCBF49" }}>20 SIT-UPS</Text>
-                </View>
-                <View style={styles.exerciseState}>
-                  <Ionicon
-                    name={exerciseStateIcon[0]}
-                    size="superLarge"
-                    color="#FCBF49"
-                  />
-                  <Text style={{ ...styles.exerciseStateText, color: "#FCBF49" }}>Completed</Text>
-                </View>
-              </View>
-            </View>
-            <View style={styles.set /*one set*/}>
-              <Text style={{ ...styles.setText, color: "#F77F00" }}>Set 2</Text>
-              <View style={styles.setExercisesContainer}>
-                <View style={styles.exercisesContainer} >
-                  <Text style={{ ...styles.exerciseNameText, color: "#F77F00" }}>20 PUSH-UPS</Text>
-                  <Text style={{ ...styles.exerciseNameText, color: "#F77F00" }}>20 SIT-UPS</Text>
-                </View>
-                <View style={styles.exerciseState}>
-                  <Ionicon
-                    name={exerciseStateIcon[1]}
-                    size="superLarge"
-                    color="#F77F00"
-                  />
-                  <Text style={{ ...styles.exerciseStateText, color: "#F77F00" }}>Train Now</Text>
-                </View>
-              </View>
-            </View>
-            <View style={styles.set /*one set*/}>
-              <Text style={{ ...styles.setText, color: "#8D99AE" }}>Set 3</Text>
-              <View style={styles.setExercisesContainer}>
-                <View style={styles.exercisesContainer} >
-                  <Text style={{ ...styles.exerciseNameText, color: "#8D99AE" }}>20 PUSH-UPS</Text>
-                  <Text style={{ ...styles.exerciseNameText, color: "#8D99AE" }}>20 SIT-UPS</Text>
-                </View>
-                <View style={styles.exerciseState}>
-                  <Ionicon
-                    name={exerciseStateIcon[2]}
-                    size="superLarge"
-                    color="#8D99AE"
-                  />
-                  <Text style={{ ...styles.exerciseStateText, color: "#8D99AE" }}>Not Available</Text>
-                </View>
-              </View>
-            </View>
-          </View>
-        </View>
+            {isNormalLoading ? null : renderSets()}
 
-        <View style={styles.bonusExercisesContainer}>
-          <Text style={styles.bonusExercisesHeaderText}>Bonus Exercises</Text>
-          <View style={styles.setsContainer}>
-            <View style={styles.set /*one set*/}>
-              <Text style={{ ...styles.setText, color: "#FCBF49" }}>Set 1</Text>
-              <View style={styles.setExercisesContainer}>
-                <View style={styles.exercisesContainer} >
-                  <Text style={{ ...styles.exerciseNameText, color: "#FCBF49" }}>10 DUMBELL ROWS</Text>
-                  <Text style={{ ...styles.exerciseNameText, color: "#FCBF49" }}>8 SHOULDER PRESS</Text>
-                  <Text style={{ ...styles.exerciseNameText, color: "#FCBF49" }}>8 BICEP CURLS</Text>
-                </View>
-                <View style={styles.exerciseState}>
-                  <Ionicon
-                    name={exerciseStateIcon[0]}
-                    size="superLarge"
-                    color="#FCBF49"
-                  />
-                  <Text style={{ ...styles.exerciseStateText, color: "#FCBF49" }}>Completed</Text>
-                </View>
-              </View>
-            </View>
-            <View style={styles.set /*one set*/}>
-              <Text style={{ ...styles.setText, color: "#8D99AE" }}>Set 2</Text>
-              <View style={styles.setExercisesContainer}>
-                <View style={styles.exercisesContainer} >
-                  <Text style={{ ...styles.exerciseNameText, color: "#8D99AE" }}>10 DUMBELL ROWS</Text>
-                  <Text style={{ ...styles.exerciseNameText, color: "#8D99AE" }}>8 SHOULDER PRESS</Text>
-                  <Text style={{ ...styles.exerciseNameText, color: "#8D99AE" }}>8 BICEP CURLS</Text>
-                </View>
-                <View style={styles.exerciseState}>
-                  <Ionicon
-                    name={exerciseStateIcon[1]}
-                    size="superLarge"
-                    color="#8D99AE"
-                  />
-                  <Text style={{ ...styles.exerciseStateText, color: "#8D99AE" }}>Train Now</Text>
-                </View>
-              </View>
-            </View>
-            <View style={styles.set /*one set*/}>
-              <Text style={{ ...styles.setText, color: "#8D99AE" }}>Set 3</Text>
-              <View style={styles.setExercisesContainer}>
-                <View style={styles.exercisesContainer} >
-                  <Text style={{ ...styles.exerciseNameText, color: "#8D99AE" }}>10 DUMBELL ROWS</Text>
-                  <Text style={{ ...styles.exerciseNameText, color: "#8D99AE" }}>8 SHOULDER PRESS</Text>
-                  <Text style={{ ...styles.exerciseNameText, color: "#8D99AE" }}>8 BICEP CURLS</Text>
-                </View>
-                <View style={styles.exerciseState}>
-                  <Ionicon
-                    name={exerciseStateIcon[2]}
-                    size="superLarge"
-                    color="#8D99AE"
-                  />
-                  <Text style={{ ...styles.exerciseStateText, color: "#8D99AE" }}>Not Available</Text>
-                </View>
-              </View>
-            </View>
           </View>
         </View>
+        {showRelated ?
+          <View style={styles.bonusExercisesContainer}>
+            <Text style={styles.bonusExercisesHeaderText}>Bonus Exercises</Text>
+            <View style={styles.setsContainer}>
+              {isRelatedLoading ? null : renderRel()}
+            </View>
+          </View> : null}
       </ScrollView>
     </>
   );
