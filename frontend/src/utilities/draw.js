@@ -3,15 +3,15 @@ import * as posenet from '@tensorflow-models/posenet';
 import * as tf from '@tensorflow/tfjs-core';
 
 // import * as poseDetection from '@tensorflow-models/pose-detection';
- const color = "aqua";
- const lineWidth = 2;
+const color = "aqua";
+const lineWidth = 2;
 
 function toTuple({y, x}) {
   return [y, x];
 }
 
 //  Draws a point
-export function drawPoint(ctx, y, x, r, color) {
+function drawPoint(ctx, y, x, r, color) {
   ctx.beginPath();
   ctx.arc(x, y, r, 0, 2 * Math.PI);
   ctx.fillStyle = color;
@@ -19,17 +19,24 @@ export function drawPoint(ctx, y, x, r, color) {
 }
 
 // Draws a line on a canvas, i.e. a joint
-export function drawSegment([ay, ax], [by, bx], color, scale, ctx) {
+function drawSegment([ay, ax], [by, bx], color, scale, ctx) {
+  // ctx.beginPath();
+  // ctx.arc(100, 100, 40, 0, 2 * Math.PI);
+  // ctx.closePath();
+  // ctx.fillStyle = 'blue';
+  // ctx.fill();
+
+  console.log([[ay, ax], [by, bx], color, scale])
   ctx.beginPath();
   ctx.moveTo(ax * scale, ay * scale);
   ctx.lineTo(bx * scale, by * scale);
-  ctx.lineWidth = lineWidth;
-  ctx.strokeStyle = color;
+  ctx.lineWidth = 20;
+  ctx.strokeStyle = 'red';
   ctx.stroke();
 }
 
 //  Draws a pose skeleton by looking up all adjacent keypoints/joints
-export function drawSkeleton(keypoints, minConfidence, ctx, scale = 1) {
+function drawSkeleton(keypoints, minConfidence, ctx, scale = 1) {
   const adjacentKeyPoints =
       posenet.getAdjacentKeyPoints(keypoints, minConfidence);
 
@@ -41,7 +48,7 @@ export function drawSkeleton(keypoints, minConfidence, ctx, scale = 1) {
 }
 
 // Draw pose keypoints onto a canvas
-export function drawKeypoints(keypoints, minConfidence, ctx, scale = 1) {
+function drawKeypoints(keypoints, minConfidence, ctx, scale = 1) {
   for (let i = 0; i < keypoints.length; i++) {
     const keypoint = keypoints[i];
 
@@ -119,16 +126,16 @@ export function drawSkeletonPushUps(keypoints, minConfidence, ctx, scale = 1) {
   let hip= keypoints[11].score>minConfidence?keypoints[11]:null;
   let knee= keypoints[13].score>minConfidence?keypoints[13]:null;
   if (wrist && elbow && shoulder){
-    drawSegment([wrist.y, wrist.x],[elbow.y, elbow.x],color,scale,ctx);
-    drawSegment([elbow.y, elbow.x],[shoulder.y, shoulder.x],color,scale,ctx);
+    drawSegment([wrist.position.y, wrist.position.x],[elbow.position.y, elbow.position.x],color,scale,ctx);
+    drawSegment([elbow.position.y, elbow.position.x],[shoulder.position.y, shoulder.position.x],color,scale,ctx);
     elbowAngle= findAngle(wrist,elbow,shoulder);
   }
   if (shoulder && hip && elbow ){
     shoulderAngle= findAngle(elbow,shoulder,hip);
   }
   if (shoulder && hip && knee){
-    drawSegment([hip.y, hip.x],[knee.y, knee.x],color,scale,ctx);
-    drawSegment([hip.y, hip.x],[shoulder.y, shoulder.x],color,scale,ctx);
+    drawSegment([hip.position.y, hip.position.x],[knee.position.y, knee.position.x],color,scale,ctx);
+    drawSegment([hip.position.y, hip.position.x],[shoulder.position.y, shoulder.position.x],color,scale,ctx);
     hipAngle= findAngle(shoulder,hip,knee);
   }
   //Check to ensure right form before starting the program
@@ -165,10 +172,10 @@ export function drawSkeletonPushUps(keypoints, minConfidence, ctx, scale = 1) {
       }
     }
   }
-  console.log(elbowAngle,shoulderAngle,hipAngle);
-  console.log("feedback is %s", feedback);
-  console.log("elbow is %s, Shoulder is %s and hip is %s", specificFeedbackPU.elbow, specificFeedbackPU.shoulder, specificFeedbackPU.hip);
-  console.log("count is %d", count);
+  // console.log(elbowAngle,shoulderAngle,hipAngle);
+  // console.log("feedback is %s", feedback);
+  // console.log("elbow is %s, Shoulder is %s and hip is %s", specificFeedbackPU.elbow, specificFeedbackPU.shoulder, specificFeedbackPU.hip);
+  // console.log("count is %d", count);
   return [count, feedback, specificFeedbackPU];
 }
 
@@ -202,7 +209,6 @@ let buttAngle=null;
 let kneeAngle=null;
 
 export function drawSkeletonSitUps(keypoints, minConfidence, ctx, scale = 1) {
-  console.log("ajsdflkjasdkfjalkdfjlk;ajklfjasdfj")
   shoulder= keypoints[5].score>minConfidence?keypoints[5]:null;
   elbow= keypoints[7].score>minConfidence?keypoints[7]:null;
   wrist= keypoints[9].score>minConfidence?keypoints[9]:null;

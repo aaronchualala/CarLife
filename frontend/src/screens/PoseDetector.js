@@ -25,18 +25,12 @@ function ModelView(){
     const canvasRef = useRef(null);
     useEffect(() => {
       setTimeout(() => {
-        if (canvasRef.current && JSON.stringify(predictions)!="{}") {
-          console.log("test")
+        if (canvasRef.current && JSON.stringify(predictions)!="{}"){
           const ctx = canvasRef.current.getContext('2d');
-          drawSkeletonPushUps(predictions["keypoints"], 0.5, ctx)
-          ctx.beginPath();
-          ctx.arc(100, 100, 40, 0, 2 * Math.PI);
-          ctx.closePath();
-          ctx.fillStyle = 'blue';
-          ctx.fill();
+          drawSkeletonPushUps(predictions["keypoints"], 0.1, ctx)
         }
       }, 1000)
-    }, [canvasRef]);
+    }, [canvasRef, predictions]);
 
     if (!model) {
         return <LoadingView message="Loading TensorFlow model" />; // see 0
@@ -132,7 +126,7 @@ function ModelCamera({ model, setPredictions }) {
         const loop = async () => {
           const nextImageTensor = images.next().value;
           // const predictions = await model.posenet.predictions(nextImageTensor)
-          const predictions = await model.estimateSinglePose(nextImageTensor, {flipHorizontal: false});
+          const predictions = await model.estimateSinglePose(nextImageTensor, {flipHorizontal: false, outputStride: 32});
           // const predictions = await model.classify(nextImageTensor);
           // console.log(predictions)
           setPredictions(predictions);
