@@ -1,3 +1,4 @@
+import * as Permissions from "expo-permissions";
 import * as tf from "@tensorflow/tfjs";
 import React, {useRef, useEffect} from 'react';
 import Canvas from 'react-native-canvas';
@@ -9,7 +10,9 @@ import { drawSkeletonPushUps, drawSkeletonSitUps } from "../utilities/draw";
 
 export default function PoseDector() {
     const isLoaded = useTensorFlowLoaded(); // see 1A
-    const [status, reqStatus] = Camera.useCameraPermissions();
+    const [status] = Permissions.usePermissions(Permissions.CAMERA, {
+      ask: true,
+    });
     if (!(status || {}).granted) {
       return <LoadingView>Camera permission is required to continue</LoadingView>;
     }
