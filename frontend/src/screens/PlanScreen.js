@@ -15,9 +15,10 @@ const NormalExSet = (props) => {
   const [stateIdx, setStateIdx] = useState(props.state)
 
   const updateState = () => {
-    if (stateIdx == 1) {
-      setStateIdx(0);
+    if (stateIdx != 0) {
+      setStateIdx(previousState => previousState-1);
       props.update(props.set);
+      if (stateIdx == 1) {props.update(props.set+1)}
     }
   }
   let timeSec = props.data.runTimeInSeconds % 60;
@@ -55,9 +56,10 @@ const RelatedExSet = (props) => {
   const [stateIdx, setStateIdx] = useState(props.state)
 
   const updateState = () => {
-    if (stateIdx == 1) {
-      setStateIdx(0);
+    if (stateIdx != 0) {
+      setStateIdx(previousState => previousState-1);
       props.update(props.set);
+      if (stateIdx == 1) {props.update(props.set+1)}
     }
   }
 
@@ -90,14 +92,15 @@ const PlanScreen = () => {
   let nowTime = new Date();
   let today = `${nowTime.getDate().toString()}/${nowTime.getMonth().toString()}/${nowTime.getFullYear().toString()}`;
 
-  const [exStateId, setExStateID] = useState({ 0: 1, 1: 2, 2: 1, 3: 2, 4: 2, 5: 2 })
+  const [exStateId, setExStateID] = useState({ 1: 1, 2: 2, 3: 2, 4: 2, 5: 2, 6: 2 })
   const updateStateID = (set) => {
-    setExStateID(previousState => { return ({ ...previousState, [set]: 1 }) });
+    let newState = exStateId[set] - 1;
+    setExStateID(previousState => { return ({ ...previousState, [set]: newState }) });
   }
   useEffect(() => {
     renderSets()
     renderRel() 
-    if (exStateId[3] === 1){
+    if (exStateId[4] === 1 && !showRelated){
       setShowPopUp(previousState => !previousState)
       setShowRelated(true)
     }
@@ -107,18 +110,18 @@ const PlanScreen = () => {
     
     return (
       <>
-        <NormalExSet data={dataNormal} set={1} state={exStateId[0]} update={updateStateID} />
-        <NormalExSet data={dataNormal} set={2} state={exStateId[1]} update={updateStateID} />
-        <NormalExSet data={dataNormal} set={3} state={exStateId[2]} update={updateStateID} />
+        <NormalExSet data={dataNormal} set={1} state={exStateId[1]} update={updateStateID} />
+        <NormalExSet data={dataNormal} set={2} state={exStateId[2]} update={updateStateID} />
+        <NormalExSet data={dataNormal} set={3} state={exStateId[3]} update={updateStateID} />
       </>
     )
   }
   const renderRel = () => {
     return (
       <>
-        <RelatedExSet data={dataRelated} set={1} state={exStateId[3]} update={updateStateID} />
-        <RelatedExSet data={dataRelated} set={2} state={exStateId[4]} update={updateStateID} />
-        <RelatedExSet data={dataRelated} set={3} state={exStateId[5]} />
+        <RelatedExSet data={dataRelated} set={1} state={exStateId[4]} update={updateStateID} />
+        <RelatedExSet data={dataRelated} set={2} state={exStateId[5]} update={updateStateID} />
+        <RelatedExSet data={dataRelated} set={3} state={exStateId[6]} update={updateStateID}/>
       </>
     )
   }
@@ -126,7 +129,7 @@ const PlanScreen = () => {
   const [showPopUp, setShowPopUp] = useState(false);
   const [showRelated, setShowRelated] = useState(false);
   const togglePopUp = () => {
-    if (exStateId[3] == 1)
+    if (exStateId[4] === 1)
       setShowPopUp(previousState => !previousState)
     setShowRelated(true)
   }
