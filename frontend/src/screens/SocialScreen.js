@@ -5,6 +5,15 @@ import * as globalStyles from '../css/globals.css';
 import {Ionicon} from '../assets/Ionicons';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {
+    Bubble,
+    GiftedChat,
+    SystemMessage,
+    IMessage,
+    Send,
+    SendProps,
+  } from 'react-native-gifted-chat'
 
 var randomImages = [
     require('../assets/Images/profileIcon0.png'),
@@ -14,9 +23,14 @@ var randomImages = [
     require('../assets/Images/profileIcon4.png'),
     require('../assets/Images/profileIcon5.png'),
 ];
+
+const SocialStack = createNativeStackNavigator();
+const numNearbyUsers = 10; 
+
 // Keep the splash screen visible while we fetch resources
-// SplashScreen.preventAutoHideAsync();
-function SocialScreen() {
+SplashScreen.preventAutoHideAsync();
+
+function SocialScreenSelections({navigation : {navigate}}){
     var nearbyUsersChatList
     const [nearbyUsers, setNearbyUsers] = useState([])
 
@@ -28,10 +42,11 @@ function SocialScreen() {
         }
         fetchNearbyUsers().catch(console.error)
     },[])
-
+        
     let [fontsLoaded] = useFonts({
         'Montserrat': require('../assets/fonts/static/Montserrat-Regular.ttf'),
-        'Montserrat-Light': require('../assets/fonts/static/Montserrat-Light.ttf')
+        'Montserrat-Light': require('../assets/fonts/static/Montserrat-Light.ttf'),
+        'Montserrat-SemiBold': require('../assets/fonts/static/Montserrat-SemiBold.ttf'),
       });
     
     const onLayoutRootView = useCallback(async () => {
@@ -68,4 +83,74 @@ function SocialScreen() {
     );
 }
 
-export default SocialScreen;
+// function ChatScreen({navigation : {navigate}}) {
+//     const [messages, setMessages] = useState([]);
+
+//     const user = {
+//         _id: 1,
+//         name: 'Developer',
+//     }
+
+//     const otherUser = {
+//         _id: 2,
+//         name: 'React Native',
+//         avatar: '../assets/Images/profileIcon1.png',
+//       }
+      
+//     useEffect(() => {
+//         setMessages([
+//           {
+//             _id: 1,
+//             text: 'Hello developer',
+//             createdAt: new Date(),
+//             user: {
+//               _id: 2,
+//               name: 'Ayushman',
+//               avatar: require('../assets/Images/profileIcon1.png'),
+//             },
+//           },
+//         ])
+//       }, [])
+
+//     const onSend = useCallback((messages = []) => {
+//         setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
+//       }, [])
+
+//     return(
+//         <>
+//         <View style={styles.banner}>
+//             <View style={styles.button}>
+//                 <Button
+//                     title="Back"
+//                     onPress={() => navigation.goBack()}
+//                     style={styles.button} />
+//             </View>
+//             <Text style={styles.bannerText}>{route.params.name[0]}</Text>
+//             <View style={styles.chatImgView}>
+//                 <Image style={styles.chatProfileImg} source={require('../assets/Images/profileIcon1.png')} resizeMode={'contain'}></Image>
+//             </View>
+//         </View>
+//         <GiftedChat
+//             messages={messages}
+//             onSend={messages => onSend(messages)}
+//             user={{
+//                 _id: 1,
+//             }}
+//             infiniteScroll
+//             />        
+//         </>
+//     );
+// }
+
+export default function SocialScreen() {
+    return (
+      <SocialStack.Navigator
+      initialRouteName="SocialScreenSelections"
+        screenOptions={{
+          headerShown: false,
+        }}>
+        <SocialStack.Screen name="SocialScreenSelections" component={SocialScreenSelections} />
+        {/* <SocialStack.Screen name="ChatScreen" component={ChatScreen} /> */}
+      </SocialStack.Navigator>
+    );
+  }
