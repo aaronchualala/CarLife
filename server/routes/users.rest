@@ -1,4 +1,4 @@
-GET http://localhost:3000/users
+POST http://localhost:3000/users
 Content-Type: application/json
 
 {
@@ -10,17 +10,17 @@ DELETE http://localhost:3000/users
 Content-Type: application/json
 
 {
-    "username": "test",
-    "password": "asd"
+    "username": "Kai Jie",
+    "password": "password"
 }
 ###
 PATCH http://localhost:3000/users
 Content-Type: application/json
 
 {
-    "username": "test",
-    "password": "asd",
-    "name": "Nameee"
+    "username": "Muthu",
+    "password": "password",
+    "name": "Muthu"
 }
 
 ###
@@ -28,15 +28,15 @@ PUT http://localhost:3000/users
 Content-Type: application/json
 
 {
-    "username": "test",
-    "password": "asd",
-    "name": "lala",
+    "username": "Jonathan",
+    "password": "password",
+    "name": "Jonathan",
     "birthdate": 946656000000,
-    "residentialAddress": "11 Tampines Street 84",
+    "residentialAddress": "48 Nanyang Cres",
     "currentAbilities": {
-        "pushUpCount": 20,
-        "sitUpCount": 20,
-        "runTimeInSeconds": 720
+        "pushUpCount": 33,
+        "sitUpCount": 35,
+        "runTimeInSeconds": 740
     },
     "targetAbilities": {
         "pushUpCount": 60,

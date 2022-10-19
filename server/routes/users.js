@@ -23,7 +23,7 @@ router.put('/', async (req, res) => {
 })
 
 // login account
-router.get('/', getUser, (req, res) => {
+router.post('/', getUser, (req, res) => {
     try{
         res.send(res.user)
     } catch (err){
