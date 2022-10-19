@@ -9,6 +9,7 @@ import BottomTab from './src/screens/BottomTab';
 import {CustomStatusBar} from './src/components/CustomStatusBar';
 const Stack = createNativeStackNavigator();
 
+// hehe
 export default function App() {
   var openScreen = 'BottomTab';
   return (
