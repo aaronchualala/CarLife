@@ -70,3 +70,43 @@
 
     color: #003049;
 }
+
+.banner {
+    background: #FFFFFF;
+    height: 60px;
+    width: 100%;
+    justify-items: center;
+}
+
+.bannerText {
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 29px;
+    align-items: center;
+    text-align: center;
+    font-variant: small-caps;
+    font-family: Montserrat;
+    letter-spacing: 0;
+    color: #003049;
+    margin: auto;
+}
+
+.button {
+    position: absolute;
+    left: 10px;
+    top: 12px;
+}
+
+.chatImgView {
+    position: absolute;
+    right: 10px;
+    height: 50px;
+    margin: 5px;
+}
+
+.chatProfileImg {
+    margin: auto;
+    height: 100%;
+    flex: 1;
+    aspect-ratio: 1;
+}
