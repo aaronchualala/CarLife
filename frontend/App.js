@@ -10,7 +10,7 @@ import {CustomStatusBar} from './src/components/CustomStatusBar';
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  var openScreen = 'BottomTab';
+  var openScreen = 'Init';
   return (
     <NavigationContainer>
       <CustomStatusBar />
