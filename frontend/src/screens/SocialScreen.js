@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import {Text, View, ScrollView, Pressable, Alert, Image} from 'react-native';
-=======
 import {Text, View, ScrollView, Pressable, Alert, Image, Button} from 'react-native';
->>>>>>> main
 import { useCallback, useState, useEffect } from 'react';
 import * as styles from '../css/SocialScreen.module.css';
 import * as globalStyles from '../css/globals.css';
@@ -27,18 +23,12 @@ var randomImages = [
     require('../assets/Images/profileIcon4.png'),
     require('../assets/Images/profileIcon5.png'),
 ];
-<<<<<<< HEAD
-// Keep the splash screen visible while we fetch resources
-// SplashScreen.preventAutoHideAsync();
-function SocialScreen() {
-=======
 
 const SocialStack = createNativeStackNavigator();
 
 // Keep the splash screen visible while we fetch resources
 // SplashScreen.preventAutoHideAsync();
 function SocialScreenSelections({navigation: {navigate}}) {
->>>>>>> main
     var nearbyUsersChatList
     const [nearbyUsers, setNearbyUsers] = useState([])
 
@@ -50,11 +40,7 @@ function SocialScreenSelections({navigation: {navigate}}) {
         }
         fetchNearbyUsers().catch(console.error)
     },[])
-<<<<<<< HEAD
-
-=======
         
->>>>>>> main
     let [fontsLoaded] = useFonts({
         'Montserrat': require('../assets/fonts/static/Montserrat-Regular.ttf'),
         'Montserrat-Light': require('../assets/fonts/static/Montserrat-Light.ttf'),
@@ -79,11 +65,7 @@ function SocialScreenSelections({navigation: {navigate}}) {
             <ScrollView contentContainerStyle={styles.container}>
                 <Text style={styles.header}>Nearby Users</Text>
                 {nearbyUsers.map((nearbyUser)=>{
-<<<<<<< HEAD
-                    return(<Pressable key={nearbyUser[2]} style={styles.profileContainer} onPress={() => Alert.alert("Chat opened")}>
-=======
                     return(<Pressable key={nearbyUser[2]} style={styles.profileContainer} onPress={() => navigate('ChatScreen', {name: ['Ayushman Dixit']})}>
->>>>>>> main
                         <View style={styles.profileImageContainer}>
                             <Image source={randomImages[(nearbyUsers.indexOf(nearbyUser)).toString()]}/>
                         </View>
