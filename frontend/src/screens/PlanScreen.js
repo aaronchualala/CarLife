@@ -15,10 +15,14 @@ const NormalExSet = (props) => {
   const [stateIdx, setStateIdx] = useState(props.state)
 
   const updateState = () => {
-    if (stateIdx != 0) {
-      setStateIdx(previousState => previousState-1);
+    if (stateIdx == 1) {
+      setStateIdx(previousState => previousState - 1);
       props.update(props.set);
-      if (stateIdx == 1) {props.update(props.set+1)}
+      props.updateNext(props.set + 1);
+    }
+    else if (stateIdx == 2) {
+      setStateIdx(previousState => previousState - 1);
+
     }
   }
   let timeSec = props.data.runTimeInSeconds % 60;
@@ -56,16 +60,20 @@ const RelatedExSet = (props) => {
   const [stateIdx, setStateIdx] = useState(props.state)
 
   const updateState = () => {
-    if (stateIdx != 0) {
-      setStateIdx(previousState => previousState-1);
+    if (stateIdx == 1) {
+      setStateIdx(previousState => previousState - 1);
       props.update(props.set);
-      if (stateIdx == 1) {props.update(props.set+1)}
+      props.updateNext(props.set + 1);
+    }
+    else if (stateIdx == 2) {
+      setStateIdx(previousState => previousState - 1);
+
     }
   }
 
   return (
     <View style={styles.set /*one set*/}>
-      <Text style={{ ...styles.setText, color: `${color[stateIdx]}` }}>Set {props.set}</Text>
+      <Text style={{ ...styles.setText, color: `${color[stateIdx]}` }}>Set {props.set - 3}</Text>
       <View style={styles.setExercisesContainer}>
         <View style={styles.exercisesContainer} >
           <Text style={{ ...styles.exerciseNameText, color: `${color[stateIdx]}` }}>10 DUMBELL ROWS</Text>
@@ -93,38 +101,24 @@ const PlanScreen = () => {
   let today = `${nowTime.getDate().toString()}/${nowTime.getMonth().toString()}/${nowTime.getFullYear().toString()}`;
 
   const [exStateId, setExStateID] = useState({ 1: 1, 2: 2, 3: 2, 4: 2, 5: 2, 6: 2 })
+
   const updateStateID = (set) => {
     let newState = exStateId[set] - 1;
     setExStateID(previousState => { return ({ ...previousState, [set]: newState }) });
   }
+  const updateNextID = (set) => {
+    setExStateID(previousState => { return ({ ...previousState, [set]: 1 }) });
+  }
+
   useEffect(() => {
-    renderSets()
-    renderRel() 
-    if (exStateId[4] === 1 && !showRelated){
+    if (exStateId[4] === 1 && !showRelated) {
       setShowPopUp(previousState => !previousState)
       setShowRelated(true)
     }
+    console.log(exStateId);
   }, [exStateId])
 
-  const renderSets = () => {
-    
-    return (
-      <>
-        <NormalExSet data={dataNormal} set={1} state={exStateId[1]} update={updateStateID} />
-        <NormalExSet data={dataNormal} set={2} state={exStateId[2]} update={updateStateID} />
-        <NormalExSet data={dataNormal} set={3} state={exStateId[3]} update={updateStateID} />
-      </>
-    )
-  }
-  const renderRel = () => {
-    return (
-      <>
-        <RelatedExSet data={dataRelated} set={1} state={exStateId[4]} update={updateStateID} />
-        <RelatedExSet data={dataRelated} set={2} state={exStateId[5]} update={updateStateID} />
-        <RelatedExSet data={dataRelated} set={3} state={exStateId[6]} update={updateStateID}/>
-      </>
-    )
-  }
+ 
 
   const [showPopUp, setShowPopUp] = useState(false);
   const [showRelated, setShowRelated] = useState(false);
@@ -189,16 +183,19 @@ const PlanScreen = () => {
             <MaterialIcon size="extraLarge" color={"#F77F00"} name="calendar-today" />
           </View>
 
-          <View style={styles.setsContainer}>
-            {isNormalLoading ? null : renderSets()}
-
+          <View style={styles.setsContainer} >
+            {isNormalLoading ? null : <NormalExSet data={dataNormal} set={1} state={exStateId[1]} update={updateStateID} updateNext={updateNextID} />}
+            {isNormalLoading ? null : <NormalExSet data={dataNormal} set={2} state={exStateId[2]} update={updateStateID} updateNext={updateNextID} />}
+            {isNormalLoading ? null : <NormalExSet data={dataNormal} set={3} state={exStateId[3]} update={updateStateID} updateNext={updateNextID} />}
           </View>
         </View>
         {showRelated ?
           <View style={styles.bonusExercisesContainer}>
             <Text style={styles.bonusExercisesHeaderText}>Bonus Exercises</Text>
-            <View style={styles.setsContainer}>
-              {isRelatedLoading ? null : renderRel()}
+            <View style={styles.setsContainer} >
+              {isRelatedLoading ? null : <RelatedExSet data={dataRelated} set={4} state={exStateId[4]} update={updateStateID} updateNext={updateNextID} />}
+              {isRelatedLoading ? null : <RelatedExSet data={dataRelated} set={5} state={exStateId[5]} update={updateStateID} updateNext={updateNextID} />}
+              {isRelatedLoading ? null : <RelatedExSet data={dataRelated} set={6} state={exStateId[6]} update={updateStateID} updateNext={updateNextID} />}
             </View>
           </View> : null}
       </ScrollView>
