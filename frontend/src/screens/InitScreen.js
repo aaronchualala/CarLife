@@ -13,10 +13,12 @@ import { ImageBackground, StyleSheet} from 'react-native';
 import { Image } from 'react-native';
 import { FullWindowOverlay } from 'react-native-screens';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import Checkbox from 'expo-checkbox';
 
 const bgImage = require('../assets/BackgroundImages/GreyscaleRunningMan.png');
 const logo = require('../assets/BackgroundImages/FitBudsLogo.png');
 const next = require('../assets/BackgroundImages/next.png')
+const back =  require('../assets/BackgroundImages/back.png')
 const InitStack = createNativeStackNavigator();
 // SplashScreen.preventAutoHideAsync();
 var InitData = {};
@@ -30,6 +32,9 @@ const style = StyleSheet.create({
   },
 });
 
+global.pushExemption = false;
+global.sitExemption = false;
+global.runExemption = false;
 
 function GetStarted({navigation}) {
   return (
@@ -165,58 +170,201 @@ function PersonalDetails({navigation}) {
 
 function CurrentFitness({navigation}) {
   const [pushUp, setPushUp] = useState('');
-  const [sitUp, setSitUp] = useState('')
+  const [sitUp, setSitUp] = useState('');
+  const [run, setRun] = useState('');
+  const[isCheckedPush, setCheckedPush] = useState(false);
+  const[isCheckedSit, setCheckedSit] = useState(false);
+  const[isCheckedRun, setCheckedRun] = useState(false);
+  const[isPushEditable, setIsPushEditable] = useState(true);
+  const[isSitEditable, setIsSitEditable] = useState(true);
+  const[isRunEditable, setIsRunEditable] = useState(true);
+
+  function PushFunction(){
+    setCheckedPush(!isCheckedPush);
+    setIsPushEditable(!isPushEditable);
+    global.pushExemption = {isPushEditable};
+    
+  }
+
+  function SitFunction(){
+    setCheckedSit(!isCheckedSit);
+    setIsSitEditable(!isSitEditable);
+    global.sitExemption = {isSitEditable};
+  }
+
+  function RunFunction(){
+    setCheckedRun(!isCheckedRun);
+    setIsRunEditable(!isRunEditable);
+    global.runExemption={isRunEditable};
+  }
+
+
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
        <ImageBackground source ={bgImage}  style = {{height:'100%', width:'100%'}} blurRadius={8}>
       <View style={styles.overlayView}/>
       <Image source={logo} style={styles.logoClass}/>
       <Text style ={[style.shadowProp,styles.requestText]}>What is your current{'\n'} fitness level?</Text>
-      <View style = {styles.fitnessContainer}>
+
+     <View style = {styles.fitnessContainer}>
       <TextInput
-        placeholder='Push-Ups'
+        placeholder={isPushEditable ? 'Push-Ups' : 'Exempted'}
         placeholderTextColor={"#808080"}
         style={styles.fitnessInputClass}
         keyboardType = 'number-pad'
         returnKeyType='done'
         onChangeText={text => setPushUp(text)}
         value={pushUp}
+        editable = {isPushEditable}
       />
+      
        <TextInput
-        placeholder='Sit-Ups'
+        placeholder={isSitEditable ? 'Sit-Ups' : 'Exempted'}
         placeholderTextColor={"#808080"}
         style={styles.fitnessInputClass}
         keyboardType = 'number-pad'
         returnKeyType='done'
         onChangeText={text => setSitUp(text)}
         value={sitUp}
+        editable = {isSitEditable}
       />
       </View>
-      <Button
-        title="Back"
-        onPress={() => navigation.navigate('PersonalDetails')}
+      <View style = {styles.checkboxContainer}>
+      <Checkbox
+      value={isCheckedPush}
+      onValueChange={PushFunction}
+      color={isCheckedPush ? '#000000' : undefined}
       />
-      <Button
-        title="Next"
-        onPress={() => navigation.navigate('TargetFitness')}
+      <Text style = {styles.exemptedText}>Exempted</Text>
+      </View>
+
+      <View style = {styles.checkboxContainer2}>
+      <Checkbox
+      value={isCheckedSit}
+      onValueChange={SitFunction}
+      color={isCheckedSit ? '#000000' : undefined}
       />
+      <Text style = {styles.exemptedText}>Exempted</Text>
+      </View>
+
+      <View style = {styles.runContainer}>
+      <TextInput
+        placeholder={isRunEditable ? '2.4 KM Run' : 'Exempted'}
+        placeholderTextColor={"#808080"}
+        style={styles.fitnessInputClass}
+        keyboardType = 'numbers-and-punctuation'
+        returnKeyType='done'
+        onChangeText={text => setRun(text)}
+        value={run}
+        editable = {isRunEditable}
+      />
+      <View style = {styles.checkboxContainer3}>
+       <Checkbox
+      value={isCheckedRun}
+      onValueChange={RunFunction}
+      color={isCheckedRun ? '#000000' : undefined}
+      />
+      <Text style = {styles.exemptedText}>Exempted</Text>
+      </View>
+      </View>
+  
+      <View style = {styles.moveContainer}>
+      <Pressable style = {styles.fitnessBackButton2} 
+        onPress={() => {
+          navigation.navigate('PersonalDetails');
+        }}>
+          <View style = {styles.alignContainer}>
+          <Image source={back} style = {styles.nextIcon}></Image>
+        <Text style={styles.fitnessBackText}> Back</Text>
+        </View>
+        </Pressable>
+     <Pressable style = {styles.fitnessNextButton2} 
+        onPress={() => {
+          navigation.navigate('TargetFitness');
+        }}>
+          <View style = {styles.alignContainer}>
+        <Text style={styles.fitnessNextText}>Next </Text>
+        <Image source={next}></Image>
+        </View>
+        </Pressable>
+        </View>
       </ImageBackground>
     </View>
   );
 }
 
 function TargetFitness({navigation}) {
+  const [targetPushUp, setTargetPushUp] = useState('');
+  const [targetSitUp, setTargetSitUp] = useState('');
+  const [targetRun, setTargetRun] = useState('');
+
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text>target fitness</Text>
-      <Button
-        title="Back"
-        onPress={() => navigation.navigate('CurrentFitness')}
+    <ImageBackground source ={bgImage}  style = {{height:'100%', width:'100%'}} blurRadius={8}>
+   <View style={styles.overlayView}/>
+   <Image source={logo} style={styles.logoClass}/>
+
+      <Text style ={[style.shadowProp,styles.requestText]}>What is your goal?</Text>
+
+      <View style = {styles.fitnessContainer}>
+      <TextInput
+        placeholder={!global.pushExemption ? 'Target Push-Ups' : 'Exempted'}
+        placeholderTextColor={"#808080"}
+        style={styles.fitnessInputClass}
+        keyboardType = 'number-pad'
+        returnKeyType='done'
+        onChangeText={text => setTargetPushUp(text)}
+        value={targetPushUp}
+        editable = {!global.pushExemption}
       />
-      <Button
-        title="Let's Go!"
-        onPress={() => navigation.navigate('LocationRecommender')}
+
+        <TextInput
+        placeholder={!global.sitExemption ? 'Target Sit-Ups' : 'Exempted'}
+        placeholderTextColor={"#808080"}
+        style={styles.fitnessInputClass}
+        keyboardType = 'number-pad'
+        returnKeyType='done'
+        onChangeText={text => setTargetSitUp(text)}
+        value={targetSitUp}
+        editable = {!global.sitExemption}
+        />
+      </View>
+
+      <View style = {styles.runContainer}>
+      <TextInput
+        placeholder={!global.runExemption ? 'Target Run' : 'Exempted'}
+        placeholderTextColor={"#808080"}
+        style={styles.fitnessInputClass}
+        keyboardType = 'numbers-and-punctuation'
+        returnKeyType='done'
+        onChangeText={text => setTargetRun(text)}
+        value={targetRun}
+        editable = {!global.runExemption}
       />
+      </View>
+
+      <View style = {styles.moveContainer}>
+      <Pressable style = {styles.fitnessBackButton2} 
+        onPress={() => {
+          navigation.navigate('CurrentFitness');
+        }}>
+          <View style = {styles.alignContainer}>
+          <Image source={back} style = {styles.nextIcon}></Image>
+        <Text style={styles.fitnessBackText}> Back</Text>
+        </View>
+        </Pressable>
+     <Pressable style = {styles.fitnessNextButton3} 
+        onPress={() => {
+          navigation.navigate('LocationRecommender');
+        }}>
+          <View style = {styles.alignContainer}>
+        <Text style={styles.fitnessNextText}>Let's Go! </Text>
+        <Image source={next}></Image>
+        </View>
+        </Pressable>
+        </View>
+
+      </ImageBackground>
     </View>
   );
 }
@@ -260,6 +408,8 @@ function LocationRecommender({navigation}) {
 export default function InitScreen(props) {
   let [fontsLoaded] = useFonts({
     'Montserrat': require('../assets/fonts/static/Montserrat-Black.ttf'),
+    'Montserrat-Medium': require('../assets/fonts/static/Montserrat-Medium.ttf'),
+
   }); // Change as needed
 
   const onLayoutRootView = useCallback(async () => {

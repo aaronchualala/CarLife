@@ -65,7 +65,7 @@
 .nextText{
     color: #FCBF49;
     font-size: 24px;
-    font-family: 'Montserrat';
+    font-family: 'Montserrat-Medium';
 }
 
 .requestText{
@@ -91,56 +91,16 @@
     background-color: white;
     border-radius: 15px ;
     border-color: white;
-    font-family: 'Montserrat';
-}
-
-
-.birthdayButton{
-    background-color: white;
-    height: 49px;
-    width: 300px;
-    margin: 12px;
-    border-width: 1px;
-    padding: 10px;
-    border-radius: 15px;
-    border-color: white;
-    align-self: center;
-
-}
-
-.birthdayText{
-    font-family: 'Montserrat';
-    color: #808080;
-}
-
-.dateButton{
-    background-color:white;
-    height: 49px;
-    width:300px;
-    margin: 12px;
-    border-width: 1px;
-    padding: 10px;
-    border-radius: 15px;
-    border-color: white;
-    align-self: center;
-    align-items: center;
-    align-self: center;
-}
-
-.dateText{
-    color: white;
-    font-size: 24px;
-    font-weight: 600;
-    font-family: 'Montserrat';
+    font-family: 'Montserrat-Medium';
 }
 
 .dateContainer{
-    background-color: white;
+    background-color: transparent;
     border-radius: 10px;
-    border-color: white;
+    border-color: transparent;
     border-width: 2px;
-    width: 19.5%;
-    margin-left: 39.5%;
+    width: 75%;
+    margin-left: -10%;
 }
 
 .datePadding{
@@ -150,21 +110,41 @@
 .fitnessNextText{
     color: #FCBF49;
     font-size: 24px;
-    font-family: 'Montserrat';
+    font-family: 'Montserrat-Medium';
+}
+.fitnessBackText{
+    color: white;
+    font-size: 24px;
+    font-family: 'Montserrat-Medium';
 }
 
 .alignContainer{
-    flex: auto;
     align-items: center;
     justify-content: space-between;
     flex-direction: row;
 }
+
 .fitnessNextButton{
-    max-height: 6%;
     align-items: center;
     max-width: 20%;
     margin-left: 70%;
-    margin-top: 20%;
+}
+
+.fitnessNextButton2{
+    align-items: center;
+    max-width: 20%;
+    margin-left: 40%;
+}
+
+.fitnessNextButton3{
+    align-items: center;
+    max-width: 30%;
+    margin-left: 32%;
+}
+
+.fitnessBackButton{
+    max-width: 20%;
+    margin-left: 10%;
 }
 
 .fitnessInputClass{
@@ -175,7 +155,7 @@
     background-color: white;
     border-radius: 15px ;
     border-color: white;
-    font-family: 'Montserrat';
+    font-family: 'Montserrat-Medium';
     text-align: center;
 }
 
@@ -185,6 +165,50 @@
     justify-content: space-between;
     flex-direction: row;
 }
+
+.checkboxContainer{
+    flex-direction: row;
+    align-items: center;
+    width: 20%;
+    margin-top: 2%;
+    margin-left: 13%;
+}
+
+.checkboxContainer2{
+    flex-direction: row;
+    align-items: center;
+    width: 20%;
+    margin-top: -4.5%;
+    margin-left: 63%;
+}
+
+.checkboxContainer3{
+    flex-direction: row;
+    align-items: center;
+    width: 20%;
+    align-self: center;
+    margin-left: -5%;
+    margin-top: 3%;
+}
+
+.exemptedText{
+    font-family: 'Montserrat-Medium';
+    font-size: 15px;
+    margin-left: 7%;
+    margin-top: 2%;
+}
+
+.runContainer{
+    margin-top: 5%;
+}
+
+.moveContainer{
+    margin-top: 5%;
+    flex-direction: row;
+    justify-content: center;
+    
+}
+
 
 
 
