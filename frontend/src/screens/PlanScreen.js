@@ -13,20 +13,19 @@ const NormalExSet = (props) => {
   const color = ["#FCBF49", "#F77F00", "#8D99AE"];
   const stateText = ["Completed", "Train Now", "Not Available"];
   const [stateIdx, setStateIdx] = useState(props.state)
-
-  const updateState = () => {
-    if (stateIdx == 1) {
-      setStateIdx(previousState => previousState - 1);
-      props.update(props.set);
-      props.updateNext(props.set + 1);
-    }
-    else if (stateIdx == 2) {
-      setStateIdx(previousState => previousState - 1);
-
-    }
-  }
+  
   let timeSec = props.data.runTimeInSeconds % 60;
   let timeMin = Math.floor(props.data.runTimeInSeconds / 60);
+
+  const updateState = () => {
+    if (props.state == 1) {
+      props.update(props.set);
+    }
+  }
+
+  useEffect(()=>{
+    setStateIdx(props.state)
+  }, [props.state])
 
   return (
     <View style={styles.set /*one set*/}>
@@ -60,16 +59,14 @@ const RelatedExSet = (props) => {
   const [stateIdx, setStateIdx] = useState(props.state)
 
   const updateState = () => {
-    if (stateIdx == 1) {
-      setStateIdx(previousState => previousState - 1);
+    if (props.state == 1) {
       props.update(props.set);
-      props.updateNext(props.set + 1);
-    }
-    else if (stateIdx == 2) {
-      setStateIdx(previousState => previousState - 1);
-
     }
   }
+
+  useEffect(()=>{
+    setStateIdx(props.state)
+  }, [props.state])
 
   return (
     <View style={styles.set /*one set*/}>
@@ -103,11 +100,10 @@ const PlanScreen = () => {
   const [exStateId, setExStateID] = useState({ 1: 1, 2: 2, 3: 2, 4: 2, 5: 2, 6: 2 })
 
   const updateStateID = (set) => {
-    let newState = exStateId[set] - 1;
-    setExStateID(previousState => { return ({ ...previousState, [set]: newState }) });
+    const newState = { ...exStateId, [set]: exStateId[set] - 1, [set+1]: 1};
+    setExStateID(newState);
   }
   const updateNextID = (set) => {
-    setExStateID(previousState => { return ({ ...previousState, [set]: 1 }) });
   }
 
   useEffect(() => {
@@ -115,10 +111,7 @@ const PlanScreen = () => {
       setShowPopUp(previousState => !previousState)
       setShowRelated(true)
     }
-    console.log(exStateId);
   }, [exStateId])
-
- 
 
   const [showPopUp, setShowPopUp] = useState(false);
   const [showRelated, setShowRelated] = useState(false);
