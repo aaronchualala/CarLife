@@ -8,18 +8,21 @@ import * as globalStyles from '../css/globals.css';
 import { MaterialIcon } from '../assets/MaterialIcons';
 import { Ionicon } from '../assets/Ionicons';
 import { OrangeButton } from '../components/Buttons';
+import { getJSDocReadonlyTag } from 'typescript';
 
 const ProfileStack = createNativeStackNavigator();
 
 function ProfilePage({ route, navigation }) {
-  const { lastResult, nextIPPT } = route.params;
+  // const { nextIPPT } = route.params;
 
   const [isLoading, setLoading] = useState(true);
-  const [data, setData] = useState([]);
-
-  const todayYear = new Date().getFullYear();
+  const [data, setData] = useState({"currentAbilities":{"pushUpCount":0,"sitUpCount":0,"runTimeInSeconds":0}});
+  var todayYear = new Date().getUTCFullYear();
+  var today = new Date();
   const [userAge, setUserAge] = useState(0);
-  
+  const [scoreData, setScoreData] = useState({"result":{"name":"-"}});
+  const [nextIPPT, setNextIPPT] = useState('');
+
   const getUsers = async () => {
     try {
       const response = await fetch('http://52.77.246.182:3000/users', {
@@ -28,12 +31,13 @@ function ProfilePage({ route, navigation }) {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          username:"username3",
+          username:"Jimmy",
           password:"password"
         })
       });
       const json = await response.json();
       setData(json);
+      setAge();
     } catch (error) {
       console.error(error);
     } finally {
@@ -41,18 +45,72 @@ function ProfilePage({ route, navigation }) {
     }
   };
 
-  const refreshUserData = () => {
-    let userYear = new Date(data.birthdate).getFullYear();
-    setUserAge(todayYear - userYear);
+  const setAge = () => {
+    let userDate = new Date(data.birthdate).getUTCDate();
+    let userMonth = new Date(data.birthdate).getUTCMonth();
+    let userYear = new Date(data.birthdate).getUTCFullYear();
+    var age = todayYear - userYear;
+    var m = today.getMonth() - userMonth;
+    if (m < 0 || (m === 0 && today.getDate() < userDate)) 
+    {
+        age--;
+    }
+    setUserAge(age);
   }
 
+  const setUserIPPTDate = () => {
+    let userDate = new Date(data.birthdate).getUTCDate();
+    let userMonth = new Date(data.birthdate).getUTCMonth();
+    let userYear = new Date(data.birthdate).getFullYear();
+    if (userDate == 1){
+      switch(userMonth){
+        case 2:
+        case 4:
+        case 6:
+        case 8:
+        case 9:
+        case 11:
+          userDate = 31;
+          break;
+        case 1:
+        case 5:
+        case 7:
+        case 10:
+        case 12:
+          userDate = 30;
+          break;
+        case 3:
+          userDate = 28;
+          break;
+      }
+    } else {userDate = userDate-1}
+    
+    var m = today.getUTCMonth() - userMonth;
+    if (m < 0 || (m === 0 && today.getUTCDate() < userDate)) 
+    {
+      setNextIPPT(`${userDate}/${userMonth}/${todayYear}`)
+    } else {setNextIPPT(`${userDate}/${userMonth}/${todayYear+1}`)}
+  }
   
+  const calcScore = async () => {
+    try{
+      const res = await fetch(`http://52.77.246.182:3000/others/score/?age=${userAge}&pushups=${data.currentAbilities.pushUpCount}&situps=${data.currentAbilities.sitUpCount}&run=${data.currentAbilities.runTimeInSeconds}`);
+      const json = await res.json();
+      setScoreData(json);
+    } catch (error) {
+      console.error(error);
+    } finally {
+    }
+  };
+ 
   useEffect(() => {
     getUsers();
   }, []);
   
   useEffect(() => {
-    refreshUserData();
+    setAge();
+    setUserIPPTDate();
+    calcScore();
   }, [isLoading])
 
   return (
@@ -72,12 +130,12 @@ function ProfilePage({ route, navigation }) {
           <View style={styles.accountDetailsContainer}>
             <Text style={styles.titleText}>{data.name}</Text>
             <Text style={styles.detailText}>{userAge} years old</Text>
-            <Text style={styles.detailText}>Last Result: {lastResult}</Text>
+            <Text style={styles.detailText}>Last Result: {scoreData.result.name}</Text>
           </View>
           <View style={styles.editProfile}>
             <TouchableOpacity activeOpacity={0.8} onPress={() => {
               navigation.navigate('EditPage', {
-                lastResult: lastResult,
+                lastResult: scoreData.result.name,
                 nextIPPT: nextIPPT,
               });
             }} >
@@ -189,8 +247,8 @@ export default function ProfileScreen() {
       screenOptions={{
         headerShown: false,
       }}>
-      <ProfileStack.Screen name="ProfilePage" component={ProfilePage} initialParams={{ lastResult: 'Gold', nextIPPT: "01 Sept 2023" }} />
-      <ProfileStack.Screen name="EditPage" component={EditPage} initialParams={{ lastResult: 'Gold', nextIPPT: "01 Sept 2023" }} />
+      <ProfileStack.Screen name="ProfilePage" component={ProfilePage} initialParams={{ nextIPPT: "01 Sept 2023" }} />
+      <ProfileStack.Screen name="EditPage" component={EditPage} initialParams={{ nextIPPT: "01 Sept 2023" }} />
     </ProfileStack.Navigator>
   )
 }
