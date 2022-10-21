@@ -117,22 +117,22 @@ let ear= null;
 let ankle= null
 
 export function drawSkeletonPushUps(keypoints, minConfidence, ctx, scaleX, scaleY) {
-  let shoulder= keypoints[5].score>minConfidence?keypoints[5]:null;
-  let elbow= keypoints[7].score>minConfidence?keypoints[7]:null;
-  let wrist= keypoints[9].score>minConfidence?keypoints[9]:null;
-  let hip= keypoints[11].score>minConfidence?keypoints[11]:null;
-  let knee= keypoints[13].score>minConfidence?keypoints[13]:null;
+  let shoulder= keypoints[5].score>minConfidence?keypoints[5].position:null;
+  let elbow= keypoints[7].score>minConfidence?keypoints[7].position:null;
+  let wrist= keypoints[9].score>minConfidence?keypoints[9].position:null;
+  let hip= keypoints[11].score>minConfidence?keypoints[11].position:null;
+  let knee= keypoints[13].score>minConfidence?keypoints[13].position:null;
   if (wrist && elbow && shoulder){
-    drawSegment([wrist.position.y, wrist.position.x],[elbow.position.y, elbow.position.x],color,scaleX, scaleY,ctx);
-    drawSegment([elbow.position.y, elbow.position.x],[shoulder.position.y, shoulder.position.x],color,scaleX, scaleY,ctx);
+    drawSegment([wrist.y, wrist.x],[elbow.y, elbow.x],color,scaleX, scaleY,ctx);
+    drawSegment([elbow.y, elbow.x],[shoulder.y, shoulder.x],color,scaleX, scaleY,ctx);
     elbowAngle= findAngle(wrist,elbow,shoulder);
   }
   if (shoulder && hip && elbow ){
     shoulderAngle= findAngle(elbow,shoulder,hip);
   }
   if (shoulder && hip && knee){
-    drawSegment([hip.position.y, hip.position.x],[knee.position.y, knee.position.x],color,scaleX, scaleY,ctx);
-    drawSegment([hip.position.y, hip.position.x],[shoulder.position.y, shoulder.position.x],color,scaleX, scaleY,ctx);
+    drawSegment([hip.y, hip.x],[knee.y, knee.x],color,scaleX, scaleY,ctx);
+    drawSegment([hip.y, hip.x],[shoulder.y, shoulder.x],color,scaleX, scaleY,ctx);
     hipAngle= findAngle(shoulder,hip,knee);
   }
   //Check to ensure right form before starting the program
@@ -206,13 +206,13 @@ let buttAngle=null;
 let kneeAngle=null;
 
 export function drawSkeletonSitUps(keypoints, minConfidence, ctx, scaleX, scaleY) {
-  shoulder= keypoints[5].score>minConfidence?keypoints[5]:null;
-  elbow= keypoints[7].score>minConfidence?keypoints[7]:null;
-  wrist= keypoints[9].score>minConfidence?keypoints[9]:null;
-  hip= keypoints[11].score>minConfidence?keypoints[11]:null;
-  knee= keypoints[13].score>minConfidence?keypoints[13]:null;
-  ear= keypoints[3].score>minConfidence?keypoints[3]:null;
-  ankle= keypoints[15].score>minConfidence?keypoints[15]:null;
+  shoulder= keypoints[5].score>minConfidence?keypoints[5].position:null;
+  elbow= keypoints[7].score>minConfidence?keypoints[7].position:null;
+  wrist= keypoints[9].score>minConfidence?keypoints[9].position:null;
+  hip= keypoints[11].score>minConfidence?keypoints[11].position:null;
+  knee= keypoints[13].score>minConfidence?keypoints[13].position:null;
+  ear= keypoints[3].score>minConfidence?keypoints[3].position:null;
+  ankle= keypoints[15].score>minConfidence?keypoints[15].position:null;
   
   if (ear && wrist){
     earCupDistance= findDistance(ear,wrist);
@@ -270,9 +270,9 @@ export function drawSkeletonSitUps(keypoints, minConfidence, ctx, scaleX, scaleY
       }
     }
   }
-  console.log(earCupDistance,touchKneeDistance,shoulderBladeAngle, buttAngle, kneeAngle);
-  console.log("feedback is %s", feedback);
-  console.log("cupEars is %s, butt is %s, kneePosition is %s, touchKnees is %s and flattenShoulder is %s", specificFeedbackSU.cupEars, specificFeedbackSU.butt, specificFeedbackSU.kneePosition,specificFeedbackSU.touchKnees,specificFeedbackSU.flattenShoulder);
-  console.log("count is %d", count);
+  // console.log(earCupDistance,touchKneeDistance,shoulderBladeAngle, buttAngle, kneeAngle);
+  // console.log("feedback is %s", feedback);
+  // console.log("cupEars is %s, butt is %s, kneePosition is %s, touchKnees is %s and flattenShoulder is %s", specificFeedbackSU.cupEars, specificFeedbackSU.butt, specificFeedbackSU.kneePosition,specificFeedbackSU.touchKnees,specificFeedbackSU.flattenShoulder);
+  // console.log("count is %d", count);
   return [count, feedback, specificFeedbackSU];
 }
