@@ -13,7 +13,7 @@ const NormalExSet = (props) => {
   const color = ["#FCBF49", "#F77F00", "#8D99AE"];
   const stateText = ["Completed", "Train Now", "Not Available"];
   const [stateIdx, setStateIdx] = useState(props.state)
-  
+
   let timeSec = props.data.runTimeInSeconds % 60;
   let timeMin = Math.floor(props.data.runTimeInSeconds / 60);
 
@@ -23,7 +23,7 @@ const NormalExSet = (props) => {
     }
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     setStateIdx(props.state)
   }, [props.state])
 
@@ -64,7 +64,7 @@ const RelatedExSet = (props) => {
     }
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     setStateIdx(props.state)
   }, [props.state])
 
@@ -96,11 +96,27 @@ const RelatedExSet = (props) => {
 const PlanScreen = () => {
   let nowTime = new Date();
   let today = `${nowTime.getDate().toString()}/${nowTime.getMonth().toString()}/${nowTime.getFullYear().toString()}`;
+  
+  const [showPopUp, setShowPopUp] = useState(false);
+  const [showRelated, setShowRelated] = useState(false);
+  
+  const [exStateId, setExStateID] = useState({ 1: 1, 2: 2, 3: 2, 4: 2, 5: 2, 6: 2 });
 
-  const [exStateId, setExStateID] = useState({ 1: 1, 2: 2, 3: 2, 4: 2, 5: 2, 6: 2 })
+  const [dataNormal, setDataNormal] = useState();
+  const [dataRelated, setDataRelated] = useState();
+  const [isNormalLoading, setNormalLoading] = useState(true);
+  const [isRelatedLoading, setRelatedLoading] = useState(true);
+
+  const [testLocal, setTestLocal] = useState('');
+  
+  const togglePopUp = () => {
+    if (exStateId[4] === 1)
+      setShowPopUp(previousState => !previousState)
+    setShowRelated(true)
+  }
 
   const updateStateID = (set) => {
-    const newState = { ...exStateId, [set]: exStateId[set] - 1, [set+1]: 1};
+    const newState = { ...exStateId, [set]: exStateId[set] - 1, [set + 1]: 1 };
     setExStateID(newState);
   }
   const updateNextID = (set) => {
@@ -112,19 +128,6 @@ const PlanScreen = () => {
       setShowRelated(true)
     }
   }, [exStateId])
-
-  const [showPopUp, setShowPopUp] = useState(false);
-  const [showRelated, setShowRelated] = useState(false);
-  const togglePopUp = () => {
-    if (exStateId[4] === 1)
-      setShowPopUp(previousState => !previousState)
-    setShowRelated(true)
-  }
-
-  const [dataNormal, setDataNormal] = useState();
-  const [dataRelated, setDataRelated] = useState();
-  const [isNormalLoading, setNormalLoading] = useState(true);
-  const [isRelatedLoading, setRelatedLoading] = useState(true);
 
   const getNormalEx = async () => {
     try {
@@ -150,9 +153,24 @@ const PlanScreen = () => {
     }
   };
 
+  const getTestLocal = async () => {
+    try {
+      const response = await fetch('http://52.77.246.182:3000/findNearest/fcc?address=636957'); // set location based on address of user
+      const json = await response.json();
+      console.log(json);
+      console.log("hi");
+      setTestLocal(json);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      console.log(testLocal);
+    }
+  }
+
   useEffect(() => {
     getNormalEx();
     getRelatedEx();
+    getTestLocal();
   }, []);
 
   return (
@@ -163,7 +181,9 @@ const PlanScreen = () => {
       <ScrollView contentContainerStyle={styles.contentContainer}>
         <View style={styles.daysToGoContainer}>
           <Text style={styles.daysToGoText}><Text style={styles.daysToGoTextDays}>128</Text> Days to IPPT Gold</Text>
-          <OrangeButton title="Test Location: Maju" onPress={togglePopUp} />
+          <View style={styles.locationContainer}>
+            <Text style={styles.locationText}>Test Location: {testLocal.nearestFcc}</Text>
+          </View>
         </View>
         <View style={styles.exercisePlanContainer}>
           {showPopUp == true ? <View style={styles.bonusPopUpContainer}>
