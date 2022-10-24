@@ -14,6 +14,7 @@ import { Image } from 'react-native';
 import { FullWindowOverlay } from 'react-native-screens';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Checkbox from 'expo-checkbox';
+import { preventAutoHideAsync } from 'expo-splash-screen';
 
 const bgImage = require('../assets/BackgroundImages/GreyscaleRunningMan.png');
 const logo = require('../assets/BackgroundImages/FitBudsLogo.png');
@@ -123,7 +124,7 @@ function PersonalDetails({ navigation }) {
         <Image source={logo} style={styles.logoClass} />
         <Text style={[style.shadowProp, styles.requestText]}>What do we call you?</Text>
         <TextInput
-          placeholder='Name'
+          placeholder='Name' 
           placeholderTextColor={"#808080"}
           style={styles.textInputClass}
           textContentType='name'
@@ -131,7 +132,7 @@ function PersonalDetails({ navigation }) {
           value={name}
         />
         <View style={styles.datePadding}></View>
-        <Text style={[style.shadowProp, styles.requestText]}>What is your postal code?</Text>
+        <Text style={[style.shadowProp, styles.requestText]}>What is your address?</Text>
         <TextInput
           placeholder='Postal Code'
           placeholderTextColor={"#808080"}
@@ -158,7 +159,7 @@ function PersonalDetails({ navigation }) {
 
         <Pressable style={styles.fitnessNextButton}
           onPress={() => {
-            InitData = { ...InitData, name: name, residentialAddress: address, birthDate: date };
+            InitData = { ...InitData, name: name, residentialAddress: address, birthdate: date.getTime() };
             navigation.navigate('CurrentFitness');
           }}>
           <View style={styles.alignContainer}>
@@ -309,19 +310,6 @@ function TargetFitness({ navigation }) {
   const [targetSitUp, setTargetSitUp] = useState('');
   const [targetRun, setTargetRun] = useState('');
 
-
-  const putUser = async () => {
-    try {
-      fetch("http://52.77.246.182:3000/users", {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(InitData)
-      });
-      
-
-    }
-  }
-
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <ImageBackground source={bgImage} style={{ height: '100%', width: '100%' }} blurRadius={8}>
@@ -387,7 +375,6 @@ function TargetFitness({ navigation }) {
                   runTimeInSeconds: targetRun
                 }
               };
-
               navigation.navigate('LocationRecommender');
             }}>
             <View style={styles.alignContainer}>
@@ -403,35 +390,78 @@ function TargetFitness({ navigation }) {
 }
 
 function LocationRecommender({ navigation }) {
+  const [pressed, setPressed] = useState(false);
+  const [dataReq, setDataReq] = useState('')
+  const toggle = () => setPressed(previousState => !previousState);
+  
+  useEffect(() => {
+    console.log(InitData.username);
+    console.log(InitData);
+    const requestOptions = {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(InitData)
+    };
+    fetch("http://52.77.246.182:3000/users", requestOptions)
+      .then(response => response.json())
+      .then(data => setDataReq(data));
+    console.log(dataReq);
+  }, [pressed])
+
+  // const putUser = async () => {
+  //   try {
+  //     fetch("http://52.77.246.182:3000/users", {
+  //       method: 'PUT',
+  //       headers: { 'Content-Type': 'application/json' },
+  //       body: JSON.stringify({
+  //         username: "Jimmy",
+  //         password: "password"
+  //       })
+  //     });
+  //     const response = await response.json();
+  //     console.log(response);
+  //   } catch (error) {
+  //     console.error("Error: " + error);
+  //   } finally {
+  //     console.log("End Request")
+  //   }
+  // }
+
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Text>recommend location</Text>
       <Button
+        title='refresh'
+        onPress={toggle}
+      />
+      <Button
         title="Next"
         onPress={() => {
-          createUserWithEmailAndPassword(
-            auth,
-            InitData.email,
-            InitData.password,
-          )
-            .then(() => {
-              setDoc(doc(db, 'userInfo', auth.currentUser.uid), {
-                uid: auth.currentUser.uid,
-                ...InitData,
-              }).catch(error => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                console.log(errorMessage);
-              });
-            })
-            .then(() => {
-              navigation.navigate('BottomTab');
-            })
-            .catch(error => {
-              const errorCode = error.code;
-              const errorMessage = error.message;
-              console.log(errorMessage);
-            });
+          toggle();
+          // createUserWithEmailAndPassword(
+          //   auth,
+          //   InitData.email,
+          //   InitData.password,
+          // )
+          //   .then(() => {
+          //     setDoc(doc(db, 'userInfo', auth.currentUser.uid), {
+          //       uid: auth.currentUser.uid,
+          //       ...InitData,
+          //     }).catch(error => {
+          //       const errorCode = error.code;
+          //       const errorMessage = error.message;
+          //       console.log(errorMessage);
+          //     });
+          //   })
+          //   .then(() => {
+          //     navigation.navigate('BottomTab');
+          //   })
+          //   .catch(error => {
+          //     const errorCode = error.code;
+          //     const errorMessage = error.message;
+          //     console.log(errorMessage);
+          //   });
+          navigation.navigate('BottomTab');
         }}
       />
     </View>
