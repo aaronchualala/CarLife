@@ -153,11 +153,11 @@ function ProfilePage({ route, navigation }) {
             <Text style={styles.ipptDateData}>{nextIPPT}</Text>
           </View>
         </View>
-        <View style={styles.activityGraphContainer}>
+        {/* <View style={styles.activityGraphContainer}>
           <Text style={styles.sectionHeadText}>Progress</Text>
-          {/* Graph */}
+
           <Text style={styles.sectionText}>You are on track! Keep it up!</Text>
-        </View>
+        </View> */}
         <View style={styles.resultHistoryContainer}>
           <Text style={styles.sectionHeadText}>Past IPPT Results</Text>
           <View style={styles.resultEntry}>
