@@ -1,7 +1,7 @@
 // import {app, auth, db} from '../firebase/config';
 // import {createUserWithEmailAndPassword} from 'firebase/auth';
 // import {collection, doc, setDoc} from 'firebase/firestore';
-import React, { useState, show, useEffect } from 'react';
+import React, { useState, show, useEffect, useRef } from 'react';
 import { useCallback } from 'react';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
@@ -44,17 +44,114 @@ function GetStarted({ navigation }) {
         <View style={styles.overlayView} />
         <Image source={logo} style={styles.logoClass} />
         <Text style={[styles.sloganClass, style.shadowProp]}>FITTER,{'\n'}TOGETHER</Text>
-        <View style={{ alignSelf: 'center' }}>
+        <View style={{ alignSelf: 'center', flexDirection: 'row' }}>
           <Pressable style={styles.button}
             onPress={() => {
               navigation.navigate('Registration');
             }}>
             <Text style={styles.buttonText}>Get Started</Text>
           </Pressable>
+          <Pressable style={styles.button}
+            onPress={() => {
+              navigation.navigate('Login');
+            }}>
+            <Text style={styles.buttonText}>Login</Text>
+          </Pressable>
         </View>
       </ImageBackground>
     </View>
   );
+}
+
+function Login({ navigation }) {
+  // var loginData = {};
+  const [loginData, setLoginData] = useState({});
+  const [pressed, setPressed] = useState(false);
+  const toggle = () => setPressed(previousState => !previousState);
+  const [dataReq, setDataReq] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [failed, setFailed] = useState(false);
+
+  let initialRender = useRef(true);
+  useEffect(() => {
+    if (initialRender.current){
+      initialRender.current = false;
+    } else {
+      loginUser(loginData);
+    }
+  }, [loginData])
+
+  useEffect(() => {
+    if (dataReq._id) {
+      setFailed(false);
+      setLoggedIn(true);
+    }
+    else if (dataReq.message === "User Not Found") {
+      setFailed(true);
+    }
+  },[dataReq])
+  async function loginUser(credentials) {
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(credentials)
+    };
+    fetch("http://52.77.246.182:3000/users", requestOptions)
+      .then(response => response.json())
+      .then(data => setDataReq(data))
+  }
+
+  function setLogin() {
+    setLoginData({ username: username, password: password });
+  }
+
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <ImageBackground source={bgImage} style={{ height: '100%', width: '100%' }} blurRadius={8}>
+        <View style={styles.overlayView} />
+        <Image source={logo} style={styles.logoClass} />
+        <Text style={[styles.headerText, style.shadowProp]}>Login</Text>
+        <TextInput
+          placeholder='Username'
+          placeholderTextColor={"#363535"}
+          style={styles.textInputClass}
+          textContentType='username'
+          // keyboardType='email-address'
+          // spellCheck='true'
+          onChangeText={text => setUsername(text)}
+          value={username}
+        />
+        <TextInput
+          placeholder='Password'
+          placeholderTextColor={"#363535"}
+          style={styles.textInputClass}
+          textContentType='password'
+          secureTextEntry='true'
+          onChangeText={text => setPassword(text)}
+          value={password}
+        />
+        <Pressable style={styles.loginButton}
+          onPress={() => {
+            setLogin();
+          }}>
+          <Text style={styles.loginText}>Login</Text>
+        </Pressable>
+        {loggedIn ?
+          <Pressable style={styles.nextButton}
+            onPress={() => {
+              navigation.navigate('BottomTab');
+            }}>
+            <Text style={styles.nextText}>Next</Text>
+          </Pressable> : null}
+        {failed ? 
+          <Text style={styles.failedText} >User does not exist</Text>:
+          null
+        }
+      </ImageBackground>
+    </View>
+  )
 }
 
 function Registration({ navigation }) {
@@ -124,7 +221,7 @@ function PersonalDetails({ navigation }) {
         <Image source={logo} style={styles.logoClass} />
         <Text style={[style.shadowProp, styles.requestText]}>What do we call you?</Text>
         <TextInput
-          placeholder='Name' 
+          placeholder='Name'
           placeholderTextColor={"#808080"}
           style={styles.textInputClass}
           textContentType='name'
@@ -393,10 +490,8 @@ function LocationRecommender({ navigation }) {
   const [pressed, setPressed] = useState(false);
   const [dataReq, setDataReq] = useState('')
   const toggle = () => setPressed(previousState => !previousState);
-  
+
   useEffect(() => {
-    console.log(InitData.username);
-    console.log(InitData);
     const requestOptions = {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -405,7 +500,6 @@ function LocationRecommender({ navigation }) {
     fetch("http://52.77.246.182:3000/users", requestOptions)
       .then(response => response.json())
       .then(data => setDataReq(data));
-    console.log(dataReq);
   }, [pressed])
 
   // const putUser = async () => {
@@ -438,29 +532,6 @@ function LocationRecommender({ navigation }) {
         title="Next"
         onPress={() => {
           toggle();
-          // createUserWithEmailAndPassword(
-          //   auth,
-          //   InitData.email,
-          //   InitData.password,
-          // )
-          //   .then(() => {
-          //     setDoc(doc(db, 'userInfo', auth.currentUser.uid), {
-          //       uid: auth.currentUser.uid,
-          //       ...InitData,
-          //     }).catch(error => {
-          //       const errorCode = error.code;
-          //       const errorMessage = error.message;
-          //       console.log(errorMessage);
-          //     });
-          //   })
-          //   .then(() => {
-          //     navigation.navigate('BottomTab');
-          //   })
-          //   .catch(error => {
-          //     const errorCode = error.code;
-          //     const errorMessage = error.message;
-          //     console.log(errorMessage);
-          //   });
           navigation.navigate('BottomTab');
         }}
       />
@@ -491,6 +562,7 @@ export default function InitScreen(props) {
         headerShown: false,
       }}>
       <InitStack.Screen name="GetStarted" component={GetStarted} />
+      <InitStack.Screen name="Login" component={Login} />
       <InitStack.Screen name="Registration" component={Registration} />
       <InitStack.Screen name="PersonalDetails" component={PersonalDetails} />
       <InitStack.Screen name="CurrentFitness" component={CurrentFitness} />
