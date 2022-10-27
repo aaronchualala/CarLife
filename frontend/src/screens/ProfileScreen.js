@@ -16,11 +16,11 @@ function ProfilePage({ route, navigation }) {
   // const { nextIPPT } = route.params;
 
   const [isLoading, setLoading] = useState(true);
-  const [data, setData] = useState({"currentAbilities":{"pushUpCount":0,"sitUpCount":0,"runTimeInSeconds":0}});
+  const [data, setData] = useState({ "currentAbilities": { "pushUpCount": 0, "sitUpCount": 0, "runTimeInSeconds": 0 }, "pastResults": [null,null,null] });
   var todayYear = new Date().getUTCFullYear();
   var today = new Date();
   const [userAge, setUserAge] = useState(0);
-  const [scoreData, setScoreData] = useState({"result":{"name":"-"}});
+  const [scoreData, setScoreData] = useState({ "result": { "name": "-" } });
   const [nextIPPT, setNextIPPT] = useState('');
 
   const getUsers = async () => {
@@ -31,8 +31,8 @@ function ProfilePage({ route, navigation }) {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          username:"Jimmy",
-          password:"password"
+          username: "Jimmy",
+          password: "password"
         })
       });
       const json = await response.json();
@@ -51,9 +51,8 @@ function ProfilePage({ route, navigation }) {
     let userYear = new Date(data.birthdate).getUTCFullYear();
     var age = todayYear - userYear;
     var m = today.getMonth() - userMonth;
-    if (m < 0 || (m === 0 && today.getDate() < userDate)) 
-    {
-        age--;
+    if (m < 0 || (m === 0 && today.getDate() < userDate)) {
+      age--;
     }
     setUserAge(age);
   }
@@ -62,8 +61,8 @@ function ProfilePage({ route, navigation }) {
     let userDate = new Date(data.birthdate).getUTCDate();
     let userMonth = new Date(data.birthdate).getUTCMonth();
     let userYear = new Date(data.birthdate).getFullYear();
-    if (userDate == 1){
-      switch(userMonth){
+    if (userDate == 1) {
+      switch (userMonth) {
         case 2:
         case 4:
         case 6:
@@ -83,30 +82,28 @@ function ProfilePage({ route, navigation }) {
           userDate = 28;
           break;
       }
-    } else {userDate = userDate-1}
-    
+    } else { userDate = userDate - 1 }
+
     var m = today.getUTCMonth() - userMonth;
-    if (m < 0 || (m === 0 && today.getUTCDate() < userDate)) 
-    {
+    if (m < 0 || (m === 0 && today.getUTCDate() < userDate)) {
       setNextIPPT(`${userDate}/${userMonth}/${todayYear}`)
-    } else {setNextIPPT(`${userDate}/${userMonth}/${todayYear+1}`)}
+    } else { setNextIPPT(`${userDate}/${userMonth}/${todayYear + 1}`) }
   }
-  
+
   const calcScore = async () => {
-    try{
+    try {
       const res = await fetch(`http://52.77.246.182:3000/others/score/?age=${userAge}&pushups=${data.currentAbilities.pushUpCount}&situps=${data.currentAbilities.sitUpCount}&run=${data.currentAbilities.runTimeInSeconds}`);
       const json = await res.json();
       setScoreData(json);
     } catch (error) {
       console.error(error);
-    } finally {
     }
   };
- 
+
   useEffect(() => {
     getUsers();
   }, []);
-  
+
   useEffect(() => {
     setAge();
     setUserIPPTDate();
@@ -118,7 +115,8 @@ function ProfilePage({ route, navigation }) {
       <View style={globalStyles.banner}>
         <Text style={globalStyles.bannerText}>Profile</Text>
       </View>
-      <ScrollView contentContainerStyle={styles.contentContainer}>
+      {/* <ScrollView contentContainerStyle={styles.contentContainer}> */}
+      <View style={styles.contentContainer} >
         <View style={styles.accountContainer}>
           <View style={styles.profilePic}>
             <Ionicon
@@ -153,23 +151,30 @@ function ProfilePage({ route, navigation }) {
             <Text style={styles.ipptDateData}>{nextIPPT}</Text>
           </View>
         </View>
-        {/* <View style={styles.activityGraphContainer}>
-          <Text style={styles.sectionHeadText}>Progress</Text>
 
-          <Text style={styles.sectionText}>You are on track! Keep it up!</Text>
-        </View> */}
         <View style={styles.resultHistoryContainer}>
           <Text style={styles.sectionHeadText}>Past IPPT Results</Text>
-          <View style={styles.resultEntry}>
-            <Text style={styles.sectionText}>18 Apr 2021</Text>
-            <Text style={styles.sectionText}>Silver</Text>
-          </View>
-          <View style={styles.resultEntry}>
-            <Text style={styles.sectionText}>06 Sep 2020</Text>
-            <Text style={styles.sectionText}>Pass</Text>
-          </View>
+          {data.pastResults[0] ?
+            <View style={styles.resultEntry}>
+              <Text style={styles.sectionText}>{data.pastResults[0].date}</Text>
+              <Text style={styles.resultText}>{data.pastResults[0].result}</Text>
+            </View>
+            : null}
+          {data.pastResults[1] ?
+            <View style={styles.resultEntry}>
+              <Text style={styles.sectionText}>{data.pastResults[1].date}</Text>
+              <Text style={styles.resultText}>{data.pastResults[1].result}</Text>
+            </View>
+            : null}
+          {data.pastResults[2] ?
+            <View style={styles.resultEntry}>
+              <Text style={styles.sectionText}>{data.pastResults[2].date}</Text>
+              <Text style={styles.resultText}>{data.pastResults[2].result}</Text>
+            </View>
+            : null}
         </View>
-      </ScrollView>
+      </View>
+      {/* </ScrollView> */}
     </>
   );
 };

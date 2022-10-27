@@ -1,11 +1,10 @@
-import { useState, useEffect } from 'react';
-// import { getDoc, doc } from 'firebase/firestore';
+import { useState, useEffect, useCallback } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import * as styles from '../css/PlanScreen.module.css';
 import * as globalStyles from '../css/globals.css';
 import { MaterialIcon } from '../assets/MaterialIcons';
 import { Ionicon } from '../assets/Ionicons';
-// import { app, auth, db } from '../firebase/config';
+import { useFonts } from 'expo-font';
 import { OrangeButton } from '../components/Buttons';
 
 const NormalExSet = (props) => {
@@ -96,10 +95,10 @@ const RelatedExSet = (props) => {
 const PlanScreen = () => {
   let nowTime = new Date();
   let today = `${nowTime.getDate().toString()}/${nowTime.getMonth().toString()}/${nowTime.getFullYear().toString()}`;
-  
+
   const [showPopUp, setShowPopUp] = useState(false);
   const [showRelated, setShowRelated] = useState(false);
-  
+
   const [exStateId, setExStateID] = useState({ 1: 1, 2: 2, 3: 2, 4: 2, 5: 2, 6: 2 });
 
   const [dataNormal, setDataNormal] = useState();
@@ -108,7 +107,7 @@ const PlanScreen = () => {
   const [isRelatedLoading, setRelatedLoading] = useState(true);
 
   const [testLocal, setTestLocal] = useState('');
-  
+
   const togglePopUp = () => {
     if (exStateId[4] === 1)
       setShowPopUp(previousState => !previousState)
@@ -157,13 +156,9 @@ const PlanScreen = () => {
     try {
       const response = await fetch('http://52.77.246.182:3000/findNearest/fcc?address=636957'); // set location based on address of user
       const json = await response.json();
-      console.log(json);
-      console.log("hi");
       setTestLocal(json);
     } catch (error) {
       console.error(error);
-    } finally {
-      console.log(testLocal);
     }
   }
 
@@ -172,6 +167,22 @@ const PlanScreen = () => {
     getRelatedEx();
     getTestLocal();
   }, []);
+
+  let [fontsLoaded] = useFonts({
+    'Montserrat': require('../assets/fonts/static/Montserrat-Regular.ttf'),
+    'Montserrat-Light': require('../assets/fonts/static/Montserrat-Light.ttf'),
+    'Montserrat-SemiBold': require('../assets/fonts/static/Montserrat-SemiBold.ttf'),
+  });
+
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded) {
+    return null;
+  }
 
   return (
     <>
@@ -182,7 +193,9 @@ const PlanScreen = () => {
         <View style={styles.daysToGoContainer}>
           <Text style={styles.daysToGoText}><Text style={styles.daysToGoTextDays}>128</Text> Days to IPPT Gold</Text>
           <View style={styles.locationContainer}>
-            <Text style={styles.locationText}>Test Location: {testLocal.nearestFcc}</Text>
+            <Pressable>
+              <Text style={styles.locationText}>Test Location: {testLocal.nearestFcc}</Text>
+            </Pressable>
           </View>
         </View>
         <View style={styles.exercisePlanContainer}>

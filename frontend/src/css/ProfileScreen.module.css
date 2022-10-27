@@ -65,11 +65,11 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    /* margin-bottom: 27px; for orange button */
 }
 
 .ipptDate {
     font-style: normal;
+    font-family: 'Montserrat-Light';
     font-weight: 400;
     font-size: 24px;
     line-height: 29px;
@@ -79,6 +79,7 @@
 
 .ipptDateData {
     font-style: normal;
+    font-family: 'Montserrat';
     font-weight: 400;
     font-size: 24px;
     line-height: 29px;
@@ -86,11 +87,20 @@
 }
 
 .sectionText {
+    font-family: 'Montserrat-Light';
+    font-weight: 300;
+    font-size: 22px;
+    line-height: 27px;
+    color: #003049;
+}
+
+.resultText {
     font-family: 'Montserrat';
     font-weight: 300;
     font-size: 22px;
     line-height: 27px;
     color: #003049;
+    text-transform: capitalize;
 }
 
 .sectionHeadText {
@@ -100,19 +110,6 @@
     line-height: 34px;
     margin-bottom: 20px;
     color: #003049;
-}
-
-.activityGraphContainer {
-    margin-top: 15px;
-    padding-top: 27px;
-    padding-bottom: 35px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    height: 382px;
-    width: 100%;
-    background-color: white;
 }
 
 .resultHistoryContainer {

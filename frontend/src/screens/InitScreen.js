@@ -92,6 +92,7 @@ function Login({ navigation }) {
       setFailed(true);
     }
   },[dataReq])
+  
   async function loginUser(credentials) {
     const requestOptions = {
       method: 'POST',
@@ -501,25 +502,6 @@ function LocationRecommender({ navigation }) {
       .then(response => response.json())
       .then(data => setDataReq(data));
   }, [pressed])
-
-  // const putUser = async () => {
-  //   try {
-  //     fetch("http://52.77.246.182:3000/users", {
-  //       method: 'PUT',
-  //       headers: { 'Content-Type': 'application/json' },
-  //       body: JSON.stringify({
-  //         username: "Jimmy",
-  //         password: "password"
-  //       })
-  //     });
-  //     const response = await response.json();
-  //     console.log(response);
-  //   } catch (error) {
-  //     console.error("Error: " + error);
-  //   } finally {
-  //     console.log("End Request")
-  //   }
-  // }
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>

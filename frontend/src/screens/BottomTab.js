@@ -12,7 +12,7 @@ const Tab = createBottomTabNavigator();
 export default function App() {
   return (
     <Tab.Navigator
-      initialRouteName="Train"
+      initialRouteName="Profile"
       // sceneContainerStyle={{backgroundColor: 'white'}}
       screenOptions={{
         headerShown: false,
