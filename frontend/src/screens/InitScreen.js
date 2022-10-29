@@ -1,16 +1,10 @@
-// import {app, auth, db} from '../firebase/config';
-// import {createUserWithEmailAndPassword} from 'firebase/auth';
-// import {collection, doc, setDoc} from 'firebase/firestore';
-import React, { useState, show, useEffect, useRef } from 'react';
-import { useCallback } from 'react';
+import React, { useState, show, useEffect, useRef, useCallback } from 'react';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
-import { View, Text, Button, TextInput, Pressable, PlatformColor, Platform } from 'react-native';
+import { View, Text, Button, TextInput, Pressable, Platform, Image, ImageBackground, StyleSheet } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as styles from '../css/InitScreen.module.css';
 import * as globalStyles from '../css/globals.css';
-import { ImageBackground, StyleSheet } from 'react-native';
-import { Image } from 'react-native';
 import { FullWindowOverlay } from 'react-native-screens';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Checkbox from 'expo-checkbox';
@@ -32,10 +26,6 @@ const style = StyleSheet.create({
     shadowRadius: 0.9,
   },
 });
-
-global.pushExemption = false;
-global.sitExemption = false;
-global.runExemption = false;
 
 function GetStarted({ navigation }) {
   return (
@@ -64,10 +54,7 @@ function GetStarted({ navigation }) {
 }
 
 function Login({ navigation }) {
-  // var loginData = {};
   const [loginData, setLoginData] = useState({});
-  const [pressed, setPressed] = useState(false);
-  const toggle = () => setPressed(previousState => !previousState);
   const [dataReq, setDataReq] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -119,8 +106,6 @@ function Login({ navigation }) {
           placeholderTextColor={"#363535"}
           style={styles.textInputClass}
           textContentType='username'
-          // keyboardType='email-address'
-          // spellCheck='true'
           onChangeText={text => setUsername(text)}
           value={username}
         />
@@ -220,40 +205,43 @@ function PersonalDetails({ navigation }) {
       <ImageBackground source={bgImage} style={{ height: '100%', width: '100%' }} blurRadius={8}>
         <View style={styles.overlayView} />
         <Image source={logo} style={styles.logoClass} />
-        <Text style={[style.shadowProp, styles.requestText]}>What do we call you?</Text>
-        <TextInput
-          placeholder='Name'
-          placeholderTextColor={"#808080"}
-          style={styles.textInputClass}
-          textContentType='name'
-          onChangeText={text => setName(text)}
-          value={name}
-        />
-        <View style={styles.datePadding}></View>
-        <Text style={[style.shadowProp, styles.requestText]}>What is your address?</Text>
-        <TextInput
-          placeholder='Postal Code'
-          placeholderTextColor={"#808080"}
-          style={styles.textInputClass}
-          keyboardType='number-pad'
-          returnKeyType='done'
-          maxLength={6}
-          textContentType='postalCode'
-          onChangeText={text => setAddress(text)}
-          value={address}
-        />
-        <Text style={[style.shadowProp, styles.requestText]}>What is your date of birth?</Text>
-        <View style={styles.datePadding}></View>
+        <View style={styles.persDetContainer}>
 
-        {show && (
-          <View style={styles.dateContainer}>
-            <DateTimePicker
-              testID='dateTimePicker'
-              value={date}
-              mode={mode}
-              onChange={onChange}
+          <Text style={[style.shadowProp, styles.requestText]}>What do we call you?</Text>
+          <TextInput
+            placeholder='Name'
+            placeholderTextColor={"#808080"}
+            style={styles.textInputClass}
+            textContentType='name'
+            onChangeText={text => setName(text)}
+            value={name}
+          />
+
+          <Text style={[style.shadowProp, styles.requestText]}>What is your address?</Text>
+          <TextInput
+            placeholder='Postal Code'
+            placeholderTextColor={"#808080"}
+            style={styles.textInputClass}
+            keyboardType='number-pad'
+            returnKeyType='done'
+            maxLength={6}
+            textContentType='postalCode'
+            onChangeText={text => setAddress(text)}
+            value={address}
             />
-          </View>)}
+          <Text style={[style.shadowProp, styles.requestText]}>What is your date of birth?</Text>
+          <View style={styles.datePadding}></View>
+
+          {show && 
+            <View style={styles.dateContainer}>
+              <DateTimePicker
+                testID='dateTimePicker'
+                value={date}
+                mode={mode}
+                onChange={onChange}
+              />
+            </View>}
+        </View>
 
         <Pressable style={styles.fitnessNextButton}
           onPress={() => {
@@ -274,32 +262,6 @@ function CurrentFitness({ navigation }) {
   const [pushUp, setPushUp] = useState('');
   const [sitUp, setSitUp] = useState('');
   const [run, setRun] = useState('');
-  const [isCheckedPush, setCheckedPush] = useState(false);
-  const [isCheckedSit, setCheckedSit] = useState(false);
-  const [isCheckedRun, setCheckedRun] = useState(false);
-  const [isPushEditable, setIsPushEditable] = useState(true);
-  const [isSitEditable, setIsSitEditable] = useState(true);
-  const [isRunEditable, setIsRunEditable] = useState(true);
-
-  function PushFunction() {
-    setCheckedPush(!isCheckedPush);
-    setIsPushEditable(!isPushEditable);
-    global.pushExemption = { isPushEditable };
-
-  }
-
-  function SitFunction() {
-    setCheckedSit(!isCheckedSit);
-    setIsSitEditable(!isSitEditable);
-    global.sitExemption = { isSitEditable };
-  }
-
-  function RunFunction() {
-    setCheckedRun(!isCheckedRun);
-    setIsRunEditable(!isRunEditable);
-    global.runExemption = { isRunEditable };
-  }
-
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -310,64 +272,36 @@ function CurrentFitness({ navigation }) {
 
         <View style={styles.fitnessContainer}>
           <TextInput
-            placeholder={isPushEditable ? 'Push-Ups' : 'Exempted'}
+            placeholder={'Push-Ups'}
             placeholderTextColor={"#808080"}
             style={styles.fitnessInputClass}
             keyboardType='number-pad'
             returnKeyType='done'
             onChangeText={text => setPushUp(text)}
             value={pushUp}
-            editable={isPushEditable}
           />
 
           <TextInput
-            placeholder={isSitEditable ? 'Sit-Ups' : 'Exempted'}
+            placeholder={'Sit-ups'}
             placeholderTextColor={"#808080"}
             style={styles.fitnessInputClass}
             keyboardType='number-pad'
             returnKeyType='done'
             onChangeText={text => setSitUp(text)}
             value={sitUp}
-            editable={isSitEditable}
           />
-        </View>
-        <View style={styles.checkboxContainer}>
-          <Checkbox
-            value={isCheckedPush}
-            onValueChange={PushFunction}
-            color={isCheckedPush ? '#000000' : undefined}
-          />
-          <Text style={styles.exemptedText}>Exempted</Text>
-        </View>
-
-        <View style={styles.checkboxContainer2}>
-          <Checkbox
-            value={isCheckedSit}
-            onValueChange={SitFunction}
-            color={isCheckedSit ? '#000000' : undefined}
-          />
-          <Text style={styles.exemptedText}>Exempted</Text>
         </View>
 
         <View style={styles.runContainer}>
           <TextInput
-            placeholder={isRunEditable ? '2.4 KM Run' : 'Exempted'}
+            placeholder={'2.4 KM Run'}
             placeholderTextColor={"#808080"}
             style={styles.fitnessInputClass}
             keyboardType='numbers-and-punctuation'
             returnKeyType='done'
             onChangeText={text => setRun(text)}
             value={run}
-            editable={isRunEditable}
           />
-          <View style={styles.checkboxContainer3}>
-            <Checkbox
-              value={isCheckedRun}
-              onValueChange={RunFunction}
-              color={isCheckedRun ? '#000000' : undefined}
-            />
-            <Text style={styles.exemptedText}>Exempted</Text>
-          </View>
         </View>
 
         <View style={styles.moveContainer}>
@@ -418,38 +352,35 @@ function TargetFitness({ navigation }) {
 
         <View style={styles.fitnessContainer}>
           <TextInput
-            placeholder={!global.pushExemption ? 'Target Push-Ups' : 'Exempted'}
+            placeholder={'Target Push-Ups'}
             placeholderTextColor={"#808080"}
             style={styles.fitnessInputClass}
             keyboardType='number-pad'
             returnKeyType='done'
             onChangeText={text => setTargetPushUp(text)}
             value={targetPushUp}
-            editable={!global.pushExemption}
           />
 
           <TextInput
-            placeholder={!global.sitExemption ? 'Target Sit-Ups' : 'Exempted'}
+            placeholder={'Target Sit-Up'}
             placeholderTextColor={"#808080"}
             style={styles.fitnessInputClass}
             keyboardType='number-pad'
             returnKeyType='done'
             onChangeText={text => setTargetSitUp(text)}
             value={targetSitUp}
-            editable={!global.sitExemption}
           />
         </View>
 
         <View style={styles.runContainer}>
           <TextInput
-            placeholder={!global.runExemption ? 'Target Run' : 'Exempted'}
+            placeholder={'Target Run'}
             placeholderTextColor={"#808080"}
             style={styles.fitnessInputClass}
             keyboardType='numbers-and-punctuation'
             returnKeyType='done'
             onChangeText={text => setTargetRun(text)}
             value={targetRun}
-            editable={!global.runExemption}
           />
         </View>
 

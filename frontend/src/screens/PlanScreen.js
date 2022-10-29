@@ -7,6 +7,7 @@ import { Ionicon } from '../assets/Ionicons';
 import { useFonts } from 'expo-font';
 import { OrangeButton } from '../components/Buttons';
 
+
 const NormalExSet = (props) => {
   const exerciseStateIcon = ["checkmark-circle-outline", "chevron-forward-circle-outline", "remove-circle-outline"];
   const color = ["#FCBF49", "#F77F00", "#8D99AE"];
@@ -36,7 +37,10 @@ const NormalExSet = (props) => {
           {props.set % 3 == 0 ? <Text style={{ ...styles.exerciseNameText, color: `${color[stateIdx]}` }}>{timeMin}:{timeSec} 2.4km Run</Text> : null}
         </View>
         <Pressable
-          onPress={updateState}
+          onPress={() => {
+            updateState()
+          }}
+          // onPress={updateState}
           style={styles.exerciseState}
         >
           <Ionicon
@@ -107,12 +111,14 @@ const PlanScreen = () => {
   const [isRelatedLoading, setRelatedLoading] = useState(true);
 
   const [testLocal, setTestLocal] = useState('');
+  const [showLocalPU, setLocalPU] = useState(false);
 
   const togglePopUp = () => {
     if (exStateId[4] === 1)
       setShowPopUp(previousState => !previousState)
     setShowRelated(true)
   }
+  const toggleLocalPU = () => { setLocalPU(previousState => !previousState) }
 
   const updateStateID = (set) => {
     const newState = { ...exStateId, [set]: exStateId[set] - 1, [set + 1]: 1 };
@@ -160,7 +166,29 @@ const PlanScreen = () => {
     } catch (error) {
       console.error(error);
     }
-  }
+  };
+
+  const renderTestLocalPU = () => {
+    return (
+      <View style={styles.localPopUpContainer}>
+        <Text style={styles.localPopUpText}>Test Locations around Singapore:</Text>
+        <View style={styles.localPopUp}>
+          <Text style={styles.localPopUpText}>Maju</Text>
+        </View>
+        <View style={styles.localPopUp}>
+          <Text style={styles.localPopUpText}>Bedok</Text>
+        </View>
+        <View style={styles.localPopUp}>
+          <Text style={styles.localPopUpText}>Khatib</Text>
+        </View>
+        <Pressable onPress={toggleLocalPU}>
+          <View style={styles.localPopUpClose}>
+            <Text style={styles.localPopUpCloseText}>Close</Text>
+          </View>
+        </Pressable>
+      </View>
+    )
+  };
 
   useEffect(() => {
     getNormalEx();
@@ -183,7 +211,6 @@ const PlanScreen = () => {
   if (!fontsLoaded) {
     return null;
   }
-
   return (
     <>
       <View style={globalStyles.banner}>
@@ -192,11 +219,15 @@ const PlanScreen = () => {
       <ScrollView contentContainerStyle={styles.contentContainer}>
         <View style={styles.daysToGoContainer}>
           <Text style={styles.daysToGoText}><Text style={styles.daysToGoTextDays}>128</Text> Days to IPPT Gold</Text>
-          <View style={styles.locationContainer}>
-            <Pressable>
+          <Pressable onPress={toggleLocalPU}>
+            <View style={styles.locationContainer}>
               <Text style={styles.locationText}>Test Location: {testLocal.nearestFcc}</Text>
-            </Pressable>
-          </View>
+            </View>
+          </Pressable>
+          {showLocalPU ?
+            renderTestLocalPU()
+            : null
+          }
         </View>
         <View style={styles.exercisePlanContainer}>
           {showPopUp == true ? <View style={styles.bonusPopUpContainer}>

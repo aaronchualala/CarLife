@@ -49,6 +49,49 @@
     font-family: "Montserrat";
 }
 
+.localPopUpContainer {
+    width: 320px;
+    height: 180px;
+    /* padding: 20px 33px; */
+    position: absolute;
+    top: 15px;
+    align-self: center;
+    justify-content: space-around;
+    z-index: 1;
+    background: rgba(237, 242, 244, 0.8);
+    border-radius: 15px;
+    flex-direction: column;
+    align-items: center;
+}
+
+.localPopUp{
+    border-radius: 10px;
+    background-color: #F77F00;
+    width: 150px;
+    height: 30px;
+    margin: 5px 0;
+    justify-content: center;
+}
+
+.localPopUpText{
+    text-align: center;
+    font-family: 'Montserrat-SemiBold';
+}
+
+.localPopUpClose{
+    border-radius: 10px;
+    background-color: white;
+    width: 50px;
+    height: 20px;
+    margin: 5px 0;
+    justify-content: center;
+}
+
+.localPopUpCloseText{
+    text-align: center;
+    font-family: 'Montserrat-Light';
+}
+
 .exercisePlanContainer {
     background-color: white;
     margin-top: 13px;
@@ -98,7 +141,7 @@
     font-size: 28px;
     line-height: 34px;
     color: #F77F00;
-    font-family: "Montserrat";
+    font-family: "Montserrat-SemiBold";
 
 }
 

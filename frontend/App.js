@@ -11,7 +11,7 @@ const Stack = createNativeStackNavigator();
 
 // hehe
 export default function App() {
-  var openScreen = 'initScreen';
+  var openScreen = 'BottomTab';
   return (
     <NavigationContainer>
       <CustomStatusBar />
