@@ -34,7 +34,7 @@ function GetStarted({ navigation }) {
         <View style={styles.overlayView} />
         <Image source={logo} style={styles.logoClass} />
         <Text style={[styles.sloganClass, style.shadowProp]}>FITTER,{'\n'}TOGETHER</Text>
-        <View style={{ alignSelf: 'center', flexDirection: 'row' }}>
+        <View style={{ alignSelf: 'center', flexDirection: 'column', justifyContent: 'space-between'}}>
           <Pressable style={styles.button}
             onPress={() => {
               navigation.navigate('Registration');
@@ -63,7 +63,7 @@ function Login({ navigation }) {
 
   let initialRender = useRef(true);
   useEffect(() => {
-    if (initialRender.current){
+    if (initialRender.current) {
       initialRender.current = false;
     } else {
       loginUser(loginData);
@@ -78,8 +78,8 @@ function Login({ navigation }) {
     else if (dataReq.message === "User Not Found") {
       setFailed(true);
     }
-  },[dataReq])
-  
+  }, [dataReq])
+
   async function loginUser(credentials) {
     const requestOptions = {
       method: 'POST',
@@ -131,8 +131,8 @@ function Login({ navigation }) {
             }}>
             <Text style={styles.nextText}>Next</Text>
           </Pressable> : null}
-        {failed ? 
-          <Text style={styles.failedText} >User does not exist</Text>:
+        {failed ?
+          <Text style={styles.failedText} >User does not exist</Text> :
           null
         }
       </ImageBackground>
@@ -143,6 +143,71 @@ function Login({ navigation }) {
 function Registration({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [valid, setValid] = useState(false);
+  const [validLen, setValidLen] = useState(false);
+  const [validChar, setValidChar] = useState(false)
+  const [validNum, setValidNum] = useState(false)
+  const [validNoUser, setValidNoUser] = useState(false)
+
+  const renderValid = () => {
+    const rendered = []
+    if (!validLen) {
+      rendered.push(
+        <Text style={styles.validText}>Password must be at least 8 Characters!</Text>
+      )
+    }
+    if (!validChar){
+      rendered.push(
+        <Text style={styles.validText}>Password must have at least one letter!</Text>
+      )
+    }
+    if (!validNum){
+      rendered.push(
+        <Text style={styles.validText}>Password must have at least one number!</Text>
+      )
+    }
+    if (!validNoUser){
+      rendered.push(
+        <Text style={styles.validText} >Password cannot contain Username!</Text>
+      )
+    }
+    return rendered
+  }
+
+  let initialRender = useRef(true);
+  useEffect(() => {
+    if (initialRender.current) {
+      initialRender.current = false;
+    } else {
+      pwValidator()
+
+    }
+  },[password])
+
+  const pwValidator = () => {
+    if (password.length > 8) {
+      setValidLen(true)
+    } else setValidLen(false);
+
+    const regExpChar = /[A-Za-z]/
+    if (password.match(regExpChar)) {
+      setValidChar(true);
+    } else setValidChar(false);
+
+    const regExpDig = /[0-9]/
+    if (password.match(regExpDig)){
+      setValidNum(true);
+    } else setValidNum(false);
+
+    if (password.toLowerCase().includes(email.toLowerCase())){
+      setValidNoUser(false);
+    } else setValidNoUser(true);
+
+    if (validLen && validChar && validNum && validNoUser){
+      setValid(true);
+    } else setValid(false);
+
+  }
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -169,13 +234,14 @@ function Registration({ navigation }) {
           onChangeText={text => setPassword(text)}
           value={password}
         />
-        <Pressable style={styles.nextButton}
+        {valid ? null : renderValid()}
+        {valid ? <Pressable style={styles.nextButton}
           onPress={() => {
             InitData = { ...InitData, username: email, password: password };
             navigation.navigate('PersonalDetails');
           }}>
           <Text style={styles.nextText}>Next</Text>
-        </Pressable>
+        </Pressable> : null}
       </ImageBackground>
     </View>
   );
@@ -228,11 +294,11 @@ function PersonalDetails({ navigation }) {
             textContentType='postalCode'
             onChangeText={text => setAddress(text)}
             value={address}
-            />
+          />
           <Text style={[style.shadowProp, styles.requestText]}>What is your date of birth?</Text>
           <View style={styles.datePadding}></View>
 
-          {show && 
+          {show &&
             <View style={styles.dateContainer}>
               <DateTimePicker
                 testID='dateTimePicker'
