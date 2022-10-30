@@ -65,7 +65,7 @@ function SocialScreenSelections({navigation: {navigate}}) {
             <ScrollView contentContainerStyle={styles.container}>
                 <Text style={styles.header}>Nearby Users</Text>
                 {nearbyUsers.map((nearbyUser)=>{
-                    return(<Pressable key={nearbyUser[2]} style={styles.profileContainer} onPress={() => navigate('ChatScreen', {name: ['Ayushman Dixit']})}>
+                    return(<Pressable key={nearbyUser[2]} style={styles.profileContainer} onPress={() => navigate('ChatScreen', {name: ['Xiao Ming']})}>
                         <View style={styles.profileImageContainer}>
                             <Image source={randomImages[(nearbyUsers.indexOf(nearbyUser)).toString()]}/>
                         </View>
@@ -99,11 +99,11 @@ function ChatScreen({navigation, route}) {
         setMessages([
           {
             _id: 1,
-            text: 'Hello Aaron',
+            text: 'Hello Summit',
             createdAt: new Date(),
             user: {
               _id: 2,
-              name: 'Ayushman',
+              name: 'Xiao Ming',
               avatar: require('../assets/Images/profileIcon1.png'),
             },
           },
