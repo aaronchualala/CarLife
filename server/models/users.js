@@ -6,11 +6,6 @@ const abilitiesSchema = new mongoose.Schema({
     runTimeInSeconds: {type: Number,required: true}
 })
 
-const resultsSchema = new mongoose.Schema({
-    date: {type:String, required:true},
-    result: {type:String, required:true}
-})
-
 const userSchema = new mongoose.Schema({
     username:{type: String,required: true},
     password:{type: String,required: true},
@@ -19,7 +14,7 @@ const userSchema = new mongoose.Schema({
     residentialAddress:{type: String,required: true},
     currentAbilities: {type: abilitiesSchema,required: true},
     targetAbilities: {type: abilitiesSchema,required: true},
-    pastResults:{type: [resultsSchema], required: true}
+    IPPTPrevGrade:{type: String, required: true}
 })
 
 module.exports = mongoose.model('User', userSchema)
