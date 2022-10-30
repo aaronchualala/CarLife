@@ -120,13 +120,16 @@
 .validContainer {
     height: 100px;
     width: 500px;
+    padding: 5px 0;
     border-radius: 10px;
     align-self: center;
-    background-color: white;
+    justify-content: space-around;
+    background-color: orange;
 }
 
 .validText {
     font-family: 'Montserrat';
+    color: orangered;
     text-align: center;
 }
 

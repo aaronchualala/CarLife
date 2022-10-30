@@ -158,17 +158,17 @@ function Registration({ navigation }) {
     }
     if (!validChar){
       rendered.push(
-        <Text style={styles.validText}>Password must have at least one letter!</Text>
+        <Text style={styles.validText}>Password does not contain any characters</Text>
       )
     }
     if (!validNum){
       rendered.push(
-        <Text style={styles.validText}>Password must have at least one number!</Text>
+        <Text style={styles.validText}>Password does not contain any numbers</Text>
       )
     }
     if (!validNoUser){
       rendered.push(
-        <Text style={styles.validText} >Password cannot contain Username!</Text>
+        <Text style={styles.validText} >Password should not contain Username!</Text>
       )
     }
     return rendered
@@ -199,14 +199,13 @@ function Registration({ navigation }) {
       setValidNum(true);
     } else setValidNum(false);
 
-    if (password.toLowerCase().includes(email.toLowerCase())){
+    if (email != '' && password.toLowerCase().includes(email.toLowerCase())){
       setValidNoUser(false);
     } else setValidNoUser(true);
 
     if (validLen && validChar && validNum && validNoUser){
       setValid(true);
     } else setValid(false);
-
   }
 
   return (
@@ -234,7 +233,11 @@ function Registration({ navigation }) {
           onChangeText={text => setPassword(text)}
           value={password}
         />
-        {valid ? null : renderValid()}
+        {valid ? null : 
+          <View style={styles.validContainer}>
+            {renderValid()}
+          </View>
+        }
         {valid ? <Pressable style={styles.nextButton}
           onPress={() => {
             InitData = { ...InitData, username: email, password: password };
