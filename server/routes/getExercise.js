@@ -7,9 +7,9 @@ const Situp = require('../models/situps')
 const sharedFunctions = require('./sharedFunctions')
 
 // normal exercise
-router.get('/normal/:id', async (req, res) => {
+router.get('/normal/:username', async (req, res) => {
     try {
-        const user = await User.findOne({id: req.params.id})
+        const user = await User.findOne({username: req.params.username})
         var dailyExercise = {pushups: 0, situps: 0, runTimeInSeconds: 0}
         const fraction = ((Date.now() - user.birthdate) % (1000*60*60*24*365))/(1000*60*60*24*365)
         // set values for today
@@ -24,9 +24,9 @@ router.get('/normal/:id', async (req, res) => {
 })
 
 // related exercise
-router.get('/related/:id', async (req, res) => {
+router.get('/related/:username', async (req, res) => {
     try {
-        const user = await User.findOne({id: req.params.id})
+        const user = await User.findOne({username: req.params.username})
 
         const results = await sharedFunctions.calcScore(Math.floor(user.birthdate/(365*24*60*60*1000)), user.currentAbilities.pushUpCount,user.currentAbilities.sitUpCount,user.currentAbilities.runTimeInSeconds)
 
