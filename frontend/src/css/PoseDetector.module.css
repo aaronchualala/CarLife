@@ -1,0 +1,131 @@
+.camera{
+    z-index: 0;
+}
+
+.loadingContainer{
+    flex: 1; 
+    justify-content: center;
+    margin: auto;
+    align-items: "center";
+}
+
+.loadingText {
+    font-size: 20;
+    text-align: center;
+    margin: 10px;
+}
+
+.predictionContainer {
+    z-index: 100;
+    position: absolute;
+    bottom: 24px;
+    left: 24px;
+    right: 24px;
+    background-color: #FFFFFFCC;
+    padding: 8px;
+    border-radius: 20px;
+    align-items: center;
+}
+
+.predictionText {
+    padding: 2px 0px;
+    font-size: 20;
+}
+
+.scoreContainer {
+    z-index: 100;
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    background-color: #FFFFFFCC;
+    padding: 20px;
+    border-radius: 20px;
+    align-items: center;
+}
+
+.scoreText {
+    padding: 2px 0px;
+    font-size: 40;
+}
+
+.feedbackContainer {
+    z-index: 100;
+    position: absolute;
+    bottom: 24px;
+    right: 10px;
+    background-color: #FFFFFFCC;
+    padding: 8px;
+    border-radius: 20px;
+    align-items: center;
+}
+
+.feedbackText {
+    padding: 2px 0px;
+    font-size: 20;
+}
+
+.directionContainer {
+    z-index: 100;
+    position: absolute;
+    top: 24px;
+    right: 100px;
+    background-color: #FFFFFFCC;
+    padding: 8px;
+    border-radius: 20px;
+    align-items: center;
+}
+
+.directionText {
+    padding: 2px 0px;
+    font-size: 20;
+}
+
+.timerContainer {
+    z-index: 100;
+    position: absolute;
+    bottom: 24px;
+    left: 10px;
+    background-color: #FFFFFFCC;
+    padding: 8px;
+    border-radius: 20px;
+    align-items: center;
+}
+
+.timerText {
+    padding: 2px 0px;
+    font-size: 30;
+}
+
+.startContainer {
+    z-index: 1100;
+    position: absolute;
+    justify-content: center;
+    bottom: 20px;
+    background-color: #EDF2F4CC;
+    padding: 8px;
+    border-radius: 20px;
+    align-items: center;
+    right: 50%;
+}
+
+.startText {
+    padding: 2px 0px;
+    font-size: 30;
+    color: #003049;
+}
+
+.submitContainer {
+    z-index: 1100;
+    position: absolute;
+    justify-content: center;
+    right: 20px;
+    background-color: #FFFFFFCC;
+    padding: 8px;
+    border-radius: 20px;
+    align-items: center;
+}
+
+.submitText {
+    padding: 2px 0px;
+    font-size: 30;
+}
