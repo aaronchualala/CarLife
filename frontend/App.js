@@ -1,18 +1,38 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, LogBox } from 'react-native';
 LogBox.ignoreLogs([""]);
-import React from 'react';
+import React, { useState } from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import InitScreen from './src/screens/InitScreen';
 import BottomTab from './src/screens/BottomTab';
 import {CustomStatusBar} from './src/components/CustomStatusBar';
-import { AppContext } from './src/components/AppContext';
 const Stack = createNativeStackNavigator();
+import AppContext from './src/components/AppContext';
 
 export default function App() {
   var openScreen = 'Init';
+  const userInitData = {
+    username: "",
+    password: "",
+    name: "",
+    birthdate: 0,
+    residentialAddress: "",
+    currentAbilities: {
+        pushUpCount: 0,
+        sitUpCount: 0,
+        runTimeInSeconds: 0
+    },
+    targetAbilities: {
+        pushUpCount: 0,
+        sitUpCount: 0,
+        runTimeInSeconds: 0,
+    },
+    IPPTPrevGrade: ""
+  }
+  const [user, setUser] = useState(userInitData);
   return (
+    <AppContext.Provider value={{user, setUser}}>
     <NavigationContainer>
       <CustomStatusBar />
       <Stack.Navigator
@@ -24,6 +44,7 @@ export default function App() {
         <Stack.Screen name="BottomTab" component={BottomTab} />
       </Stack.Navigator>
     </NavigationContainer>
+    </AppContext.Provider>
   );
 }
 

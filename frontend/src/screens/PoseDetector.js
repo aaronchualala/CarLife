@@ -72,20 +72,11 @@ function ModelView({ type }) {
 
 // 0
 function LoadingView({ children }) {
-<<<<<<< HEAD
-    return (
-      <View style={styles.loadingContainer}>
-        <View style={{ flexDirection: "column" }}>
-          <Text style={styles.loadingText}>loading</Text>
-          <ActivityIndicator />
-        </View>
-=======
   return (
     <View style={styles.loadingContainer}>
       <View style={{ flexDirection: "row" }}>
         <Text style={styles.loadingText}>{children}</Text>
         <ActivityIndicator />
->>>>>>> mainv3
       </View>
     </View>
   );
@@ -417,218 +408,109 @@ function CustomTensorCamera({ style, width, ...props }) {
   );
 }
 
-<<<<<<< HEAD
-  // const styles = StyleSheet.create({
-  //   camera: {
-  //     zIndex: 0,
-  //   },
-  //   loadingContainer: { flex: 1, justifyContent: "center", alignItems: "center" },
-  //   loadingText: { fontSize: 18, textAlign: "center", marginRight: 8 },
-  //   predictionContainer: {
-  //       zIndex: 100,
-  //       position: "absolute",
-  //       bottom: 24,
-  //       left: 24,
-  //       right: 24,
-  //       backgroundColor: "rgba(255,255,255,0.8)",
-  //       padding: 8,
-  //       borderRadius: 20,
-  //       alignItems: "center",
-  //     },
-  //   predictionText: {
-  //       paddingVertical: 2,
-  //       fontSize: 20,
-  //   },
-  //   scoreContainer: {
-  //     zIndex: 100,
-  //     position: "absolute",
-  //     top: 24,
-  //     right: 24,
-  //     backgroundColor: "rgba(255,255,255,0.8)",
-  //     padding: 20,
-  //     borderRadius: 20,
-  //     alignItems: "center",
-  //   },
-  //   scoreText: {
-  //     paddingVertical: 2,
-  //     fontSize: 40,
-  // },
-  // feedbackContainer: {
-  //   zIndex: 100,
-  //   position: "absolute",
-  //   bottom: 24,
-  //   right: 10,
-  //   backgroundColor: "rgba(255,255,255,0.8)",
-  //   padding: 8,
-  //   borderRadius: 20,
-  //   alignItems: "center",
-  // },
-  // feedbackText: {
-  //   paddingVertical: 2,
-  //   fontSize: 20,
-  // },
-  // directionContainer: {
-  //   zIndex: 100,
-  //   position: "absolute",
-  //   top:24,
-  //   right:100,
-  //   backgroundColor: "rgba(255,255,255,0.8)",
-  //   padding: 8,
-  //   borderRadius: 20,
-  //   alignItems: "center",
-  // },
-  // directionText: {
-  //   paddingVertical: 2,
-  //   fontSize: 20,
-  // },
-  // timerContainer: {
-  //   zIndex: 100,
-  //   position: "absolute",
-  //   bottom:24,
-  //   left:10,
-  //   backgroundColor: "rgba(255,255,255,0.8)",
-  //   padding: 8,
-  //   borderRadius: 20,
-  //   alignItems: "center",
-  // },
-  // timerText: {
-  //   paddingVertical: 2,
-  //   fontSize: 30,
-  // },
-  // startContainer: {
-  //   zIndex: 1100,
-  //   position: "absolute",
-  //   justifyContent: "center",
-  //   left: 20,
-  //   backgroundColor: "rgba(255,255,255,0.8)",
-  //   padding: 8,
-  //   borderRadius: 20,
-  //   alignItems: "center",
-  // },
-  // startText: {
-  //   paddingVertical: 2,
-  //   fontSize: 30,
-  // },
-  // submitContainer: {
-  //   zIndex: 1100,
-  //   position: "absolute",
-  //   justifyContent: "center",
-  //   right: 20,
-  //   backgroundColor: "rgba(255,255,255,0.8)",
-  //   padding: 8,
-  //   borderRadius: 20,
-  //   alignItems: "center",
-  // },
-  // submitText: {
-  //   paddingVertical: 2,
-  //   fontSize: 30,
-  // },
-  // });
-=======
-const styles = StyleSheet.create({
-  camera: {
-    zIndex: 0,
-  },
-  loadingContainer: { flex: 1, justifyContent: "center", alignItems: "center" },
-  loadingText: { fontSize: 18, textAlign: "center", marginRight: 8 },
-  predictionContainer: {
-    zIndex: 100,
-    position: "absolute",
-    bottom: 24,
-    left: 24,
-    right: 24,
-    backgroundColor: "rgba(255,255,255,0.8)",
-    padding: 8,
-    borderRadius: 20,
-    alignItems: "center",
-  },
-  predictionText: {
-    paddingVertical: 2,
-    fontSize: 20,
-  },
-  scoreContainer: {
-    zIndex: 100,
-    position: "absolute",
-    top: 24,
-    right: 24,
-    backgroundColor: "rgba(255,255,255,0.8)",
-    padding: 20,
-    borderRadius: 50,
-    alignItems: "center",
-  },
-  scoreText: {
-    paddingVertical: 2,
-    fontSize: 40,
-  },
-  feedbackContainer: {
-    zIndex: 100,
-    position: "absolute",
-    bottom: 24,
-    right: 10,
-    backgroundColor: "rgba(255,255,255,0.8)",
-    padding: 8,
-    borderRadius: 20,
-    alignItems: "center",
-  },
-  feedbackText: {
-    paddingVertical: 2,
-    fontSize: 20,
-  },
-  directionContainer: {
-    zIndex: 100,
-    position: "absolute",
-    top: 24,
-    right: 100,
-    backgroundColor: "rgba(255,255,255,0.8)",
-    padding: 8,
-    borderRadius: 20,
-    alignItems: "center",
-  },
-  directionText: {
-    paddingVertical: 2,
-    fontSize: 20,
-  },
-  timerContainer: {
-    zIndex: 100,
-    position: "absolute",
-    bottom: 24,
-    left: 10,
-    backgroundColor: "rgba(255,255,255,0.8)",
-    padding: 8,
-    borderRadius: 50,
-    alignItems: "center",
-  },
-  timerText: {
-    padding: 4,
-    fontSize: 30,
-  },
-  startContainer: {
-    zIndex: 1100,
-    position: "absolute",
-    justifyContent: "center",
-    left: 20,
-    backgroundColor: "rgba(255,255,255,0.8)",
-    padding: 8,
-    borderRadius: 20,
-    alignItems: "center",
-  },
-  startText: {
-    paddingVertical: 2,
-    fontSize: 30,
-  },
-  submitContainer: {
-    zIndex: 1100,
-    position: "absolute",
-    justifyContent: "center",
-    right: 20,
-    backgroundColor: "rgba(255,255,255,0.8)",
-    padding: 8,
-    borderRadius: 20,
-    alignItems: "center",
-  },
-  submitText: {
-    paddingVertical: 2,
-    fontSize: 30,
-  },
-});
->>>>>>> mainv3
+// const styles = StyleSheet.create({
+//   camera: {
+//     zIndex: 0,
+//   },
+//   loadingContainer: { flex: 1, justifyContent: "center", alignItems: "center" },
+//   loadingText: { fontSize: 18, textAlign: "center", marginRight: 8 },
+//   predictionContainer: {
+//     zIndex: 100,
+//     position: "absolute",
+//     bottom: 24,
+//     left: 24,
+//     right: 24,
+//     backgroundColor: "rgba(255,255,255,0.8)",
+//     padding: 8,
+//     borderRadius: 20,
+//     alignItems: "center",
+//   },
+//   predictionText: {
+//     paddingVertical: 2,
+//     fontSize: 20,
+//   },
+//   scoreContainer: {
+//     zIndex: 100,
+//     position: "absolute",
+//     top: 24,
+//     right: 24,
+//     backgroundColor: "rgba(255,255,255,0.8)",
+//     padding: 20,
+//     borderRadius: 50,
+//     alignItems: "center",
+//   },
+//   scoreText: {
+//     paddingVertical: 2,
+//     fontSize: 40,
+//   },
+//   feedbackContainer: {
+//     zIndex: 100,
+//     position: "absolute",
+//     bottom: 24,
+//     right: 10,
+//     backgroundColor: "rgba(255,255,255,0.8)",
+//     padding: 8,
+//     borderRadius: 20,
+//     alignItems: "center",
+//   },
+//   feedbackText: {
+//     paddingVertical: 2,
+//     fontSize: 20,
+//   },
+//   directionContainer: {
+//     zIndex: 100,
+//     position: "absolute",
+//     top: 24,
+//     right: 100,
+//     backgroundColor: "rgba(255,255,255,0.8)",
+//     padding: 8,
+//     borderRadius: 20,
+//     alignItems: "center",
+//   },
+//   directionText: {
+//     paddingVertical: 2,
+//     fontSize: 20,
+//   },
+//   timerContainer: {
+//     zIndex: 100,
+//     position: "absolute",
+//     bottom: 24,
+//     left: 10,
+//     backgroundColor: "rgba(255,255,255,0.8)",
+//     padding: 8,
+//     borderRadius: 50,
+//     alignItems: "center",
+//   },
+//   timerText: {
+//     padding: 4,
+//     fontSize: 30,
+//   },
+//   startContainer: {
+//     zIndex: 1100,
+//     position: "absolute",
+//     justifyContent: "center",
+//     left: 20,
+//     backgroundColor: "rgba(255,255,255,0.8)",
+//     padding: 8,
+//     borderRadius: 20,
+//     alignItems: "center",
+//   },
+//   startText: {
+//     paddingVertical: 2,
+//     fontSize: 30,
+//   },
+//   submitContainer: {
+//     zIndex: 1100,
+//     position: "absolute",
+//     justifyContent: "center",
+//     right: 20,
+//     backgroundColor: "rgba(255,255,255,0.8)",
+//     padding: 8,
+//     borderRadius: 20,
+//     alignItems: "center",
+//   },
+//   submitText: {
+//     paddingVertical: 2,
+//     fontSize: 30,
+//   },
+// });

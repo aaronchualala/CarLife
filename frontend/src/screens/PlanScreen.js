@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useContext } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import * as styles from '../css/PlanScreen.module.css';
 import * as globalStyles from '../css/globals.css';
@@ -6,6 +6,7 @@ import { MaterialIcon } from '../assets/MaterialIcons';
 import { Ionicon } from '../assets/Ionicons';
 import { useFonts } from 'expo-font';
 import { OrangeButton } from '../components/Buttons';
+import AppContext from '../components/AppContext';
 
 
 const NormalExSet = (props) => {
@@ -97,8 +98,9 @@ const RelatedExSet = (props) => {
 }
 
 const PlanScreen = () => {
+  const {user, setUser} = useContext(AppContext);
   let nowTime = new Date();
-  let today = `${nowTime.getDate().toString()}/${nowTime.getMonth().toString()}/${nowTime.getFullYear().toString()}`;
+  let today = `${nowTime.getDate().toString()}/${(nowTime.getMonth()+1).toString()}/${nowTime.getFullYear().toString()}`;
 
   const [showPopUp, setShowPopUp] = useState(false);
   const [showRelated, setShowRelated] = useState(false);

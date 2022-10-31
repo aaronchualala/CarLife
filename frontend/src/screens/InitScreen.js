@@ -1,4 +1,4 @@
-import React, { useState, show, useEffect, useRef, useCallback } from 'react';
+import React, { useState, show, useEffect, useRef, useCallback, useContext } from 'react';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { View, Text, Button, TextInput, Pressable, Platform, Image, ImageBackground, StyleSheet } from 'react-native';
@@ -9,6 +9,7 @@ import { FullWindowOverlay } from 'react-native-screens';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Checkbox from 'expo-checkbox';
 import { preventAutoHideAsync } from 'expo-splash-screen';
+import AppContext from '../components/AppContext';
 
 const bgImage = require('../assets/BackgroundImages/GreyscaleRunningMan.png');
 const logo = require('../assets/BackgroundImages/FitBudsLogo.png');
@@ -16,18 +17,9 @@ const next = require('../assets/BackgroundImages/next.png')
 const back = require('../assets/BackgroundImages/back.png')
 const InitStack = createNativeStackNavigator();
 // SplashScreen.preventAutoHideAsync();
-var InitData = {};
-
-const style = StyleSheet.create({
-  shadowProp: {
-    shadowColor: '#000000',
-    shadowOffset: { width: -2, height: 1 },
-    shadowOpacity: 0.5,
-    shadowRadius: 0.9,
-  },
-});
 
 function GetStarted({ navigation }) {
+  const {user, setUser} = useContext(AppContext)
   return (
     <View style={{ flex: 1, justifyContent: 'center' }}>
       <ImageBackground source={bgImage} style={{ height: '100%', width: '100%' }} blurRadius={3.5}>
@@ -54,45 +46,29 @@ function GetStarted({ navigation }) {
 }
 
 function Login({ navigation }) {
-  const [loginData, setLoginData] = useState({});
-  const [dataReq, setDataReq] = useState('');
+  const {user, setUser} = useContext(AppContext)
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loggedIn, setLoggedIn] = useState(false);
   const [failed, setFailed] = useState(false);
 
-  let initialRender = useRef(true);
-  useEffect(() => {
-    if (initialRender.current) {
-      initialRender.current = false;
-    } else {
-      loginUser(loginData);
-    }
-  }, [loginData])
-
-  useEffect(() => {
-    if (dataReq._id) {
-      setFailed(false);
-      setLoggedIn(true);
-    }
-    else if (dataReq.message === "User Not Found") {
-      setFailed(true);
-    }
-  }, [dataReq])
-
-  async function loginUser(credentials) {
+  const login = async () => {
+    console.log("????")
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(credentials)
+      body: JSON.stringify({username:username, password:password})
     };
-    fetch("http://52.77.246.182:3000/users", requestOptions)
-      .then(response => response.json())
-      .then(data => setDataReq(data))
-  }
-
-  function setLogin() {
-    setLoginData({ username: username, password: password });
+    const res = await fetch("http://52.77.246.182:3000/users", requestOptions)
+    const data = await res.json()
+    if(data.message  === "User Not Found" || data.message === "Incorrect Password"){
+      setLoggedIn(false)
+      setFailed(true)
+    } else{
+      setUser(data)
+      setLoggedIn(true)
+      setFailed(false)
+    }
   }
 
   return (
@@ -119,9 +95,7 @@ function Login({ navigation }) {
           value={password}
         />
         <Pressable style={styles.loginButton}
-          onPress={() => {
-            setLogin();
-          }}>
+          onPress={login}>
           <Text style={styles.loginText}>Login</Text>
         </Pressable>
         {loggedIn ?
@@ -141,6 +115,7 @@ function Login({ navigation }) {
 }
 
 function Registration({ navigation }) {
+  const {user, setUser} = useContext(AppContext)
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [valid, setValid] = useState(false);
@@ -240,7 +215,7 @@ function Registration({ navigation }) {
         }
         {valid ? <Pressable style={styles.nextButton}
           onPress={() => {
-            InitData = { ...InitData, username: email, password: password };
+            setUser({ ...user, username: email, password: password });
             navigation.navigate('PersonalDetails');
           }}>
           <Text style={styles.nextText}>Next</Text>
@@ -251,6 +226,7 @@ function Registration({ navigation }) {
 }
 
 function PersonalDetails({ navigation }) {
+  const {user, setUser} = useContext(AppContext)
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
   const [date, setDate] = useState(new Date());
@@ -314,7 +290,7 @@ function PersonalDetails({ navigation }) {
 
         <Pressable style={styles.fitnessNextButton}
           onPress={() => {
-            InitData = { ...InitData, name: name, residentialAddress: address, birthdate: date.getTime() };
+            setUser({ ...user, name: name, residentialAddress: address, birthdate: date.getTime() });
             navigation.navigate('CurrentFitness');
           }}>
           <View style={styles.alignContainer}>
@@ -328,10 +304,24 @@ function PersonalDetails({ navigation }) {
 }
 
 function CurrentFitness({ navigation }) {
+  const {user, setUser} = useContext(AppContext)
   const [pushUp, setPushUp] = useState('');
   const [sitUp, setSitUp] = useState('');
   const [run, setRun] = useState('');
-
+  const currentFitnessSubmit = async () => {
+    const res = await fetch("http://52.77.246.182:3000/others/score/?age=22&pushups=40&situps=40&run=660")
+    const data = await res.json()
+    setUser({ 
+      ...user,
+      currentAbilities: {
+        pushUpCount: pushUp,
+        sitUpCount: sitUp,
+        runTimeInSeconds: run
+      },
+      IPPTPrevGrade: data.result.name
+    });
+    navigation.navigate('TargetFitness');
+  }
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <ImageBackground source={bgImage} style={{ height: '100%', width: '100%' }} blurRadius={8}>
@@ -384,17 +374,7 @@ function CurrentFitness({ navigation }) {
             </View>
           </Pressable>
           <Pressable style={styles.fitnessNextButton2}
-            onPress={() => {
-              InitData = {
-                ...InitData,
-                currentAbilities: {
-                  pushUpCount: pushUp,
-                  sitUpCount: sitUp,
-                  runTimeInSeconds: run
-                }
-              };
-              navigation.navigate('TargetFitness');
-            }}>
+            onPress={currentFitnessSubmit}>
             <View style={styles.alignContainer}>
               <Text style={styles.fitnessNextText}>Next </Text>
               <Image source={next}></Image>
@@ -407,9 +387,30 @@ function CurrentFitness({ navigation }) {
 }
 
 function TargetFitness({ navigation }) {
+  const {user, setUser} = useContext(AppContext)
   const [targetPushUp, setTargetPushUp] = useState('');
   const [targetSitUp, setTargetSitUp] = useState('');
   const [targetRun, setTargetRun] = useState('');
+
+  const requestOptions = {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(user)
+  };
+
+  const register = async () => {
+    setUser({ 
+      ...user,
+      targetAbilities: {
+        pushUpCount: targetPushUp,
+        sitUpCount: targetSitUp,
+        runTimeInSeconds: targetRun
+      }});
+      const res = await fetch("http://52.77.246.182:3000/users", requestOptions)
+      const json = await res.json();
+      console.log(json)
+      navigation.navigate('BottomTab');
+    }
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -464,17 +465,7 @@ function TargetFitness({ navigation }) {
             </View>
           </Pressable>
           <Pressable style={styles.fitnessNextButton3}
-            onPress={() => {
-              InitData = {
-                ...InitData,
-                targetAbilities: {
-                  pushUpCount: targetPushUp,
-                  sitUpCount: targetSitUp,
-                  runTimeInSeconds: targetRun
-                }
-              };
-              navigation.navigate('LocationRecommender');
-            }}>
+            onPress={register}>
             <View style={styles.alignContainer}>
               <Text style={styles.fitnessNextText}>Let's Go! </Text>
               <Image source={next}></Image>
@@ -487,45 +478,10 @@ function TargetFitness({ navigation }) {
   );
 }
 
-function LocationRecommender({ navigation }) {
-  const [pressed, setPressed] = useState(false);
-  const [dataReq, setDataReq] = useState('')
-  const toggle = () => setPressed(previousState => !previousState);
-
-  useEffect(() => {
-    const requestOptions = {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(InitData)
-    };
-    fetch("http://52.77.246.182:3000/users", requestOptions)
-      .then(response => response.json())
-      .then(data => setDataReq(data));
-  }, [pressed])
-
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>recommend location</Text>
-      <Button
-        title='refresh'
-        onPress={toggle}
-      />
-      <Button
-        title="Next"
-        onPress={() => {
-          toggle();
-          navigation.navigate('BottomTab');
-        }}
-      />
-    </View>
-  );
-}
-
 export default function InitScreen(props) {
   let [fontsLoaded] = useFonts({
     'Montserrat': require('../assets/fonts/static/Montserrat-Black.ttf'),
     'Montserrat-Medium': require('../assets/fonts/static/Montserrat-Medium.ttf'),
-
   }); // Change as needed
 
   const onLayoutRootView = useCallback(async () => {
@@ -549,10 +505,15 @@ export default function InitScreen(props) {
       <InitStack.Screen name="PersonalDetails" component={PersonalDetails} />
       <InitStack.Screen name="CurrentFitness" component={CurrentFitness} />
       <InitStack.Screen name="TargetFitness" component={TargetFitness} />
-      <InitStack.Screen
-        name="LocationRecommender"
-        component={LocationRecommender}
-      />
     </InitStack.Navigator>
   );
 }
+
+const style = StyleSheet.create({
+  shadowProp: {
+    shadowColor: '#000000',
+    shadowOffset: { width: -2, height: 1 },
+    shadowOpacity: 0.5,
+    shadowRadius: 0.9,
+  },
+});
