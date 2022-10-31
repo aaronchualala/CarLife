@@ -31,7 +31,7 @@
 
 .locationContainer {
     z-index: 8;
-    background-color: #FCBF49;
+    background-color: #F77F00;
     border-radius: 15px;
     padding: 4px;
     justify-content: center;
@@ -44,6 +44,16 @@
     color: #EDF2F4;
     font-weight: normal;
     align-self: center;
+    text-justify: center;
+    text-transform: capitalize;
+    font-family: "Montserrat";
+}
+.relLocationText {
+    padding-top: 2px;
+    font-size: 20px;
+    color: #3c2308;
+    font-weight: normal;
+    text-align: center;
     text-justify: center;
     text-transform: capitalize;
     font-family: "Montserrat";
@@ -147,7 +157,7 @@
 
 .setsContainer {
     flex-direction: column;
-    padding: 20px 18px 0 30px;
+    padding: 14px 18px 0 30px;
 }
 
 .set {
@@ -205,6 +215,6 @@
     line-height: 34px;
     padding-top: 20px;
     text-align: center;
-    font-family: "Montserrat";
+    font-family: "Montserrat-SemiBold";
     color: #F77F00;
 }

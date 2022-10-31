@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Text, View, ScrollView, Button, Alert, TouchableOpacity, TextInput } from 'react-native';
+import { Text, View, ScrollView, Button, Alert, TouchableOpacity, TextInput, Image } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
@@ -11,7 +11,7 @@ import { OrangeButton } from '../components/Buttons';
 import { getJSDocReadonlyTag } from 'typescript';
 
 const ProfileStack = createNativeStackNavigator();
-
+var profileImg = require('../assets/Images/profileIcon4.png');
 function ProfilePage({ route, navigation }) {
   // const { nextIPPT } = route.params;
 
@@ -119,18 +119,19 @@ function ProfilePage({ route, navigation }) {
       <View style={styles.contentContainer} >
         <View style={styles.accountContainer}>
           <View style={styles.profilePic}>
-            <Ionicon
+            <Image source={profileImg}/>
+            {/* <Ionicon
               size="extraLarge"
               color="black"
               name="person-outline"
-            />
+            /> */}
           </View>
           <View style={styles.accountDetailsContainer}>
             <Text style={styles.titleText}>{data.name}</Text>
             <Text style={styles.detailText}>{userAge} years old</Text>
             <Text style={styles.detailText}>Last Result: {scoreData.result.name}</Text>
           </View>
-          <View style={styles.editProfile}>
+          {/* <View style={styles.editProfile}>
             <TouchableOpacity activeOpacity={0.8} onPress={() => {
               navigation.navigate('EditPage', {
                 lastResult: scoreData.result.name,
@@ -143,16 +144,16 @@ function ProfilePage({ route, navigation }) {
                 name="create-outline"
               />
             </TouchableOpacity>
-          </View>
+          </View> */}
         </View>
         <View style={styles.nextIpptContainer}>
           <View style={styles.ipptDateContainer}>
-            <Text style={styles.ipptDate}>Next IPPT: </Text>
+            <Text style={styles.ipptDate}>IPPT Window Closes:</Text>
             <Text style={styles.ipptDateData}>{nextIPPT}</Text>
           </View>
         </View>
 
-        <View style={styles.resultHistoryContainer}>
+        {/* <View style={styles.resultHistoryContainer}>
           <Text style={styles.sectionHeadText}>Past IPPT Results</Text>
           {data.pastResults[0] ?
             <View style={styles.resultEntry}>
@@ -172,61 +173,61 @@ function ProfilePage({ route, navigation }) {
               <Text style={styles.resultText}>{data.pastResults[2].result}</Text>
             </View>
             : null}
-        </View>
+        </View> */}
       </View>
       {/* </ScrollView> */}
     </>
   );
 };
 
-function EditPage({ route, navigation }) {
-  const { lastResult, nextIPPT } = route.params;
-  const [newLastResult, setNewLastResult] = useState(lastResult);
-  const [newNextIPPT, setNewNextIPPT] = useState(nextIPPT);
+// function EditPage({ route, navigation }) {
+//   const { lastResult, nextIPPT } = route.params;
+//   const [newLastResult, setNewLastResult] = useState(lastResult);
+//   const [newNextIPPT, setNewNextIPPT] = useState(nextIPPT);
 
-  return (
-    <View style={styles.editPageContainer}>
-      <View style={globalStyles.banner}>
-        <View style={styles.backButton}>
-          <Button
-            title="< Back"
-            style={styles.backButton}
-            onPress={() => navigation.goBack()}
-          />
-        </View>
-        <Text style={globalStyles.bannerText}>Edit Profile</Text>
-      </View>
+//   return (
+//     <View style={styles.editPageContainer}>
+//       <View style={globalStyles.banner}>
+//         <View style={styles.backButton}>
+//           <Button
+//             title="< Back"
+//             style={styles.backButton}
+//             onPress={() => navigation.goBack()}
+//           />
+//         </View>
+//         <Text style={globalStyles.bannerText}>Edit Profile</Text>
+//       </View>
 
-      <View style={{ flexDirection: 'column', alignSelf: 'center' }}>
-        <Text style={styles.editPageHeaderText}>Last Result</Text>
-        <TextInput
-          style={globalStyles.textInputClass}
-          onChangeText={text => setNewLastResult(text)}
-          value={newLastResult}
-          clearTextOnFocus={true}
-          defaultValue={lastResult}
-        />
-        <Text style={styles.editPageHeaderText}>Next IPPT</Text>
-        <TextInput
-          style={globalStyles.textInputClass}
-          onChangeText={text => setNewNextIPPT(text)}
-          value={newNextIPPT}
-          clearTextOnFocus={true}
-          defaultValue={nextIPPT}
-        />
-        <Button
-          title="Save"
-          onPress={() => navigation.navigate('ProfilePage', {
-            name: name,
-            age: age,
-            lastResult: lastResult,
-            nextIPPT: nextIPPT,
-          })}
-        />
-      </View>
-    </View>
-  );
-};
+//       <View style={{ flexDirection: 'column', alignSelf: 'center' }}>
+//         <Text style={styles.editPageHeaderText}>Last Result</Text>
+//         <TextInput
+//           style={globalStyles.textInputClass}
+//           onChangeText={text => setNewLastResult(text)}
+//           value={newLastResult}
+//           clearTextOnFocus={true}
+//           defaultValue={lastResult}
+//         />
+//         <Text style={styles.editPageHeaderText}>Next IPPT</Text>
+//         <TextInput
+//           style={globalStyles.textInputClass}
+//           onChangeText={text => setNewNextIPPT(text)}
+//           value={newNextIPPT}
+//           clearTextOnFocus={true}
+//           defaultValue={nextIPPT}
+//         />
+//         <Button
+//           title="Save"
+//           onPress={() => navigation.navigate('ProfilePage', {
+//             name: name,
+//             age: age,
+//             lastResult: lastResult,
+//             nextIPPT: nextIPPT,
+//           })}
+//         />
+//       </View>
+//     </View>
+//   );
+// };
 
 // export default ProfileScreen;
 
@@ -253,7 +254,7 @@ export default function ProfileScreen() {
         headerShown: false,
       }}>
       <ProfileStack.Screen name="ProfilePage" component={ProfilePage} initialParams={{ nextIPPT: "01 Sept 2023" }} />
-      <ProfileStack.Screen name="EditPage" component={EditPage} initialParams={{ nextIPPT: "01 Sept 2023" }} />
+      {/* <ProfileStack.Screen name="EditPage" component={EditPage} initialParams={{ nextIPPT: "01 Sept 2023" }} /> */}
     </ProfileStack.Navigator>
   )
 }

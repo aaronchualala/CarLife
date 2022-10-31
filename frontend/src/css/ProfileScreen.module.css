@@ -6,7 +6,8 @@
 
 .accountContainer {
     background-color: white;
-    height: 145px;
+    /* height: 145px; */
+    height: 250px;
     width: 100%;
     margin-top: 15px;
     display: flex;
@@ -51,8 +52,8 @@
 .nextIpptContainer {
     display: flex;
     flex-direction: column;
-    background-color: white;
-    height: 100px;
+    background-color: #F77F00;
+    height: 25%; /* 100px */
     /* 207 px for orange button */
     width: 100%;
     margin-top: 15px;
@@ -62,28 +63,27 @@
 
 .ipptDateContainer {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
 .ipptDate {
     font-style: normal;
-    font-family: 'Montserrat-Light';
-    font-weight: 400;
-    font-size: 24px;
-    line-height: 29px;
-    color: #003049;
-    margin-right: 19px;
-}
-
-.ipptDateData {
-    font-style: normal;
     font-family: 'Montserrat';
     font-weight: 400;
     font-size: 24px;
     line-height: 29px;
-    color: #F77F00;
+    color: #FFF;
+}
+
+.ipptDateData {
+    font-style: normal;
+    font-family: 'Montserrat-SemiBold';
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 29px;
+    color: #FFF;
 }
 
 .sectionText {
