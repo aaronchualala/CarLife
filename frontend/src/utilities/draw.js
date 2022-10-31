@@ -1,6 +1,6 @@
 // from https://github.com/tensorflow/tfjs-models/blob/b5d49c0f5ba2057cc29b40317126c5f182495f96/posenet/demo/demo_util.js
 import * as posenet from '@tensorflow-models/posenet';
-import * as tf from '@tensorflow/tfjs-core';
+// import * as tf from '@tensorflow/tfjs-core';
 import { createExportAssignment } from 'typescript';
 
 // import * as poseDetection from '@tensorflow-models/pose-detection';

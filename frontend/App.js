@@ -7,11 +7,11 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import InitScreen from './src/screens/InitScreen';
 import BottomTab from './src/screens/BottomTab';
 import {CustomStatusBar} from './src/components/CustomStatusBar';
+import { AppContext } from './src/components/AppContext';
 const Stack = createNativeStackNavigator();
 
-
 export default function App() {
-  var openScreen = 'Init';
+  var openScreen = 'BottomTab';
   return (
     <NavigationContainer>
       <CustomStatusBar />

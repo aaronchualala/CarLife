@@ -1,6 +1,3 @@
-// import {app, auth, db} from '../firebase/config';
-// import {createUserWithEmailAndPassword} from 'firebase/auth';
-// import {collection, doc, setDoc} from 'firebase/firestore';
 import React, {useState, show} from 'react';
 import { useCallback } from 'react';
 import { useFonts } from 'expo-font';
