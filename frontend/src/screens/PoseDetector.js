@@ -210,7 +210,7 @@ function SubmitButton({ start, score, type }) {
       console.error(error);
     }
   };
-  
+
   initialRender = useRef(true);
   useEffect(() => {
     if (initialRender.current) {
@@ -231,10 +231,10 @@ function SubmitButton({ start, score, type }) {
       }
     }
   }, [data])
-  
+
   useEffect(() => {
     getUser();
-  },[])
+  }, [])
 
   const patchUser = async () => {
     const requestOptions = {
@@ -248,15 +248,33 @@ function SubmitButton({ start, score, type }) {
         currentAbilities: currentAbilities
       })
     };
-    try {
-      const response = await fetch('http://52.77.246.182:3000/users', requestOptions);
-      const json = await response.json();
-      console.log("Patching user...");
-      setPatchRes(json);
-      console.log(patchRes);
-    } catch (error) {
-      console.error(error);
-    }
+    fetch("http://52.77.246.182:3000/users", requestOptions)
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error('Something went wrong');
+      })
+      .then((responseJson) => {
+        // Do something with the response
+        setPatchRes(responseJson);
+        console.log(patchRes);
+      })
+      .catch((error) => {
+        console.log(error)
+      });
+    // .then(response => response.json())
+    // .then(data => setPatchRes(data))
+    // .then(console.log(patchRes))
+    // try {
+    //   const response = await fetch('http://52.77.246.182:3000/users', requestOptions);
+    //   const json = await response.json();
+    //   console.log("Patching user...");
+    //   setPatchRes(json);
+    //   console.log(patchRes);
+    // } catch (error) {
+    //   console.error(error);
+    // }
   };
 
   if (!start && score > 0) {
@@ -416,7 +434,7 @@ const styles = StyleSheet.create({
     right: 24,
     backgroundColor: "rgba(255,255,255,0.8)",
     padding: 20,
-    borderRadius: 20,
+    borderRadius: 50,
     alignItems: "center",
   },
   scoreText: {
@@ -458,11 +476,11 @@ const styles = StyleSheet.create({
     left: 10,
     backgroundColor: "rgba(255,255,255,0.8)",
     padding: 8,
-    borderRadius: 20,
+    borderRadius: 50,
     alignItems: "center",
   },
   timerText: {
-    paddingVertical: 2,
+    padding: 4,
     fontSize: 30,
   },
   startContainer: {

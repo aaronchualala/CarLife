@@ -111,6 +111,7 @@ const PlanScreen = () => {
   const [isRelatedLoading, setRelatedLoading] = useState(true);
 
   const [testLocal, setTestLocal] = useState('');
+  const [relLocal, setRelLocal] = useState('');
   const [showLocalPU, setLocalPU] = useState(false);
 
   const togglePopUp = () => {
@@ -167,6 +168,16 @@ const PlanScreen = () => {
       console.error(error);
     }
   };
+  
+  const getRelLocal = async () => {
+    try {
+      const response = await fetch('http://52.77.246.182:3000/findNearest/gym-and-park?address=636957'); // set location based on address of user
+      const json = await response.json();
+      setRelLocal(json);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const renderTestLocalPU = () => {
     return (
@@ -194,6 +205,7 @@ const PlanScreen = () => {
     getNormalEx();
     getRelatedEx();
     getTestLocal();
+    getRelLocal();
   }, []);
 
   let [fontsLoaded] = useFonts({
@@ -249,6 +261,8 @@ const PlanScreen = () => {
         {showRelated ?
           <View style={styles.bonusExercisesContainer}>
             <Text style={styles.bonusExercisesHeaderText}>Bonus Exercises</Text>
+            <Text style={styles.relLocationText}>Nearest Gym:</Text>
+            <Text style={styles.relLocationText}>{relLocal.nearestGym.split(',')[0]}</Text>
             <View style={styles.setsContainer} >
               {isRelatedLoading ? null : <RelatedExSet data={dataRelated} set={4} state={exStateId[4]} update={updateStateID} updateNext={updateNextID} />}
               {isRelatedLoading ? null : <RelatedExSet data={dataRelated} set={5} state={exStateId[5]} update={updateStateID} updateNext={updateNextID} />}
