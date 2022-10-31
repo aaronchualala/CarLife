@@ -21,6 +21,7 @@ const NormalExSet = (props) => {
   const updateState = () => {
     if (props.state == 1) {
       props.update(props.set);
+      props.nav()
     }
   }
 
@@ -97,7 +98,7 @@ const RelatedExSet = (props) => {
   )
 }
 
-const PlanScreen = () => {
+const PlanScreen = ({navigation}) => {
   const {user, setUser} = useContext(AppContext);
   let nowTime = new Date();
   let today = `${nowTime.getDate().toString()}/${(nowTime.getMonth()+1).toString()}/${nowTime.getFullYear().toString()}`;
@@ -181,6 +182,8 @@ const PlanScreen = () => {
     }
   };
 
+  const navToPoseDetector = () => navigation.navigate('Train', {screen: 'PushUps'},)
+
   const renderTestLocalPU = () => {
     return (
       <View style={styles.localPopUpContainer}>
@@ -255,9 +258,9 @@ const PlanScreen = () => {
           </View>
 
           <View style={styles.setsContainer} >
-            {isNormalLoading ? null : <NormalExSet data={dataNormal} set={1} state={exStateId[1]} update={updateStateID} updateNext={updateNextID} />}
-            {isNormalLoading ? null : <NormalExSet data={dataNormal} set={2} state={exStateId[2]} update={updateStateID} updateNext={updateNextID} />}
-            {isNormalLoading ? null : <NormalExSet data={dataNormal} set={3} state={exStateId[3]} update={updateStateID} updateNext={updateNextID} />}
+            {isNormalLoading ? null : <NormalExSet data={dataNormal} set={1} state={exStateId[1]} update={updateStateID} updateNext={updateNextID} nav={navToPoseDetector} />}
+            {isNormalLoading ? null : <NormalExSet data={dataNormal} set={2} state={exStateId[2]} update={updateStateID} updateNext={updateNextID} nav={navToPoseDetector} />}
+            {isNormalLoading ? null : <NormalExSet data={dataNormal} set={3} state={exStateId[3]} update={updateStateID} updateNext={updateNextID} nav={navToPoseDetector} />}
           </View>
         </View>
         {showRelated ?
