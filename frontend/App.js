@@ -11,7 +11,7 @@ import { AppContext } from './src/components/AppContext';
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  var openScreen = 'BottomTab';
+  var openScreen = 'InitScreen';
   return (
     <NavigationContainer>
       <CustomStatusBar />

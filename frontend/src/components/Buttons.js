@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
         elevation: 8,
         backgroundColor: "#FCBF49",
         borderRadius: 15,
-        padding: 4,
+        paddingTop: 6,
         height: 40,
         width: 278,
         opacity: 1.0
@@ -30,5 +30,6 @@ const styles = StyleSheet.create({
         fontWeight: "normal",
         alignSelf: "center",
         textAlignVertical: "center",
+        fontFamily: "Montserrat",
     }
 });
