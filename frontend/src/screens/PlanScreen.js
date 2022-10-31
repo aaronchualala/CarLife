@@ -232,7 +232,7 @@ const PlanScreen = () => {
       </View>
       <ScrollView contentContainerStyle={styles.contentContainer}>
         <View style={styles.daysToGoContainer}>
-          <Text style={styles.daysToGoText}><Text style={styles.daysToGoTextDays}>128</Text> Days to IPPT Gold</Text>
+          <Text style={styles.daysToGoText}>Welcome {user.username}! You have <Text style={styles.daysToGoTextDays}>128</Text> Days to IPPT Gold</Text>
           <Pressable onPress={toggleLocalPU}>
             <View style={styles.locationContainer}>
               <Text style={styles.locationText}>Test Location: {testLocal.nearestFcc}</Text>
