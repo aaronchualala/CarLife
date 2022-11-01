@@ -11,7 +11,7 @@ const Stack = createNativeStackNavigator();
 import AppContext from './src/components/AppContext';
 
 export default function App() {
-  var openScreen = 'BottomTab';
+  var openScreen = 'Init';
   const userInitData = {
     username: "",
     password: "",

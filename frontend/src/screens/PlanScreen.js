@@ -7,7 +7,6 @@ import { Ionicon } from '../assets/Ionicons';
 import { useFonts } from 'expo-font';
 import { OrangeButton } from '../components/Buttons';
 import AppContext from '../components/AppContext';
-import { sortAndDeduplicateDiagnostics } from 'typescript';
 
 
 const NormalExSet = (props) => {
