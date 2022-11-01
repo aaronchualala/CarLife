@@ -7,6 +7,7 @@ import { Ionicon } from '../assets/Ionicons';
 import { useFonts } from 'expo-font';
 import { OrangeButton } from '../components/Buttons';
 import AppContext from '../components/AppContext';
+import { sortAndDeduplicateDiagnostics } from 'typescript';
 
 
 const NormalExSet = (props) => {
@@ -101,7 +102,7 @@ const RelatedExSet = (props) => {
 const PlanScreen = ({navigation}) => {
   const {user, setUser} = useContext(AppContext);
   let nowTime = new Date();
-  let today = `${nowTime.getDate().toString()}/${(nowTime.getMonth()+1).toString()}/${nowTime.getFullYear().toString()}`;
+  let today = `${nowTime.getDate().toString()}/${(nowTime.getMonth() + 1).toString()}/${nowTime.getFullYear().toString()}`;
 
   const [showPopUp, setShowPopUp] = useState(false);
   const [showRelated, setShowRelated] = useState(false);
@@ -116,6 +117,12 @@ const PlanScreen = ({navigation}) => {
   const [testLocal, setTestLocal] = useState('');
   const [relLocal, setRelLocal] = useState('');
   const [showLocalPU, setLocalPU] = useState(false);
+
+  var todayYear = new Date().getUTCFullYear();
+  const [userAge, setUserAge] = useState(0);
+  const [nextIPPT, setNextIPPT] = useState('');
+  const [scoreData, setScoreData] = useState({ "result": { "name": "-" } });
+  const [daysLeft, setDaysLeft] = useState(0);
 
   const togglePopUp = () => {
     if (exStateId[4] === 1)
@@ -140,7 +147,7 @@ const PlanScreen = ({navigation}) => {
 
   const getNormalEx = async () => {
     try {
-      const response = await fetch('http://52.77.246.182:3000/getExercise/normal/3');
+      const response = await fetch(`http://52.77.246.182:3000/getExercise/normal/${user.username}`);
       const json = await response.json();
       setDataNormal(json);
     } catch (error) {
@@ -152,7 +159,7 @@ const PlanScreen = ({navigation}) => {
 
   const getRelatedEx = async () => {
     try {
-      const response = await fetch('http://52.77.246.182:3000/getExercise/related/3');
+      const response = await fetch(`http://52.77.246.182:3000/getExercise/related/${user.username}`);
       const json = await response.json();
       setDataRelated(json);
     } catch (error) {
@@ -164,17 +171,17 @@ const PlanScreen = ({navigation}) => {
 
   const getTestLocal = async () => {
     try {
-      const response = await fetch('http://52.77.246.182:3000/findNearest/fcc?address=636957'); // set location based on address of user
+      const response = await fetch(`http://52.77.246.182:3000/findNearest/fcc?address=${user.residentialAddress}`); // set location based on address of user
       const json = await response.json();
       setTestLocal(json);
     } catch (error) {
       console.error(error);
     }
   };
-  
+
   const getRelLocal = async () => {
     try {
-      const response = await fetch('http://52.77.246.182:3000/findNearest/gym-and-park?address=636957'); // set location based on address of user
+      const response = await fetch(`http://52.77.246.182:3000/findNearest/gym-and-park?address=${user.residentialAddress}`); // set location based on address of user
       const json = await response.json();
       setRelLocal(json);
     } catch (error) {
@@ -206,12 +213,84 @@ const PlanScreen = ({navigation}) => {
     )
   };
 
+  const setAge = () => {
+    let userDate = new Date(user.birthdate).getUTCDate();
+    let userMonth = new Date(user.birthdate).getUTCMonth();
+    let userYear = new Date(user.birthdate).getUTCFullYear();
+    var age = todayYear - userYear;
+    var m = nowTime.getMonth() - userMonth;
+    if (m < 0 || (m === 0 && nowTime.getDate() < userDate)) {
+      age--;
+    }
+    setUserAge(age);
+  }
+
+  const setUserIPPTDate = () => {
+    let userDate = new Date(user.birthdate).getUTCDate();
+    let userMonth = new Date(user.birthdate).getUTCMonth();
+    if (userDate == 1) {
+      switch (userMonth) {
+        case 2:
+        case 4:
+        case 6:
+        case 8:
+        case 9:
+        case 11:
+          userDate = 31;
+          break;
+        case 1:
+        case 5:
+        case 7:
+        case 10:
+        case 12:
+          userDate = 30;
+          break;
+        case 3:
+          userDate = 28;
+          break;
+      }
+    } else { userDate = userDate - 1 }
+
+    var m = nowTime.getUTCMonth() - userMonth;
+    if (m < 0 || (m === 0 && nowTime.getUTCDate() < userDate)) {
+      setNextIPPT(`${userDate}/${userMonth}/${todayYear}`)
+    } else { setNextIPPT(`${userDate}/${userMonth}/${todayYear + 1}`) }
+  }
+
+  const calcScore = async () => {
+    try {
+      const res = await fetch(`http://52.77.246.182:3000/others/score/?age=${userAge}&pushups=${user.targetAbilities.pushUpCount}&situps=${user.targetAbilities.sitUpCount}&run=${user.targetAbilities.runTimeInSeconds}`);
+      const json = await res.json();
+      setScoreData(json);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const daysToGo = () => {
+    let nextWindowClose = nextIPPT.split('/');
+    let windowIppt = new Date(nextWindowClose[2],nextWindowClose[1],nextWindowClose[0]);
+    const days = (windowIppt, nowTime) => {
+      let difference = windowIppt.getTime() - nowTime.getTime();
+      let daysLeft = Math.ceil(difference / (1000 * 3600 * 24));
+      setDaysLeft(daysLeft);
+    }
+    days(windowIppt,nowTime);
+  }
+
   useEffect(() => {
     getNormalEx();
     getRelatedEx();
     getTestLocal();
     getRelLocal();
+    setAge()
+    calcScore();
+    setUserIPPTDate();
   }, []);
+  
+  useEffect(() => {
+    daysToGo();
+  },[scoreData])
 
   let [fontsLoaded] = useFonts({
     'Montserrat': require('../assets/fonts/static/Montserrat-Regular.ttf'),
@@ -235,7 +314,7 @@ const PlanScreen = ({navigation}) => {
       </View>
       <ScrollView contentContainerStyle={styles.contentContainer}>
         <View style={styles.daysToGoContainer}>
-          <Text style={styles.daysToGoText}>Welcome {user.username}! You have <Text style={styles.daysToGoTextDays}>128</Text> Days to IPPT Gold</Text>
+          <Text style={styles.daysToGoText}>Welcome {user.username}! You have <Text style={styles.daysToGoTextDays}>{daysLeft}</Text> Days to IPPT {scoreData.result.name}</Text>
           <Pressable onPress={toggleLocalPU}>
             <View style={styles.locationContainer}>
               <Text style={styles.locationText}>Test Location: {testLocal.nearestFcc}</Text>

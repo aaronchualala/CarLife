@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useContext } from 'react';
 import { Text, View, ScrollView, Button, Alert, TouchableOpacity, TextInput, Image } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useFonts } from 'expo-font';
@@ -7,21 +7,21 @@ import * as styles from '../css/ProfileScreen.module.css';
 import * as globalStyles from '../css/globals.css';
 import { MaterialIcon } from '../assets/MaterialIcons';
 import { Ionicon } from '../assets/Ionicons';
-import { OrangeButton } from '../components/Buttons';
-import { getJSDocReadonlyTag } from 'typescript';
+import AppContext from '../components/AppContext';
+
+
 
 const ProfileStack = createNativeStackNavigator();
 var profileImg = require('../assets/Images/profileIcon4.png');
 function ProfilePage({ route, navigation }) {
-  // const { nextIPPT } = route.params;
-
+  const {user, setUser} = useContext(AppContext);
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState({ "currentAbilities": { "pushUpCount": 0, "sitUpCount": 0, "runTimeInSeconds": 0 }, "pastResults": [null,null,null] });
   var todayYear = new Date().getUTCFullYear();
   var today = new Date();
   const [userAge, setUserAge] = useState(0);
-  const [scoreData, setScoreData] = useState({ "result": { "name": "-" } });
   const [nextIPPT, setNextIPPT] = useState('');
+  const [scoreData, setScoreData] = useState({ "result": { "name": "-" } });
 
   const getUsers = async () => {
     try {
@@ -31,8 +31,8 @@ function ProfilePage({ route, navigation }) {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          username: "Jimmy",
-          password: "password"
+          username: `Jimmy`,
+          password: `password`
         })
       });
       const json = await response.json();
@@ -46,9 +46,9 @@ function ProfilePage({ route, navigation }) {
   };
 
   const setAge = () => {
-    let userDate = new Date(data.birthdate).getUTCDate();
-    let userMonth = new Date(data.birthdate).getUTCMonth();
-    let userYear = new Date(data.birthdate).getUTCFullYear();
+    let userDate = new Date(user.birthdate).getUTCDate();
+    let userMonth = new Date(user.birthdate).getUTCMonth();
+    let userYear = new Date(user.birthdate).getUTCFullYear();
     var age = todayYear - userYear;
     var m = today.getMonth() - userMonth;
     if (m < 0 || (m === 0 && today.getDate() < userDate)) {
@@ -58,9 +58,9 @@ function ProfilePage({ route, navigation }) {
   }
 
   const setUserIPPTDate = () => {
-    let userDate = new Date(data.birthdate).getUTCDate();
-    let userMonth = new Date(data.birthdate).getUTCMonth();
-    let userYear = new Date(data.birthdate).getFullYear();
+    let userDate = new Date(user.birthdate).getUTCDate();
+    let userMonth = new Date(user.birthdate).getUTCMonth();
+    let userYear = new Date(user.birthdate).getFullYear();
     if (userDate == 1) {
       switch (userMonth) {
         case 2:
@@ -92,7 +92,7 @@ function ProfilePage({ route, navigation }) {
 
   const calcScore = async () => {
     try {
-      const res = await fetch(`http://52.77.246.182:3000/others/score/?age=${userAge}&pushups=${data.currentAbilities.pushUpCount}&situps=${data.currentAbilities.sitUpCount}&run=${data.currentAbilities.runTimeInSeconds}`);
+      const res = await fetch(`http://52.77.246.182:3000/others/score/?age=${userAge}&pushups=${user.currentAbilities.pushUpCount}&situps=${user.currentAbilities.sitUpCount}&run=${user.currentAbilities.runTimeInSeconds}`);
       const json = await res.json();
       setScoreData(json);
     } catch (error) {
@@ -101,50 +101,26 @@ function ProfilePage({ route, navigation }) {
   };
 
   useEffect(() => {
-    getUsers();
-  }, []);
-
-  useEffect(() => {
     setAge();
     setUserIPPTDate();
     calcScore();
-  }, [isLoading])
+  }, []);
 
   return (
     <>
       <View style={globalStyles.banner}>
         <Text style={globalStyles.bannerText}>Profile</Text>
       </View>
-      {/* <ScrollView contentContainerStyle={styles.contentContainer}> */}
       <View style={styles.contentContainer} >
         <View style={styles.accountContainer}>
           <View style={styles.profilePic}>
             <Image source={profileImg}/>
-            {/* <Ionicon
-              size="extraLarge"
-              color="black"
-              name="person-outline"
-            /> */}
           </View>
           <View style={styles.accountDetailsContainer}>
-            <Text style={styles.titleText}>{data.name}</Text>
+            <Text style={styles.titleText}>{user.name}</Text>
             <Text style={styles.detailText}>{userAge} years old</Text>
             <Text style={styles.detailText}>Last Result: {scoreData.result.name}</Text>
           </View>
-          {/* <View style={styles.editProfile}>
-            <TouchableOpacity activeOpacity={0.8} onPress={() => {
-              navigation.navigate('EditPage', {
-                lastResult: scoreData.result.name,
-                nextIPPT: nextIPPT,
-              });
-            }} >
-              <Ionicon
-                size="extraLarge"
-                color="black"
-                name="create-outline"
-              />
-            </TouchableOpacity>
-          </View> */}
         </View>
         <View style={styles.nextIpptContainer}>
           <View style={styles.ipptDateContainer}>
@@ -152,30 +128,7 @@ function ProfilePage({ route, navigation }) {
             <Text style={styles.ipptDateData}>{nextIPPT}</Text>
           </View>
         </View>
-
-        {/* <View style={styles.resultHistoryContainer}>
-          <Text style={styles.sectionHeadText}>Past IPPT Results</Text>
-          {data.pastResults[0] ?
-            <View style={styles.resultEntry}>
-              <Text style={styles.sectionText}>{data.pastResults[0].date}</Text>
-              <Text style={styles.resultText}>{data.pastResults[0].result}</Text>
-            </View>
-            : null}
-          {data.pastResults[1] ?
-            <View style={styles.resultEntry}>
-              <Text style={styles.sectionText}>{data.pastResults[1].date}</Text>
-              <Text style={styles.resultText}>{data.pastResults[1].result}</Text>
-            </View>
-            : null}
-          {data.pastResults[2] ?
-            <View style={styles.resultEntry}>
-              <Text style={styles.sectionText}>{data.pastResults[2].date}</Text>
-              <Text style={styles.resultText}>{data.pastResults[2].result}</Text>
-            </View>
-            : null}
-        </View> */}
       </View>
-      {/* </ScrollView> */}
     </>
   );
 };
