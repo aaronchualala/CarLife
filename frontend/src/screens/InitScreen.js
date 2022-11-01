@@ -53,7 +53,6 @@ function Login({ navigation }) {
   const [failed, setFailed] = useState(false);
 
   const login = async () => {
-    console.log("????")
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

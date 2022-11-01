@@ -12,7 +12,6 @@ import * as globalStyles from '../css/globals.css';
 import { useSafeAreaFrame } from "react-native-safe-area-context";
 
 export default function PoseDector(navigation) {
-  // console.log(navigation);
   let activity = navigation.route.name;
   const isLoaded = useTensorFlowLoaded(); // see 1A
   const [status] = Permissions.usePermissions(Permissions.CAMERA, {
