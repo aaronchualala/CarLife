@@ -1,15 +1,16 @@
 import * as Permissions from "expo-permissions";
 import * as tf from "@tensorflow/tfjs";
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useContext } from 'react';
 import Canvas from 'react-native-canvas';
 import * as posenet from '@tensorflow-models/posenet';
-import { Button, View, Text, StyleSheet, useWindowDimensions, ActivityIndicator, SafeAreaView } from "react-native"
+import { Button, View, Text, StyleSheet, useWindowDimensions, ActivityIndicator, SafeAreaView, Pressable } from "react-native"
 import { cameraWithTensors } from '@tensorflow/tfjs-react-native';
 import { Camera } from 'expo-camera';
 import { drawSkeletonPushUps, drawSkeletonSitUps, drawKeypoints } from "../utilities/draw";
 import * as styles from '../css/PoseDetector.module.css';
 import * as globalStyles from '../css/globals.css';
 import { useSafeAreaFrame } from "react-native-safe-area-context";
+import AppContext from '../components/AppContext';
 
 export default function PoseDector(navigation) {
   let activity = navigation.route.name;
@@ -53,16 +54,24 @@ function ModelView({ type }) {
     return <LoadingView message="Loading TensorFlow model" />; // see 0
   }
   return (
-    <SafeAreaView style={{ flex: 1, justifyContent: "center" }}>
+    <SafeAreaView style={{ flex: 1, flexDirection: "column" }}>
+      {/* <TimerDisplay timer={60} /> */}
       <TimerDisplay timer={timer} />
       <StartButton setTimer={setTimer} timer={timer} setStart={setStart} />
+      {/* <SubmitButton start={start} score={60} activity={type} />
+      <ScoreDisplay score={50} />
+      <DirectionDisplay direction={"Start"} /> */}
+      {/* <FeedbackDisplay feedback={"Cup Ears"} /> */}
       {result[0] ? <SubmitButton start={start} score={Math.floor(result[0])} activity={type} /> : null}
       {result[0] ? <ScoreDisplay score={Math.floor(result[0])} /> : null}
       {result[1] ? <DirectionDisplay direction={result[1]} /> : null}
       <Canvas ref={canvasRef} style={{ position: 'absolute', left: 0, top: 0, width: '100%', height: '100%', zIndex: 1000, backgroundColor: 'none' }} />
       <ModelCamera model={model} setPredictions={setPredictions} style={{ position: 'absolute', zIndex: 1 }} />
+
+
       {/* see 3 */}
       {/* <PredictionList predictions={predictions} /> */}
+
       {result ? <FeedbackDisplay feedback={result[2]} /> : null}
       {/* see 2 */}
     </SafeAreaView>
@@ -133,7 +142,6 @@ function useTensorFlowModel(modelKind) {
 function TimerDisplay({ timer }) {
   return (
     <View style={styles.timerContainer}>
-      {parseInt(timer) != 0 ? <Text style={styles.timerText}>Timer:</Text> : null}
       {parseInt(timer) != 0 ? <Text style={styles.timerText}>{timer}</Text> : null}
     </View>
   )
@@ -177,65 +185,39 @@ function StartButton({ setTimer, timer, setStart }) {
     return deadline;
   }
   parseInt(timer) <= 0 ? setStart(false) : setStart(true);
-  return (
-    <View style={styles.startContainer}>
-      {parseInt(timer) <= 0 ? <Button
-        onPress={() => {
+  if (parseInt(timer) <= 0) {
+    return (
+      <View style={styles.startContainer}>
+        <Pressable onPress={() => {
           clearTimer(getDeadTime())
-        }}
-        title="Start" /> : null}
-    </View>
-  )
+        }}>
+          <Text style={styles.startText}>Start</Text>
+        </Pressable>
+      </View>
+    )
+  }
 }
 
 function SubmitButton({ start, score, type }) {
-  const [data, setData] = useState({});
+  const { user, setUser } = useContext(AppContext);
   const [patchRes, setPatchRes] = useState('');
   const [currentAbilities, setCurrentAbilities] = useState({});
 
-  const getUser = async () => {
-    try {
-      const response = await fetch('http://52.77.246.182:3000/users', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          username: "Jimmy",
-          password: "password"
-        })
-      });
-      const json = await response.json();
-      setData(json);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  initialRender = useRef(true);
   useEffect(() => {
-    if (initialRender.current) {
-      initialRender.current = false;
+    if (type == 'Pushups') {
+      setCurrentAbilities({
+        "pushUpCount": score,
+        "sitUpCount": user.currentAbilities.sitUpCount,
+        "runTimeInSeconds": user.currentAbilities.runTimeInSeconds
+      })
     } else {
-      if (type == 'Pushups') {
-        setCurrentAbilities({
-          "pushUpCount": score,
-          "sitUpCount": data.currentAbilities.sitUpCount,
-          "runTimeInSeconds": data.currentAbilities.runTimeInSeconds
-        })
-      } else {
-        setCurrentAbilities({
-          "pushUpCount": data.currentAbilities.pushUpCount,
-          "sitUpCount": score,
-          "runTimeInSeconds": data.currentAbilities.runTimeInSeconds
-        })
-      }
+      setCurrentAbilities({
+        "pushUpCount": user.currentAbilities.pushUpCount,
+        "sitUpCount": score,
+        "runTimeInSeconds": user.currentAbilities.runTimeInSeconds
+      })
     }
-  }, [data])
-
-  useEffect(() => {
-    getUser();
-  }, [])
+  }, [score])
 
   const patchUser = async () => {
     const requestOptions = {
@@ -257,7 +239,6 @@ function SubmitButton({ start, score, type }) {
         throw new Error('Something went wrong');
       })
       .then((responseJson) => {
-        // Do something with the response
         setPatchRes(responseJson);
         console.log(patchRes);
       })
@@ -281,12 +262,12 @@ function SubmitButton({ start, score, type }) {
   if (!start && score > 0) {
     return (
       <View style={styles.submitContainer}>
-        <Button
-          onPress={() => {
-            patchUser();
-            console.log("submitted %d", score);
-          }}
-          title="Submit Scores" />
+        <Pressable onPress={() => {
+          patchUser();
+          console.log("submitted %d", score);
+        }}>
+          <Text style={styles.submitText}>Submit</Text>
+        </Pressable>
       </View>
     )
   }
