@@ -1,7 +1,7 @@
 // from https://github.com/tensorflow/tfjs-models/blob/b5d49c0f5ba2057cc29b40317126c5f182495f96/posenet/demo/demo_util.js
 import * as posenet from '@tensorflow-models/posenet';
 // import * as tf from '@tensorflow/tfjs-core';
-import { createExportAssignment } from 'typescript';
+
 
 // import * as poseDetection from '@tensorflow-models/pose-detection';
 const color = "aqua";
@@ -40,7 +40,6 @@ function drawSkeleton(keypoints, minConfidence, ctx, scaleX, scaleY) {
         scaleX, scaleY, ctx);
   });
 }
-
 // Draw pose keypoints onto a canvas
 export function drawKeypoints(keypoints, minConfidence, ctx, scaleX, scaleY) {
   for (let i = 0; i < keypoints.length; i++) {
@@ -93,7 +92,7 @@ export function findDistance(p1,p2){
 
 //Conditions:
 let elbowMin=65
-let elbowMax=165
+let elbowMax=150
 let shoulderMin= 50
 let shoulderMax=60
 let hipMin= 160
@@ -109,49 +108,82 @@ let specificFeedbackPU= {
   hip:false
 };
 
-let shoulderAngle=0;
-let hipAngle=0;
-let elbowAngle=0;
+let lshoulderAngle=0;
+let lhipAngle=0;
+let lelbowAngle=0;
+let rshoulderAngle=0;
+let rhipAngle=0;
+let relbowAngle=0;
 
 let ear= null;
 let ankle= null
 
 export function drawSkeletonPushUps(keypoints, minConfidence, ctx, scaleX, scaleY) {
-  let shoulder= keypoints[5].score>minConfidence?keypoints[5].position:null;
-  let elbow= keypoints[7].score>minConfidence?keypoints[7].position:null;
-  let wrist= keypoints[9].score>minConfidence?keypoints[9].position:null;
-  let hip= keypoints[11].score>minConfidence?keypoints[11].position:null;
-  let knee= keypoints[13].score>minConfidence?keypoints[13].position:null;
-  if (wrist && elbow && shoulder){
-    drawSegment([wrist.y, wrist.x],[elbow.y, elbow.x],color,scaleX, scaleY,ctx);
-    drawSegment([elbow.y, elbow.x],[shoulder.y, shoulder.x],color,scaleX, scaleY,ctx);
-    elbowAngle= findAngle(wrist,elbow,shoulder);
+  // console.log(keypoints[5]);
+  // console.log(keypoints[7]);
+  // console.log(keypoints[9]);
+  // console.log(keypoints[11]);
+  // console.log(keypoints[14]);
+  let lshoulder= keypoints[5].score>minConfidence?keypoints[5].position:0;
+  let lelbow= keypoints[7].score>minConfidence?keypoints[7].position:0;
+  let lwrist= keypoints[9].score>minConfidence?keypoints[9].position:0;
+  let lhip= keypoints[11].score>minConfidence?keypoints[11].position:0;
+  let lknee= keypoints[13].score>minConfidence?keypoints[13].position:0;
+
+  let rshoulder= keypoints[6].score>minConfidence?keypoints[6].position:0;
+  let relbow= keypoints[8].score>minConfidence?keypoints[8].position:0;
+  let rwrist= keypoints[10].score>minConfidence?keypoints[10].position:0;
+  let rhip= keypoints[12].score>minConfidence?keypoints[12].position:0;
+  let rknee= keypoints[14].score>minConfidence?keypoints[14].position:0;
+
+  if (lwrist && lelbow && lshoulder){
+    drawSegment([lwrist.y, lwrist.x],[lelbow.y, lelbow.x],color,scaleX, scaleY,ctx);
+    drawSegment([lelbow.y, lelbow.x],[lshoulder.y, lshoulder.x],color,scaleX, scaleY,ctx);
+    lelbowAngle= findAngle(lwrist,lelbow,lshoulder);
   }
-  if (shoulder && hip && elbow ){
-    shoulderAngle= findAngle(elbow,shoulder,hip);
+  if (rwrist && relbow && lshoulder){
+    drawSegment([rwrist.y, rwrist.x],[relbow.y, relbow.x],color,scaleX, scaleY,ctx);
+    // drawSegment([relbow.y, relbow.x],[rshoulder.y, rshoulder.x],color,scaleX, scaleY,ctx);
+    relbowAngle= findAngle(rwrist,relbow,lshoulder);
   }
-  if (shoulder && hip && knee){
-    drawSegment([hip.y, hip.x],[knee.y, knee.x],color,scaleX, scaleY,ctx);
-    drawSegment([hip.y, hip.x],[shoulder.y, shoulder.x],color,scaleX, scaleY,ctx);
-    hipAngle= findAngle(shoulder,hip,knee);
+  if (lshoulder && lhip && lelbow ){
+    lshoulderAngle= findAngle(lelbow,lshoulder,lhip);
   }
+
+  if (lshoulder && rhip && relbow ){
+    rshoulderAngle= findAngle(relbow,lshoulder,rhip);
+  }
+
+  if (lshoulder && lhip && lknee){
+    drawSegment([lhip.y, lhip.x],[lknee.y, lknee.x],color,scaleX, scaleY,ctx);
+    drawSegment([lhip.y, lhip.x],[lshoulder.y, lshoulder.x],color,scaleX, scaleY,ctx);
+    lhipAngle= findAngle(lshoulder,lhip,lknee);
+  }
+
+  // if (rshoulder && rhip && rknee){
+  //   drawSegment([rhip.y, rhip.x],[rknee.y, rknee.x],color,scaleX, scaleY,ctx);
+  //   drawSegment([rhip.y, rhip.x],[rshoulder.y, rshoulder.x],color,scaleX, scaleY,ctx);
+  //   rhipAngle= findAngle(rshoulder,rhip,rknee);
+  // }
+
   //Check to ensure right form before starting the program
   if (form==0){
-    specificFeedbackPU.shoulder= shoulderAngle<shoulderMax?false:true;
-    specificFeedbackPU.hip= hipAngle<hipMin?false:true;
-    specificFeedbackPU.elbow= elbowAngle<elbowMax?false:true;
+    specificFeedbackPU.shoulder= ((lshoulderAngle<shoulderMax)|| (rshoulderAngle<shoulderMax))?false:true;
+    specificFeedbackPU.hip= lhipAngle<hipMin?false:true;
+    specificFeedbackPU.elbow= ((lelbowAngle<elbowMax)||(relbowAngle<elbowMax))?false:true;
     if (specificFeedbackPU.shoulder && specificFeedbackPU.elbow && specificFeedbackPU.hip){
         form=1;
         feedback = "Start";
       }
     }
-  if (shoulder && elbow && wrist && hip && knee){
+
+  if ((lshoulder && lelbow && lwrist && lhip && lknee)||(rshoulder && relbow && rwrist && rhip && rknee)){
     if (form == 1){
       if (direction==0){
         feedback = "Down";
-        specificFeedbackPU.shoulder= shoulderAngle>shoulderMin?false:true;
-        specificFeedbackPU.hip= hipAngle<hipMin?false:true;
-        specificFeedbackPU.elbow= elbowAngle>elbowMin?false:true;
+        specificFeedbackPU.shoulder= ((lshoulderAngle>shoulderMin)||(rshoulderAngle>shoulderMin))?false:true;
+        specificFeedbackPU.hip= lhipAngle<hipMin?false:true;
+        specificFeedbackPU.elbow= ((lelbowAngle>elbowMin)||(relbowAngle>elbowMin))?false:true;
         if (specificFeedbackPU.shoulder && specificFeedbackPU.elbow && specificFeedbackPU.hip){
           count += 0.5;
           direction = 1;
@@ -159,9 +191,9 @@ export function drawSkeletonPushUps(keypoints, minConfidence, ctx, scaleX, scale
       }
       if (direction==1){
         feedback = "Up";
-        specificFeedbackPU.shoulder= shoulderAngle<shoulderMax?false:true;
-        specificFeedbackPU.hip= hipAngle<hipMin?false:true;
-        specificFeedbackPU.elbow= elbowAngle<elbowMax?false:true;
+        specificFeedbackPU.shoulder=((lshoulderAngle<shoulderMax)||(rshoulderAngle<shoulderMax))?false:true;
+        specificFeedbackPU.hip= lhipAngle<hipMin?false:true;
+        specificFeedbackPU.elbow= ((lelbowAngle<elbowMax)||(relbowAngle<elbowMax))?false:true;
         if (specificFeedbackPU.shoulder && specificFeedbackPU.elbow && specificFeedbackPU.hip){
           count += 0.5;
           direction = 0;

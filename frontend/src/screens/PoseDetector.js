@@ -59,7 +59,7 @@ function ModelView({ type }) {
       {result[0] ? <SubmitButton start={start} score={Math.floor(result[0])} activity={type} /> : null}
       {result[0] ? <ScoreDisplay score={Math.floor(result[0])} /> : null}
       {result[1] ? <DirectionDisplay direction={result[1]} /> : null}
-      <Canvas ref={canvasRef} style={{ position: 'absolute', left: 0, top: 0, width: '100%', height: '100%', zIndex: 1000, backgroundColor: 'none' }} />
+      <Canvas ref={canvasRef} style={{ position: 'absolute', left: 0, top: -35, width: '100%', height: '100%', zIndex: 1000, backgroundColor: 'none' }} />
       <ModelCamera model={model} setPredictions={setPredictions} style={{ position: 'absolute', zIndex: 1 }} />
       {/* see 3 */}
       {/* <PredictionList predictions={predictions} /> */}
