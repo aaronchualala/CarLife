@@ -58,15 +58,15 @@ function ModelView({ type }) {
       {/* <TimerDisplay timer={60} /> */}
       <TimerDisplay timer={timer} />
       <StartButton setTimer={setTimer} timer={timer} setStart={setStart} />
-      {/* <SubmitButton start={start} score={60} activity={type} />
-      <ScoreDisplay score={50} />
+      {/* <SubmitButton start={false} score={60} activity={type} /> */}
+      {/* <ScoreDisplay score={50} />
       <DirectionDisplay direction={"Start"} /> */}
       {/* <FeedbackDisplay feedback={"Cup Ears"} /> */}
       {result[0] ? <SubmitButton start={start} score={Math.floor(result[0])} activity={type} /> : null}
       {result[0] ? <ScoreDisplay score={Math.floor(result[0])} /> : null}
       {result[1] ? <DirectionDisplay direction={result[1]} /> : null}
-      <Canvas ref={canvasRef} style={{ position: 'absolute', left: 0, top: 0, width: '100%', height: '100%', zIndex: 1000, backgroundColor: 'none' }} />
-      <ModelCamera model={model} setPredictions={setPredictions} style={{ position: 'absolute', zIndex: 1 }} />
+      {/* <Canvas ref={canvasRef} style={{ position: 'absolute', left: 0, top: 0, width: '100%', height: '100%', zIndex: 1000, backgroundColor: 'none' }} />
+      <ModelCamera model={model} setPredictions={setPredictions} style={{ position: 'absolute', zIndex: 1 }} /> */}
 
 
       {/* see 3 */}
@@ -198,13 +198,15 @@ function StartButton({ setTimer, timer, setStart }) {
   }
 }
 
-function SubmitButton({ start, score, type }) {
+function SubmitButton({ start, score, activity }) {
   const { user, setUser } = useContext(AppContext);
   const [patchRes, setPatchRes] = useState('');
   const [currentAbilities, setCurrentAbilities] = useState({});
 
   useEffect(() => {
-    if (type == 'Pushups') {
+    console.log("Loading submit...")
+    console.log(activity)
+    if (activity == 'PushUps') {
       setCurrentAbilities({
         "pushUpCount": score,
         "sitUpCount": user.currentAbilities.sitUpCount,
@@ -228,21 +230,18 @@ function SubmitButton({ start, score, type }) {
       body: JSON.stringify({
         username: "Jimmy",
         password: "password",
-        currentAbilities: currentAbilities
+        currentAbilities: {
+          pushUpCount: currentAbilities.pushUpCount,
+          sitUpCount: currentAbilities.sitUpCount,
+          runTimeInSeconds: currentAbilities.runTimeInSeconds
+        }
       })
     };
     fetch("http://52.77.246.182:3000/users", requestOptions)
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw new Error('Something went wrong');
-      })
-      .then((responseJson) => {
-        setPatchRes(responseJson);
-        console.log(patchRes);
-      })
+      .then((response) => response.text())
+      .then((text) => console.log(text))
       .catch((error) => {
+        console.log("Help...")
         console.log(error)
       });
     // .then(response => response.json())
