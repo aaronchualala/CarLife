@@ -69,6 +69,16 @@ function ModelView({ type, navToTrainScreen}) {
       {result[0] ? <SubmitButton start={start} score={Math.floor(result[0])} activity={type} navToTrainScreen={navToTrainScreen} /> : null}
       {result[0] ? <ScoreDisplay score={Math.floor(result[0])} /> : null}
       {result[1] ? <DirectionDisplay direction={result[1]} /> : null}
+      {!start ? 
+        <View style={styles.backContainer} >
+          <Pressable onPress={() => {
+            navToTrainScreen()
+          }}>
+            <Text style={styles.backText} > ⟨ Back</Text>
+          </Pressable>
+        </View>
+        : null
+      }
       <Canvas ref={canvasRef} style={{ position: 'absolute', left: 0, top: -35, width: '100%', height: '100%', zIndex: 1000, backgroundColor: 'none' }} />
       <ModelCamera model={model} setPredictions={setPredictions} style={{ position: 'absolute', zIndex: 1 }} />
 
@@ -152,7 +162,7 @@ function TimerDisplay({ timer }) {
 }
 
 function StartButton({ setTimer, timer, setStart }) {
-  const timeLimit = 10;
+  const timeLimit = 60;
   const Ref = useRef(null);
   const getTimeRemaining = (e) => {
     const total = Date.parse(e) - Date.parse(new Date());

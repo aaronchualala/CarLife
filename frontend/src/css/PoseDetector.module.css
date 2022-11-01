@@ -1,9 +1,9 @@
-.camera{
+.camera {
     z-index: 0;
 }
 
-.loadingContainer{
-    flex: 1; 
+.loadingContainer {
+    flex: 1;
     justify-content: center;
     margin: auto;
     align-items: "center";
@@ -155,6 +155,27 @@
 }
 
 .submitText {
+    padding: 2px 0px;
+    font-size: 30;
+    color: #FFFFFF;
+}
+
+.backContainer {
+    z-index: 1200;
+    position: absolute;
+    bottom: 70px;
+    /* right: -60; */
+    align-self: center;
+    padding: 10px 24px;
+    /* height: 60px;
+    width: 200px; */
+    border-radius: 20px;
+    align-items: center;
+    justify-content: center;
+    transform: rotate(270deg);
+}
+
+.backText {
     padding: 2px 0px;
     font-size: 30;
     color: #FFFFFF;
