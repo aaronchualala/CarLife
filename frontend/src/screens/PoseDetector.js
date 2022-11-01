@@ -3,7 +3,7 @@ import * as tf from "@tensorflow/tfjs";
 import React, { useRef, useEffect, useState, useContext } from 'react';
 import Canvas from 'react-native-canvas';
 import * as posenet from '@tensorflow-models/posenet';
-import { Button, View, Text, StyleSheet, useWindowDimensions, ActivityIndicator, SafeAreaView, Pressable } from "react-native"
+import { Button, View, Text, StyleSheet, useWindowDimensions, ActivityIndicator, SafeAreaView, Pressable, Alert } from "react-native"
 import { cameraWithTensors } from '@tensorflow/tfjs-react-native';
 import { Camera } from 'expo-camera';
 import { drawSkeletonPushUps, drawSkeletonSitUps, drawKeypoints } from "../utilities/draw";
@@ -12,22 +12,26 @@ import * as globalStyles from '../css/globals.css';
 import { useSafeAreaFrame } from "react-native-safe-area-context";
 import AppContext from '../components/AppContext';
 
-export default function PoseDector(navigation) {
-  let activity = navigation.route.name;
+export default function PoseDetector({navigation}) {
+  let activity =  "PushUps" // navigation.route.name;
   const isLoaded = useTensorFlowLoaded(); // see 1A
   const [status] = Permissions.usePermissions(Permissions.CAMERA, {
     ask: true,
   });
+  const navToTrainScreen = () => {
+    navigation.goBack()
+  }
+
   if (!(status || {}).granted) {
     return <LoadingView>Camera permission is required to continue</LoadingView>;
   }
   if (!isLoaded) {
     return <LoadingView>Loading TensorFlow</LoadingView>;
   }
-  return <ModelView type={activity} />;
+  return <ModelView type={activity} navToTrainScreen={navToTrainScreen} />;
 }
 
-function ModelView({ type }) {
+function ModelView({ type, navToTrainScreen}) {
   const model = useTensorFlowModel(posenet); // see 1B
   const [predictions, setPredictions] = React.useState({});
   const [result, setResult] = React.useState({});
@@ -44,7 +48,7 @@ function ModelView({ type }) {
         canvasRef.current.height = size.height
         const ctx = canvasRef.current.getContext('2d');
         drawKeypoints(predictions["keypoints"], 0.5, ctx, 1, 1) //5.5, 4)
-        start ? setResult(type == "PushUps" ? drawSkeletonPushUps(predictions["keypoints"], 0.5, ctx, 1, 1) : drawSkeletonSitUps(predictions["keypoints"], 0.1, ctx, 1, 1)) : null;//5.5, 4)
+        start ? setResult(type == "PushUps" ? drawSkeletonPushUps(predictions["keypoints"], 0.4, ctx, 1, 1) : drawSkeletonSitUps(predictions["keypoints"], 0.1, ctx, 1, 1)) : null;//5.5, 4)
         // console.log(result);
       }
     }, 0)
@@ -62,10 +66,10 @@ function ModelView({ type }) {
       {/* <ScoreDisplay score={50} />
       <DirectionDisplay direction={"Start"} /> */}
       {/* <FeedbackDisplay feedback={"Cup Ears"} /> */}
-      {result[0] ? <SubmitButton start={start} score={Math.floor(result[0])} activity={type} /> : null}
+      {result[0] ? <SubmitButton start={start} score={Math.floor(result[0])} activity={type} navToTrainScreen={navToTrainScreen} /> : null}
       {result[0] ? <ScoreDisplay score={Math.floor(result[0])} /> : null}
       {result[1] ? <DirectionDisplay direction={result[1]} /> : null}
-      <Canvas ref={canvasRef} style={{ position: 'absolute', left: 0, top: 0, width: '100%', height: '100%', zIndex: 1000, backgroundColor: 'none' }} />
+      <Canvas ref={canvasRef} style={{ position: 'absolute', left: 0, top: -35, width: '100%', height: '100%', zIndex: 1000, backgroundColor: 'none' }} />
       <ModelCamera model={model} setPredictions={setPredictions} style={{ position: 'absolute', zIndex: 1 }} />
 
 
@@ -148,7 +152,7 @@ function TimerDisplay({ timer }) {
 }
 
 function StartButton({ setTimer, timer, setStart }) {
-  const timeLimit = 60;
+  const timeLimit = 10;
   const Ref = useRef(null);
   const getTimeRemaining = (e) => {
     const total = Date.parse(e) - Date.parse(new Date());
@@ -198,7 +202,7 @@ function StartButton({ setTimer, timer, setStart }) {
   }
 }
 
-function SubmitButton({ start, score, activity }) {
+function SubmitButton({ start, score, activity, navToTrainScreen }) {
   const { user, setUser } = useContext(AppContext);
   const [patchRes, setPatchRes] = useState('');
   const [currentAbilities, setCurrentAbilities] = useState({});
@@ -228,8 +232,8 @@ function SubmitButton({ start, score, activity }) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        username: "Jimmy",
-        password: "password",
+        username: user.username,
+        password: user.password,
         currentAbilities: {
           pushUpCount: currentAbilities.pushUpCount,
           sitUpCount: currentAbilities.sitUpCount,
@@ -240,6 +244,7 @@ function SubmitButton({ start, score, activity }) {
     fetch("http://52.77.246.182:3000/users", requestOptions)
       .then((response) => response.text())
       .then((text) => console.log(text))
+      .then(Alert.alert("Score Submitted!"))
       .catch((error) => {
         console.log("Help...")
         console.log(error)
@@ -263,6 +268,7 @@ function SubmitButton({ start, score, activity }) {
       <View style={styles.submitContainer}>
         <Pressable onPress={() => {
           patchUser();
+          navToTrainScreen()
           console.log("submitted %d", score);
         }}>
           <Text style={styles.submitText}>Submit</Text>

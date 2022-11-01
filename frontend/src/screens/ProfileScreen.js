@@ -31,8 +31,8 @@ function ProfilePage({ route, navigation }) {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          username: `Jimmy`,
-          password: `password`
+          username: user.username,
+          password: user.password
         })
       });
       const json = await response.json();
@@ -87,7 +87,7 @@ function ProfilePage({ route, navigation }) {
     var m = today.getUTCMonth() - userMonth;
     if (m < 0 || (m === 0 && today.getUTCDate() < userDate)) {
       setNextIPPT(`${userDate}/${userMonth}/${todayYear}`)
-    } else { setNextIPPT(`${userDate}/${userMonth}/${todayYear + 1}`) }
+    } else { setNextIPPT(`${userDate + 1}/${userMonth + 1}/${todayYear + 1}`) }
   }
 
   const calcScore = async () => {

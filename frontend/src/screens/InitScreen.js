@@ -159,7 +159,7 @@ function Registration({ navigation }) {
   },[password])
 
   const pwValidator = () => {
-    if (password.length > 8) {
+    if (password.length >= 8) {
       setValidLen(true)
     } else setValidLen(false);
 
@@ -189,11 +189,9 @@ function Registration({ navigation }) {
         <Image source={logo} style={styles.logoClass} />
         <Text style={[styles.headerText, style.shadowProp]}>Registration</Text>
         <TextInput
-          placeholder='Email'
+          placeholder='Username'
           placeholderTextColor={"#363535"}
           style={styles.textInputClass}
-          textContentType='emailAddress'
-          keyboardType='email-address'
           spellCheck='true'
           onChangeText={text => setEmail(text)}
           value={email}
@@ -387,6 +385,7 @@ function CurrentFitness({ navigation }) {
 
 function TargetFitness({ navigation }) {
   const {user, setUser} = useContext(AppContext)
+  const [proceedable, setProceedable] = useState(false)
   const [targetPushUp, setTargetPushUp] = useState('');
   const [targetSitUp, setTargetSitUp] = useState('');
   const [targetRun, setTargetRun] = useState('');
@@ -405,6 +404,10 @@ function TargetFitness({ navigation }) {
         sitUpCount: targetSitUp,
         runTimeInSeconds: targetRun
       }});
+      setProceedable(true)
+    }
+
+    const navToBottomTab = async () => {
       const res = await fetch("http://52.77.246.182:3000/users", requestOptions)
       const json = await res.json();
       console.log(json)
@@ -470,6 +473,11 @@ function TargetFitness({ navigation }) {
               <Image source={next}></Image>
             </View>
           </Pressable>
+          {proceedable ?
+          <Pressable style={styles.nextButton}
+            onPress={navToBottomTab}>
+            <Text style={styles.nextText}>Proceed</Text>
+          </Pressable> : null}
         </View>
 
       </ImageBackground>
