@@ -19,14 +19,14 @@ const InitStack = createNativeStackNavigator();
 // SplashScreen.preventAutoHideAsync();
 
 function GetStarted({ navigation }) {
-  const {user, setUser} = useContext(AppContext)
+  const { user, setUser } = useContext(AppContext)
   return (
     <View style={{ flex: 1, justifyContent: 'center' }}>
       <ImageBackground source={bgImage} style={{ height: '100%', width: '100%' }} blurRadius={3.5}>
         <View style={styles.overlayView} />
         <Image source={logo} style={styles.logoClass} />
         <Text style={[styles.sloganClass, style.shadowProp]}>FITTER,{'\n'}TOGETHER</Text>
-        <View style={{ alignSelf: 'center', flexDirection: 'column', justifyContent: 'space-between'}}>
+        <View style={{ alignSelf: 'center', flexDirection: 'column', justifyContent: 'space-between' }}>
           <Pressable style={styles.button}
             onPress={() => {
               navigation.navigate('Registration');
@@ -46,7 +46,7 @@ function GetStarted({ navigation }) {
 }
 
 function Login({ navigation }) {
-  const {user, setUser} = useContext(AppContext)
+  const { user, setUser } = useContext(AppContext)
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loggedIn, setLoggedIn] = useState(false);
@@ -56,14 +56,14 @@ function Login({ navigation }) {
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({username:username, password:password})
+      body: JSON.stringify({ username: username, password: password })
     };
     const res = await fetch("http://52.77.246.182:3000/users", requestOptions)
     const data = await res.json()
-    if(data.message  === "User Not Found" || data.message === "Incorrect Password"){
+    if (data.message === "User Not Found" || data.message === "Incorrect Password") {
       setLoggedIn(false)
       setFailed(true)
-    } else{
+    } else {
       setUser(data)
       setLoggedIn(true)
       setFailed(false)
@@ -114,7 +114,7 @@ function Login({ navigation }) {
 }
 
 function Registration({ navigation }) {
-  const {user, setUser} = useContext(AppContext)
+  const { user, setUser } = useContext(AppContext)
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [valid, setValid] = useState(false);
@@ -130,17 +130,17 @@ function Registration({ navigation }) {
         <Text style={styles.validText}>Password must be at least 8 Characters!</Text>
       )
     }
-    if (!validChar){
+    if (!validChar) {
       rendered.push(
         <Text style={styles.validText}>Password does not contain any characters</Text>
       )
     }
-    if (!validNum){
+    if (!validNum) {
       rendered.push(
         <Text style={styles.validText}>Password does not contain any numbers</Text>
       )
     }
-    if (!validNoUser){
+    if (!validNoUser) {
       rendered.push(
         <Text style={styles.validText} >Password should not contain Username!</Text>
       )
@@ -156,7 +156,7 @@ function Registration({ navigation }) {
       pwValidator()
 
     }
-  },[password])
+  }, [password])
 
   const pwValidator = () => {
     if (password.length >= 8) {
@@ -169,15 +169,15 @@ function Registration({ navigation }) {
     } else setValidChar(false);
 
     const regExpDig = /[0-9]/
-    if (password.match(regExpDig)){
+    if (password.match(regExpDig)) {
       setValidNum(true);
     } else setValidNum(false);
 
-    if (email != '' && password.toLowerCase().includes(email.toLowerCase())){
+    if (email != '' && password.toLowerCase().includes(email.toLowerCase())) {
       setValidNoUser(false);
     } else setValidNoUser(true);
 
-    if (validLen && validChar && validNum && validNoUser){
+    if (validLen && validChar && validNum && validNoUser) {
       setValid(true);
     } else setValid(false);
   }
@@ -205,7 +205,7 @@ function Registration({ navigation }) {
           onChangeText={text => setPassword(text)}
           value={password}
         />
-        {valid ? null : 
+        {valid ? null :
           <View style={styles.validContainer}>
             {renderValid()}
           </View>
@@ -223,7 +223,7 @@ function Registration({ navigation }) {
 }
 
 function PersonalDetails({ navigation }) {
-  const {user, setUser} = useContext(AppContext)
+  const { user, setUser } = useContext(AppContext)
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
   const [date, setDate] = useState(new Date());
@@ -301,14 +301,14 @@ function PersonalDetails({ navigation }) {
 }
 
 function CurrentFitness({ navigation }) {
-  const {user, setUser} = useContext(AppContext)
+  const { user, setUser } = useContext(AppContext)
   const [pushUp, setPushUp] = useState('');
   const [sitUp, setSitUp] = useState('');
   const [run, setRun] = useState('');
   const currentFitnessSubmit = async () => {
     const res = await fetch("http://52.77.246.182:3000/others/score/?age=22&pushups=40&situps=40&run=660")
     const data = await res.json()
-    setUser({ 
+    setUser({
       ...user,
       currentAbilities: {
         pushUpCount: pushUp,
@@ -384,7 +384,7 @@ function CurrentFitness({ navigation }) {
 }
 
 function TargetFitness({ navigation }) {
-  const {user, setUser} = useContext(AppContext)
+  const { user, setUser } = useContext(AppContext)
   const [proceedable, setProceedable] = useState(false)
   const [targetPushUp, setTargetPushUp] = useState('');
   const [targetSitUp, setTargetSitUp] = useState('');
@@ -397,22 +397,23 @@ function TargetFitness({ navigation }) {
   };
 
   const register = async () => {
-    setUser({ 
+    setUser({
       ...user,
       targetAbilities: {
         pushUpCount: targetPushUp,
         sitUpCount: targetSitUp,
         runTimeInSeconds: targetRun
-      }});
-      setProceedable(true)
-    }
+      }
+    });
+    setProceedable(true)
+  }
 
-    const navToBottomTab = async () => {
-      const res = await fetch("http://52.77.246.182:3000/users", requestOptions)
-      const json = await res.json();
-      console.log(json)
-      navigation.navigate('BottomTab');
-    }
+  const navToBottomTab = async () => {
+    const res = await fetch("http://52.77.246.182:3000/users", requestOptions)
+    const json = await res.json();
+    console.log(json)
+    navigation.navigate('BottomTab');
+  }
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -473,12 +474,15 @@ function TargetFitness({ navigation }) {
               <Image source={next}></Image>
             </View>
           </Pressable>
-          {proceedable ?
-          <Pressable style={styles.nextButton}
-            onPress={navToBottomTab}>
-            <Text style={styles.nextText}>Proceed</Text>
-          </Pressable> : null}
         </View>
+        {proceedable ?
+          <View>
+            <Pressable style={styles.proceedButton}
+              onPress={navToBottomTab}>
+              <Text style={styles.nextText}>Proceed</Text>
+            </Pressable>
+          </View>
+          : null}
 
       </ImageBackground>
     </View>
