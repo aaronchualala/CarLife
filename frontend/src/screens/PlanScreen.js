@@ -108,7 +108,7 @@ const PlanScreen = ({navigation}) => {
 
   const [exStateId, setExStateID] = useState({ 1: 1, 2: 2, 3: 2, 4: 2, 5: 2, 6: 2 });
 
-  const [dataNormal, setDataNormal] = useState();
+  const [dataNormal, setDataNormal] = useState({pushups:0, situps:0, runTimeInSeconds:0});
   const [dataRelated, setDataRelated] = useState();
   const [isNormalLoading, setNormalLoading] = useState(true);
   const [isRelatedLoading, setRelatedLoading] = useState(true);

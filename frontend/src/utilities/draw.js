@@ -4,8 +4,8 @@ import * as posenet from '@tensorflow-models/posenet';
 import { createExportAssignment } from 'typescript';
 
 // import * as poseDetection from '@tensorflow-models/pose-detection';
-const color = "aqua";
-const lineWidth = 2;
+const color = "red";
+const lineWidth = 8;
 
 function toTuple({y, x}) {
   return [y, x];
@@ -24,8 +24,8 @@ function drawSegment([ay, ax], [by, bx], color, scaleX, scaleY, ctx) {
   ctx.beginPath();
   ctx.moveTo(ax * scaleX, ay * scaleY);
   ctx.lineTo(bx * scaleX, by * scaleY);
-  ctx.lineWidth = 2;
-  ctx.strokeStyle = 'blue';
+  ctx.lineWidth = 3;
+  ctx.strokeStyle = 'red';
   ctx.stroke();
 }
 
@@ -117,11 +117,16 @@ let ear= null;
 let ankle= null
 
 export function drawSkeletonPushUps(keypoints, minConfidence, ctx, scaleX, scaleY) {
-  let shoulder= keypoints[5].score>minConfidence?keypoints[5].position:null;
-  let elbow= keypoints[7].score>minConfidence?keypoints[7].position:null;
-  let wrist= keypoints[9].score>minConfidence?keypoints[9].position:null;
-  let hip= keypoints[11].score>minConfidence?keypoints[11].position:null;
-  let knee= keypoints[13].score>minConfidence?keypoints[13].position:null;
+  let shoulder= keypoints[5].score>minConfidence?keypoints[5].position:(keypoints[6].score>minConfidence?keypoints[6].position:null);
+
+  let elbow= keypoints[7].score>minConfidence?keypoints[7].position:(keypoints[8].score>minConfidence?keypoints[8].position:null);
+  
+  let wrist = keypoints[9].score>minConfidence?keypoints[9].position:(keypoints[10].score>minConfidence?keypoints[10].position:null);
+  
+  let hip = keypoints[11].score>minConfidence?keypoints[11].position:(keypoints[12].score>minConfidence?keypoints[12].position:null);
+  
+  let knee = keypoints[13].score>minConfidence?keypoints[13].position:(keypoints[14].score>minConfidence?keypoints[14].position:null);
+
   if (wrist && elbow && shoulder){
     drawSegment([wrist.y, wrist.x],[elbow.y, elbow.x],color,scaleX, scaleY,ctx);
     drawSegment([elbow.y, elbow.x],[shoulder.y, shoulder.x],color,scaleX, scaleY,ctx);
