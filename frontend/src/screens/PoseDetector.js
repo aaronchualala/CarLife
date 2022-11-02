@@ -61,7 +61,7 @@ function ModelView({ type, navToTrainScreen}) {
     <SafeAreaView style={{ flex: 1, flexDirection: "column" }}>
       {/* <TimerDisplay timer={60} /> */}
       <TimerDisplay timer={timer} />
-      <StartButton setTimer={setTimer} timer={timer} setStart={setStart} />
+      <StartButton setTimer={setTimer} timer={timer} setStart={setStart} setResult={setResult} />
       {/* <SubmitButton start={false} score={60} activity={type} /> */}
       {/* <ScoreDisplay score={50} />
       <DirectionDisplay direction={"Start"} /> */}
@@ -161,8 +161,8 @@ function TimerDisplay({ timer }) {
   )
 }
 
-function StartButton({ setTimer, timer, setStart }) {
-  const timeLimit = 60;
+function StartButton({ setTimer, timer, setStart, setResult }) {
+  const timeLimit = 30;
   const Ref = useRef(null);
   const getTimeRemaining = (e) => {
     const total = Date.parse(e) - Date.parse(new Date());

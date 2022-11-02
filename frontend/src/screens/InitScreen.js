@@ -306,7 +306,7 @@ function CurrentFitness({ navigation }) {
   const [sitUp, setSitUp] = useState('');
   const [run, setRun] = useState('');
   const currentFitnessSubmit = async () => {
-    const res = await fetch("http://52.77.246.182:3000/others/score/?age=22&pushups=40&situps=40&run=660")
+    const res = await fetch("http://52.77.246.182:3000/others/score/?age=22&pushups=50&situps=50&run=720")
     const data = await res.json()
     setUser({ 
       ...user,
@@ -473,12 +473,15 @@ function TargetFitness({ navigation }) {
               <Image source={next}></Image>
             </View>
           </Pressable>
-          {proceedable ?
-          <Pressable style={styles.nextButton}
-            onPress={navToBottomTab}>
-            <Text style={styles.nextText}>Proceed</Text>
-          </Pressable> : null}
         </View>
+          {proceedable ?
+          <View>
+            <Pressable style={styles.proceedButton}
+              onPress={navToBottomTab}>
+              <Text style={styles.nextText}>Proceed</Text>
+            </Pressable> 
+          </View>
+        : null}
 
       </ImageBackground>
     </View>

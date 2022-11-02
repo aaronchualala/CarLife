@@ -12,7 +12,7 @@ import AppContext from '../components/AppContext';
 
 
 const ProfileStack = createNativeStackNavigator();
-var profileImg = require('../assets/Images/profileIcon4.png');
+var profileImg = require('../assets/Images/profileIconSummit.png');
 function ProfilePage({ route, navigation }) {
   const {user, setUser} = useContext(AppContext);
   const [isLoading, setLoading] = useState(true);
