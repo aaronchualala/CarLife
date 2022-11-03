@@ -12,6 +12,6 @@ A mobile application to help Singaporean National Servicemen train for their Ind
 ## Folder Navigation
 <ul>
 <li> frontend — React Native application </li>
-<li> server - NodeJS application hosted on AWS </li> 
-<li> submissions - documentation (software requirement specifications, UML Diagrams, Demo Video etc.) </li>
+<li> server — NodeJS application hosted on AWS </li> 
+<li> submissions — documentation (software requirement specifications, UML Diagrams, Demo Video etc.) </li>
 </ul>
