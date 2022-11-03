@@ -10,6 +10,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import Checkbox from 'expo-checkbox';
 import { preventAutoHideAsync } from 'expo-splash-screen';
 import AppContext from '../components/AppContext';
+import { Alert } from 'react-native';
 
 const bgImage = require('../assets/BackgroundImages/GreyscaleRunningMan.png');
 const logo = require('../assets/BackgroundImages/FitBudsLogo.png');
@@ -211,9 +212,21 @@ function Registration({ navigation }) {
           </View>
         }
         {valid ? <Pressable style={styles.nextButton}
-          onPress={() => {
-            setUser({ ...user, username: email, password: password });
-            navigation.navigate('PersonalDetails');
+          onPress={async () => {
+            const res = await fetch(`http://52.77.246.182:3000/users`, 
+            {
+              method: 'POST',
+              headers: {'Content-Type': 'application/json'},
+              body: JSON.stringify({username: email})
+            });
+            console.log(res.status);
+            if(res.status != 404){
+              Alert.alert("This username has already been taken")
+            } else {
+              setUser({ ...user, username: email, password: password });
+              navigation.navigate('PersonalDetails');
+              setValid(true);
+            }
           }}>
           <Text style={styles.nextText}>Next</Text>
         </Pressable> : null}
@@ -281,14 +294,20 @@ function PersonalDetails({ navigation }) {
                 value={date}
                 mode={mode}
                 onChange={onChange}
+                themeVariant="dark"
               />
             </View>}
         </View>
 
         <Pressable style={styles.fitnessNextButton}
           onPress={() => {
-            setUser({ ...user, name: name, residentialAddress: address, birthdate: date.getTime() });
-            navigation.navigate('CurrentFitness');
+            let diff = new Date().getFullYear() -date.getFullYear();
+            if(diff > 17 && diff < 45){
+              setUser({ ...user, name: name, residentialAddress: address, birthdate: date.getTime() });
+              navigation.navigate('CurrentFitness');
+            } else {
+              Alert.alert("Invalid Birthdate! You must be between 18 to 46 years old.")
+            }
           }}>
           <View style={styles.alignContainer}>
             <Text style={styles.fitnessNextText}>Next </Text>
@@ -302,11 +321,12 @@ function PersonalDetails({ navigation }) {
 
 function CurrentFitness({ navigation }) {
   const {user, setUser} = useContext(AppContext)
-  const [pushUp, setPushUp] = useState('');
-  const [sitUp, setSitUp] = useState('');
-  const [run, setRun] = useState('');
+  const [pushUp, setPushUp] = useState(0);
+  const [sitUp, setSitUp] = useState(0);
+  const [run, setRun] = useState(0);
   const currentFitnessSubmit = async () => {
-    const res = await fetch("http://52.77.246.182:3000/others/score/?age=22&pushups=50&situps=50&run=720")
+    const age = Math.round((Date.now() - user.birthdate)/1000/60/60/24/365)
+    const res = await fetch(`http://52.77.246.182:3000/others/score/?age=${age}&pushups=${pushUp}&situps=${sitUp}&run=${run}`)
     const data = await res.json()
     setUser({ 
       ...user,
@@ -371,7 +391,18 @@ function CurrentFitness({ navigation }) {
             </View>
           </Pressable>
           <Pressable style={styles.fitnessNextButton2}
-            onPress={currentFitnessSubmit}>
+            onPress={()=>{
+              if(pushUp < 1 || pushUp > 60){
+                Alert.alert("Pushups must be between 1 and 60")
+              } else if (sitUp < 1 || sitUp > 60){
+                Alert.alert("Situps must be between 1 and 60")
+              } else if (run < 480 || run > 1200){
+                Alert.alert("Runtime must be between 480 sec (8 min) and 1200 sec (20 min)")
+              } else {
+                currentFitnessSubmit()
+              }
+            }
+            }>
             <View style={styles.alignContainer}>
               <Text style={styles.fitnessNextText}>Next </Text>
               <Image source={next}></Image>
@@ -467,7 +498,17 @@ function TargetFitness({ navigation }) {
             </View>
           </Pressable>
           <Pressable style={styles.fitnessNextButton3}
-            onPress={register}>
+            onPress={()=>{
+              if(targetPushUp < 1 || targetPushUp > 60){
+                Alert.alert("Pushups must be between 1 and 60")
+              } else if (targetSitUp < 1 || targetSitUp > 60){
+                Alert.alert("Situps must be between 1 and 60")
+              } else if (targetRun < 480 || targetRun > 1200){
+                Alert.alert("Runtime must be between 480 sec (8 min) and 1200 sec (20 min)")
+              } else {
+                register()
+              }
+            }}>
             <View style={styles.alignContainer}>
               <Text style={styles.fitnessNextText}>Let's Go! </Text>
               <Image source={next}></Image>

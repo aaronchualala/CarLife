@@ -66,7 +66,7 @@ function ModelView({ type, navToTrainScreen}) {
       {/* <ScoreDisplay score={50} />
       <DirectionDisplay direction={"Start"} /> */}
       {/* <FeedbackDisplay feedback={"Cup Ears"} /> */}
-      {result[0] ? <SubmitButton start={start} score={Math.floor(result[0])} activity={type} navToTrainScreen={navToTrainScreen} /> : null}
+      {result[0] ? <SubmitButton start={start} score={Math.floor(result[0])} setResult={setResult} activity={type} navToTrainScreen={navToTrainScreen} /> : null}
       {result[0] ? <ScoreDisplay score={Math.floor(result[0])} /> : null}
       {result[1] ? <DirectionDisplay direction={result[1]} /> : null}
       {!start ? 
@@ -162,7 +162,7 @@ function TimerDisplay({ timer }) {
 }
 
 function StartButton({ setTimer, timer, setStart, setResult }) {
-  const timeLimit = 30;
+  const timeLimit = 10;
   const Ref = useRef(null);
   const getTimeRemaining = (e) => {
     const total = Date.parse(e) - Date.parse(new Date());
@@ -212,7 +212,7 @@ function StartButton({ setTimer, timer, setStart, setResult }) {
   }
 }
 
-function SubmitButton({ start, score, activity, navToTrainScreen }) {
+function SubmitButton({ start, score, setResult, activity, navToTrainScreen }) {
   const { user, setUser } = useContext(AppContext);
   const [patchRes, setPatchRes] = useState('');
   const [currentAbilities, setCurrentAbilities] = useState({});
@@ -255,6 +255,9 @@ function SubmitButton({ start, score, activity, navToTrainScreen }) {
       .then((response) => response.text())
       .then((text) => console.log(text))
       .then(Alert.alert("Score Submitted!"))
+      .then(
+        setResult({}),
+      )
       .catch((error) => {
         console.log("Help...")
         console.log(error)
