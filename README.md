@@ -9,7 +9,7 @@
 - To start app, run `npx expo start` and scan QR code
 
 ## Submissions
-Submissions are located in 'Submissions folder'
+Submissions are located in 'Submissions folder'. All code is stored in 'frontend'
 1. Lab 1
 - Documentation of functional and non-functional requirements
 - Data dictionary
