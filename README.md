@@ -5,7 +5,7 @@
 ## Installation
 - Clone this repo `git clone`
 - Ensure that Expo is installed on your phone
-- Navigate to 'frontend' directory and run `npm i`
+- Navigate to 'frontend' directory `cd frontend` and run `npm i`
 - To start app, run `npx expo start` and scan QR code
 
 ## Submissions
