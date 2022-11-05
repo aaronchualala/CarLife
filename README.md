@@ -26,7 +26,7 @@ A mobile application to help Singaporean National Servicemen train for their Ind
 
 
 ## Submissions
-Submissions are located in 'Submissions folder'. All code is stored in 'frontend'
+Submissions are located in 'Submissions folder'. All code is stored in 'frontend' and 'server' folders
 1. Lab 1
 - Documentation of functional and non-functional requirements
 - Data dictionary
