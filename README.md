@@ -58,4 +58,7 @@ Submissions are located in 'Submissions folder'. All code is stored in 'frontend
 ## Video demo
 https://youtu.be/kXylg4O4cU0
 
+## Github link
+https://github.com/aaronchualala/Fitbuds
+
 (2022) Summit, Aaron, Marc, Mingyang, Yu Fei (SAMMY) 
