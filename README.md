@@ -55,4 +55,7 @@ Submissions are located in 'Submissions folder'. All code is stored in 'frontend
 - Demo video
 - SRS
 
+## Video demo
+https://youtu.be/kXylg4O4cU0
+
 (2022) Summit, Aaron, Marc, Mingyang, Yu Fei (SAMMY) 
